@@ -1,0 +1,61 @@
+\documentclass[a4paper]{article}
+\usepackage{stdtemplate}
+
+\title{MAT351 PDE}
+\author{Jonah Chen}
+\date{}
+\begin{document}
+\maketitle
+\sffamily
+Transport Equation (simplest form)
+\begin{align}
+\frac{\partial u}{\partial t} + c\frac{\partial u}{\partial x} = 0
+\end{align}
+where $u:(x,t)\in\R\times\R^+\to\R, c\in\R$
+
+Diffusion Equation (simplest form)
+\begin{align}
+    \frac{\partial u}{\partial t} - k \frac{\partial^2 u}{\partial x^2} = 0
+\end{align}
+where $k>0$
+
+Wave Equation
+\begin{align}
+    \frac{\partial^2 u}{\partial t^2} - c^2\frac{\partial^2 u}{\partial x^2} = 0
+\end{align}
+where $c$ is the speed of the wave.
+
+
+In the 19th century, the research focused on finding explicit solutions. Most notably:
+\begin{enumerate}
+    \item Method of characteristics (Hamilton)
+    \item Fourier analysis
+    \item Green's functions
+\end{enumerate}
+In the 20th century, numerical methods were developed for equations without explicit solutions. This is used for modelling, weather prediction, finance, etc. 
+
+Theoretical questions are posed like uniqueness, behavior, stability, and other qualitative properties of PDEs.
+
+\begin{definition}[Well-posedness]
+    A PDE (problem) is well posed if
+    \begin{enumerate}
+        \item A solution exists.
+        \item The solution is unique.
+        \item The solution is stable. (i.e. small perturbations of initial conditions or boundary conditions leads to small perturbations of the solution)
+    \end{enumerate}
+\end{definition}
+
+Classification:
+\begin{enumerate}
+    \item Order of PDE (highest order of derivative)
+    \item Linearity/non-linearity
+    \begin{equation}
+        L(u) = f(x)
+    \end{equation}
+    where $L$ is a linear operator and $f$ is a function.
+    \begin{equation}
+        \partialderivative{u}{t} - k\partialderivative^2{u}{x^2} + u^3 = x^2 + 1
+    \end{equation}
+\end{enumerate}
+
+\end{document}

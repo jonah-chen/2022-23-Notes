@@ -1,0 +1,50 @@
+\documentclass[12pt]{article}
+\usepackage{stdtemplate}
+\title{PHY356: Quantum Mechanics}
+\author{Jonah Chen}
+\date{Fall 2022}
+\begin{document}
+\maketitle
+\sffamily
+\section{Introduction}
+Schrodinger's Equation:
+\begin{align}
+    i\hbar\frac{\partial}{\partial t}\psi(x, t) = \left(\frac{p^2}{2m}+V(x,t)\right)\psi(x, t)
+\end{align}
+
+Conservation of Probability:
+\begin{align}
+    \partialderivative{(\psi^*\psi)}{t} = \partialderivative{\psi^*}{t}\psi+\psi^*\partialderivative{\psi}{t} = -\mathrm{div} J
+\end{align}
+
+We can use the Schrodinger's equation and its complex conjugate to get the following:
+\begin{align}
+    \partialderivative{\psi^*}{t}\psi&=\\
+    \psi^*\partialderivative{\psi}{t}&=
+\end{align}
+
+Probability Current is then 
+\begin{align}
+    J = -\frac{i\hbar}{2m}\left(\psi^*\nabla\psi-\psi\nabla\psi^*\right)
+\end{align}
+This requires the wave function $\psi$ to be continuously differentiable (for non-singular potentials), unlike the electric field which can be discontinuous on surfaces.
+
+Question: How does the wave mechanics recapture the notion of a classical particle?
+
+Superposition Principle: If $\psi_1$ and $\psi_2$ are two solutions to the Schrodinger equation, then $\alpha\psi_1+\beta\psi_2$ is also a solution for $\alpha, \beta\in\C$.
+
+Simple Example:
+\begin{align}
+    \cos k_1x+\cos k_2x = 2\cos\left(\frac{k_1+k_2}{2}x\right)\cos\left(\frac{k_1-k_2}{2}x\right)
+\end{align}
+Let $k_1 = k_0+\Delta k$ and $k_2 = k_0-\Delta k$, assume $\Delta k\ll k_0$.
+
+Fourier Decomposition:
+General solution of the free-particle schrodinger equation
+\begin{align}
+    \psi(\mathbf r, t) = (2\pi)^{-3/2}\int \dd^3\mathbf k\, g(\mathbf k)\exp\left(i(\mathbf k\cdot\mathbf r-\omega t)\right)\psi_k
+\end{align}
+
+For simplicity, we will use $t=0$ and 1 dimension, with a normal distribution of frequencies $g(k)=\exp{-\frac{(k-k_0)^2}{2(\Delta k)^2}}$. We can perform the fourier transform to get $\psi(x)=\exp{i\Delta k^2 x^2}$
+
+\end{document}

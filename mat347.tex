@@ -1,0 +1,63 @@
+\documentclass[a4paper]{article}
+\usepackage{stdtemplate}
+
+\title{MAT347 Abstract Algebra}
+\author{Jonah Chen}
+\date{}
+\begin{document}
+\maketitle
+\sffamily
+\section{Groups}
+Groups are generally associated with symmetries. Consider the equilateral triangle:
+\begin{center}
+    \begin{tikzpicture}
+        % draw a triangle and label the vertices A, B, C
+        \draw (0,0) -- (4,0) -- (2,3.464) -- cycle;
+        \node[above] at (2,3.464) {$A$};
+        \node[below] at (4,0) {$B$};
+        \node[below] at (0,0) {$C$};
+    \end{tikzpicture}
+\end{center}
+We know that there are six symmetries of the triangle:
+\begin{itemize}
+    \item Identity transformation (do nothing) denoted as $\id$ or $e$
+    \item Two rotations ($A\to B\to C\to A$ and $A\to C\to B\to A$)
+    \item Three reflections % A <-> B
+    $A \leftrightarrow B$, $A \leftrightarrow C$, $B \leftrightarrow C$
+\end{itemize}
+Note that these symmetries preserve the structure of the triangle, hence the composition of two symmetries must also be a symmetry. Let
+\begin{itemize}
+    \item $\rho$ be the rotation $A\to B\to C\to A$
+    \item $\sigma$ be the reflections $B\leftrightarrow C$
+\end{itemize}
+Note that $\rho\sigma$ is the $A\leftrightarrow C$ reflection and $\sigma\rho$ is the $A\leftrightarrow B$ reflection. Hence they may not be commutative.
+
+% Note that a square has eight symmetries. Then, that tells us that the square and triangle are two different shapes (this applies in general).
+
+We also know that all symmetries can be reversed. $\alpha$ has an inverse $\alpha\inv$ such that $\alpha\alpha\inv = \alpha\inv\alpha = e$. These inspires the following definition:
+
+\begin{definition}
+    A \textbf{group} is a set $G$ with a composition
+    \begin{align}
+        G\times G &\to G \\
+        (g, h) &\mapsto g\cdot h
+    \end{align}
+    Satisfying:
+    \begin{itemize}
+        \item Associativity: $(g\cdot h)\cdot k = g\cdot (h\cdot k)$
+        \item Identity: $\exists\, e\in G$ such that $g\cdot e = e\cdot g = g$ for all $g\in G$
+        \item Inverse: $\forall\, g\in G$, $\exists\, g\inv\in G$ such that $g\cdot g\inv = g\inv\cdot g = e$
+    \end{itemize}
+\end{definition}
+
+Examples:
+\begin{itemize}
+    \item $\Z$ with $+$ is a group. It is associative, $e = 0$ and $g\inv = -g$.
+    \item $\Z/n\Z$ with addition modulo $n$.
+    \item $SL(n, F)$ all $n\times n$ matrices with determinant $1$ over a field $F$. 
+\end{itemize}
+
+
+
+
+\end{document}

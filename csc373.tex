@@ -1,0 +1,115 @@
+\documentclass[a4paper]{article}
+\usepackage{stdtemplate}
+
+\title{CSC373 Algorithms}
+\author{Jonah Chen}
+\date{}
+\begin{document}
+\maketitle
+\sffamily
+\section{Divide and Conquer}
+\begin{itemize}
+    \item Divide and Conquer algorithm:
+    \begin{enumerate}
+        \item Divide problem of size $n$ into $a$ smaller subproblems of size $n/b$ each
+        \item Recursively solve each subproblem
+        \item Combine the subproblem solutions into the solution of the original problem
+    \end{enumerate}
+    \item Runtime: $n>1: T(n)=a T(n/b) + cn^d; n=1: T(1)=c$
+    \item Master Theorem: T(n) depends on relation between $a$ and $b^d$. \begin{equation}
+        \begin{cases}
+            a<b^d: T(n)=\Theta(n^d)\\
+            a=b^d: T(n)=\Theta(n^d\log n)\\
+            a>b^d: T(n)=\Theta(n^{\log_b a})
+        \end{cases}
+    \end{equation}
+    \begin{itemize}
+        \item Note that the running time does not depend on the constant $c$
+        \item In many algorithms $d=1$ (combining take linear time)
+    \end{itemize}
+    \item Examples:
+    \begin{itemize}
+        \item Merge sort --- sorting array of size $n$ ($a=2,\,b=2,\,d=1\rightarrow a=b^d$) so $T(n)=\Theta(n\log n)$
+        \item Binary search --- searching sorted array of size $n$ ($a=1,\,b=2,\,d=0\rightarrow a=b^d$) so $T(n)=\Theta(\log n)$
+    \end{itemize}
+\end{itemize}
+\subsection{Karatsuba Multiplication}
+\begin{itemize}
+    \item \textbf{Add} two binary $n$-bit numbers naively takes $\Theta(n)$ time
+    \item \textbf{Multiply} two binary $n$-bit numbers naively takes $\Theta(n^2)$ time
+    \item Divide and Conquer approaches \begin{enumerate}
+        \item Multiply $x$ and $y$. We can divide them into two parts\begin{align}
+            x &= x_1\cdot 2^{n/2} + x_0\\
+            y &= y_1\cdot 2^{n/2} + y_0\\
+            x\cdot y &= x_1\cdot y_1\cdot 2^n + (x_1\cdot y_0 + x_0\cdot y_1)\cdot 2^{n/2} + x_0\cdot y_0 \label{eq:mul}
+        \end{align}
+        \begin{itemize}
+            \item $T(n)=4T(n/2)+cn; T(1)=c$
+            \item $a=4,b=2,d=1$ Master Theorem case 3, $T(n)=\Theta(n^{\log_2 4})=\Theta(n^2)$.
+            \item This is the same complexity of the naive approach, making this approach useless.
+        \end{itemize}
+        
+        \item Reconsider \eqref{eq:mul}, we may rewrite $(x_1\cdot y_0+x_0\cdot y_1)$ as $(x_1+x_0)\cdot(y_1+y_0)-x_1\cdot y_1-x_0\cdot y_0$
+        \begin{equation}
+            x\cdot y = x_1\cdot y_1\cdot 2^n + ((x_1+x_0)\cdot(y_1+y_0)-x_1\cdot y_1-x_0\cdot y_0)\cdot 2^{n/2} + x_0\cdot y_0
+        \end{equation}
+         
+        \begin{itemize}
+            \item $T(n)=3T(n/2)+cn; T(1)=c$
+            \item $a=3,b=2,d=1$, Master Theorem case 3, $T(n)=\Theta(n^{\log_2 3})=\Theta(n^{\log_2 3})\approx\Theta(n^{1.585})$
+            \item Minor issue: a carry may increase $x_1+x_0$ and $y_1+y_0$ to $\frac{n}{2} + 1$. We can easily prove this by isolating the carry bit and reevaluating the complexity.
+        \end{itemize}
+    \end{enumerate}
+    \item To deal with integers which doesn't have a power of 2 number of bits, we can pad the numbers with 0s to make them have a power of 2 number of bits. This may at most increase the complexity by 3x.
+    \item 1971: $\Theta(n\cdot\log n\cdot \log\log n)$
+    \item 2019: Harvey and van der Hoeven $\Theta(n\log n)$. We do not know if this is optimal.
+\end{itemize}
+\subsection{Strassen's MatMul Algorithm}
+\begin{itemize}
+    \item Let $A$ and $B$ be two $n\times n$ matrices (for simplicity $n$ is a power of 2), we want to compute $C=AB$.
+    \item The naive approach takes $\Theta(n^3)$ time.
+    \begin{enumerate}
+        \item Divide $A$ and $B$ into $4$ submatrices of size $\frac{n}{2}\times\frac{n}{2}$ each
+        \begin{equation}
+            A = \begin{bmatrix}
+                A_{1} & A_{2}\\
+                A_{3} & A_{4}
+            \end{bmatrix}.
+        \end{equation}
+        Then, $C$ can be calculated with
+        \begin{align}
+            C_1 &= A_1B_1 + A_2B_3\\
+            C_2 &= A_1B_2 + A_2B_4\\
+            C_3 &= A_3B_1 + A_4B_3\\
+            C_4 &= A_3B_2 + A_4B_4
+        \end{align}
+        \begin{itemize}
+            \item $T(n)=8T(n/2)+cn^2; T(1)=c$
+            \item $a=8,b=2,d=2$, case 3 $T(n)=\Theta(n^{\log_2 8})=\Theta(n^3)$
+        \end{itemize}
+        \item \textbf{Idea:} Compute $C_1,C_2,C_3,C_4$ with only $7$ multiplications, not 8.
+        \begin{align}
+            M_1 &= (A_2-A_4)(B_3+B_4)\\
+            M_2 &= (A_1+A_4)(B_1+B_4)\\
+            M_3 &= (A_1-A_3)(B_1+B_2)\\
+            M_4 &= (A_1+A_2)B_4\\
+            M_5 &= A_1(B_2-B_4)\\
+            M_6 &= A_4(B_3-B_1)\\
+            M_7 &= (A_3+A_4)B_1
+        \end{align}
+        With these we can compute $C_1,C_2,C_3,C_4$ with only additions of the $M$ matrices.
+        \begin{align}
+            C_1 &= M_1+M_2-M_4+M_6\\
+            C_2 &= M_4+M_5\\
+            C_3 &= M_6+M_7\\
+            C_4 &= M_2-M_3+M_5+M_7
+        \end{align}
+        \begin{itemize}
+            \item $T(n)=7T(n/2)+cn^2; T(1)=c$
+            \item $a=7,b=2,d=2$, case 3 $T(n)=\Theta(n^{\log_2 7})=\Theta(n^{\log_2 7})\approx\Theta(n^{2.807})$
+        \end{itemize}
+    \end{enumerate}
+    \item If $n$ is not a power of 2, we zero-pad the matrices to have $n$ as a power of two. This may increase the complexity by at most a factor of 7.
+\end{itemize}
+
+\end{document}
