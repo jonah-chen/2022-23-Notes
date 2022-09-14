@@ -54,10 +54,113 @@ Examples:
 \begin{itemize}
     \item $\Z$ with $+$ is a group. It is associative, $e = 0$ and $g\inv = -g$.
     \item $\Z/n\Z$ with addition modulo $n$.
-    \item $SL(n, F)$ all $n\times n$ matrices with determinant $1$ over a field $F$. 
+    \item If $F$ is a field, it implicitly has two group structures:
+    \begin{itemize}
+        \item Additive group: $(F,+)$ is a group. It is associative, $e = 0$ and $g\inv = -g$.
+        \item Multiplicative group: $(F\setminus\{0\},\times)$ is a group. It is associative, $e = 1$ and $g\inv = 1/g$.
+    \end{itemize}
+    \item $GL(n,F)$ -- ``general linear group'' contains all invertiable $n\times n$ matrices.
+    \item $SL(n,F)$ -- ``special linear group'' contains all invertiable $n\times n$ matrices with determinant $1$.
+    \item $SO(n,F)$ -- ``special orthogonal group'' $=\{A\in SL(n,F)|A^t=A\inv\}$.
 \end{itemize}
+\subsection{Cyclic Groups}
+One of the simplest groups is $\Z/n\Z$ for $n\in\N$ with the operation addition modulo n. This is known as the ``cyclic group of order $n$'' or $C_n$. i.e. for $n=8$, $5+7=4\,(\mathrm{mod}\,8)$, which we denote $\bar{5}+\bar{7}=\bar{4}$.
 
+We know the inverse $\bar k\inv=\overline{n-k}$ for nonzero $k$ or $\bar 0\inv=\bar 0.$
 
+Another way to express the cyclic group is $\bar k\leftrightarrow e^{2\pi i k/n}$ with multiplication operation. Then, \begin{align}
+    \overline{k+n}=e^{2\pi i (k+n)/n}=e^{2\pi i k/n}e^{2\pi i n/n}=e^{2\pi i k/n}=\bar k.
+\end{align}
+
+% draw a circle and 8 equally spaced points on it
+\begin{center}
+    \begin{tikzpicture}
+        \draw (0,0) circle (2cm);
+        \foreach \x in {0,1,...,7}
+        {
+            % draw dot
+            \draw (\x*45:2cm) circle (1pt);
+        }
+        % label the first point
+        \node[below] at (0*45:2cm) {$1\leftrightarrow\bar 0$};
+        % draw xy axis
+        \draw (-3cm,0) -- (3cm,0);
+        \draw (0,-3cm) -- (0,3cm);
+    \end{tikzpicture}
+\end{center}
+
+\begin{definition}[Order]
+    The \textbf{order} of a group $G$ is its cardinality denoted $\mathrm{ord}(G)$ or $|G|$. It could be a finite or infinite ordinal. In particular, $|C_n| = n$.
+\end{definition}
+
+\subsection{Quaternion Group}
+The quaternion group $\mathbb{H}=\{\pm1,\pm i,\pm j,\pm k\}$ is a group of order $8$ with the multiplication operation. It has 
+
+\begin{definition}[Subgroup]
+    A \textbf{subgroup} of a group $G$ is a subset $H\subseteq G$ such that $H$ is a group. 
+\end{definition}
+
+\begin{definition}[Coset]
+    If $G$ is a group and $H\leq G$, consider sets of the form
+    \begin{equation}
+        Hg=\{hg|h\in H\}
+    \end{equation}
+    This is a \textbf{right coset} of $H$.
+\end{definition}
+\begin{theorem}[Partitioning with Cosets]
+    Consider $Hg$ and $Hg'$ for $g.g'\in G$. There are two cases:
+    \begin{itemize}
+        \item They might be disjoint: $Hg\cap Hg'=\emptyset$.
+        \item They might intersect. Suppose $hg=h'g'$ for some $h,h'\in H$
+        \begin{align}
+            h\inv hg&=h\inv h'g'\\
+            g&=h\inv h'g'\in Hg'
+        \end{align}
+        Similarly, $g'\in Hg$. Consider an arbitrary element of $kg\in Hg$ with $k\in H$. Then, $kg=kh\inv h'g'\in Hg'$ i.e. $Hg\leq Hg'$. Similarly, $Hg'\leq Hg$. Thus, $Hg=Hg'$.
+    \end{itemize}
+    The right cosets of $H$ partition $G$. In particular,
+    \begin{equation}
+        G = \bigsqcup Hg_i
+    \end{equation}
+\end{theorem}
+
+For fixed $g$, if $hg=h'g$ for $h,h'\in H$ then $hgg\inv=h'gg\inv$ so $h=h'$. So in $Hg$, every element can be matched with an element of $H$. So, $|Hg|=|H|$.
+
+\begin{theorem}[Lagrange]
+    If $|G|<\infty$ and $H\leq G$, then $|H|\Big\vert|G|$
+\end{theorem}
+\begin{definition}[Index]
+    For $H\leq G$, the \textbf{index} of $H$ in $G$ is $[G:H]=|G|/|H|$.
+\end{definition}
+If $|G|=13$, the only subgroups or $G$ are $\{e\},G$.
+
+If $G=\Z$ and $H=2\Z$ (even numbers). Then $H+0=H$ is one coset, and $H+1=$ the odd integers is another coset. So, $\Z=(2\Z)\sqcup(2\Z+1)$.
+
+\underline{Same for Left Cosets}
+Interaction of left and right cosets? 
+
+Consider the triangle group with rotations $e,\rho,\rho^2$ and reflections $\sigma_A, \sigma_B, \sigma_C$ Consider the subgroup $H=\{e,\sigma_A\}$.
+\begin{align}
+    He&=\{e,\sigma_A\}\\
+    H\rho&=\{\rho,\sigma_B\}\\
+    H\rho^2&=\{\rho^2,\sigma_C\}\\
+    eH=\{e,\sigma_A\}\\
+    \rho H&=\{\rho, \sigma_C\}\\
+    \rho^2 H&=\{\rho^2,\sigma_B\}
+\end{align}
+Note that the left and right cosets are different. They are the same if the group is commutative.
+
+\begin{definition}[Action]
+    An \textbf{action} of a group $G$ on a set $X$ is a map \begin{align}
+        G&\times X\to X \\
+        (g,x)&\mapsto gx
+    \end{align}
+    such that 
+    \begin{align}
+        (gh)x&=g(hx)\\
+        ex&=x
+    \end{align}
+\end{definition}
 
 
 \end{document}

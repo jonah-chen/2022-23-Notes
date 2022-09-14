@@ -1,5 +1,6 @@
 \usepackage[margin=1in,a4paper]{geometry}
 \usepackage{amsthm}
+\usepackage{siunitx}
 \usepackage{physics}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -9,6 +10,8 @@
 \usepackage[breakable,many]{tcolorbox}
 % Math
 \usepackage{amsmath, amsthm, amssymb}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
 \usepackage[inline]{asymptote}
 \usepackage{xcolor}
 
@@ -32,6 +35,7 @@
 \usepackage[american]{circuitikz}
 \pgfplotsset{compat=1.18}
 \setlength{\parindent}{0cm}
+\AtBeginDocument{\RenewCommandCopy\qty\SI}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%% COLORS %%%%%%%%%%%%%%%%%%%%%%%%%%%

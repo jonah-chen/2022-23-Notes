@@ -15,8 +15,8 @@
         \item Recursively solve each subproblem
         \item Combine the subproblem solutions into the solution of the original problem
     \end{enumerate}
-    \item Runtime: $n>1: T(n)=a T(n/b) + cn^d; n=1: T(1)=c$
-    \item Master Theorem: T(n) depends on relation between $a$ and $b^d$. \begin{equation}
+    \item Runtime: $T(1)=c$ and $T(n)=a T(n/b) + cn^d$ for $n>1$
+    \item Master Theorem: $T(n)$ depends on relation between $a$ and $b^d$. \begin{equation}
         \begin{cases}
             a<b^d: T(n)=\Theta(n^d)\\
             a=b^d: T(n)=\Theta(n^d\log n)\\
@@ -111,5 +111,119 @@
     \end{enumerate}
     \item If $n$ is not a power of 2, we zero-pad the matrices to have $n$ as a power of two. This may increase the complexity by at most a factor of 7.
 \end{itemize}
+
+\subsection{Median of Unsorted Arrays}
+\begin{itemize}
+    \item For an unsorted array $A$, we can find the average, max, min, sum, etc. in linear time.
+    \item The trivial algorithm is to sort $A$ then get the median. That takes $O(n\log n)$ time.
+    \item We will solve a more general problem: Find the $k^{th}$ smallest element in $A$. (e.g. $A=5,2,6,7,4$, $\mathrm{Select}(A,1)=2, \mathrm{Select}(A,4)=6$)
+    \item if $|A|=1$, then return $A[1]$. Otherwise find a splitter $s$ in arbitrary element of $A$. Partition $A$ into $A^+$ and $A^-$, then divide 
+    \item $T(n)=T(\max(|A^-|,|A^+|))+cn=T(\max(i-1,n-i))+cn$.
+    \item Worst case: $T(n)=T(n-1)+cn=\Theta(n^2)$
+    \item Best case: $T(n)=T(n/2)+cn=\Theta(n)$. Suppose $b>1$, by the Master Theorem $T(n)=T(n/b)+cn=\Theta(n)$.
+\end{itemize}
+
+We define $s$ is a good splitter if $s$ is greater than $1/4$ of the elements of $A$ and less than $1/4$ of the elements of $A$. We can make the following observation:
+\begin{enumerate}
+    \item With this splitter, we will reduce the size to at most $3n/4$.
+    \item Half the elements are good splitters.
+\end{enumerate}
+
+We should select splitter $s$ uniformly at random.
+\begin{itemize}
+    \item $P(\text{splitter is good})=\frac{1}{2}$
+    \item $P(\text{splitter is bad})=\frac{1}{2}$
+    \item We can show that the expected number of trials (splitter selections) until obtaining a good splitter is 2.
+\end{itemize}
+\subsubsection{Expected Runtime}
+\begin{equation}
+    \underbrace{n_0\to n_1\to n_2}_{\text{Phase 0, size}\leq n}\to \underbrace{n_3\to n_4}_{\text{Phase 1, size}\leq \frac{3}{4}n}\to \underbrace{n_5\to n_6}_{\text{Phase 2, size}\leq \frac{3}{4}^2 n}\to\dots
+\end{equation}
+\begin{itemize}
+    \item Phase $j$: input size $\leq(\frac{3}{4})^j\,n$
+    \item Random variable $y_j = $\# of recursive calls in phase $j$. Note that $E[y_j]=2$.
+    \item Random variable $x_j = $\# of steps to all the recursive calls in phase $j$.
+    \item Total number of steps is $x=x_0+x_1+x_2+\dots$.
+    \item We can compute $E[x]=E[x_0]+E[x_1]+E[x_2]+\dots$.
+    \begin{align}
+        x_j&\leq c y_j \frac{3}{4}^j n\\
+        E[x_j]&\leq c E[y_j] \frac{3}{4}^j n\leq 2c\frac{3}{4}^j n\\
+        E[x]&=\sum_j E[x_j]\leq \sum_{j=1}^\infty 2c\frac{3}{4}^j n=\frac{2c}{1-\frac{3}{4}}n=8cn=\Theta(n)
+    \end{align}
+\end{itemize}
+
+\subsubsection{Deterministic Algorithm}
+\begin{itemize}
+    \item If $|A|\leq 5$ then we sort $A$ and return the $k^{th}$ smallest.
+    \item Otherwise, partition $A$ into $n/5$ groups of size $5$ each, then find the median of each group (constant time) and store in list $M$. This takes linear time.
+    \item Select the median of $M$ with the Select algorithm, this is a good splitter.
+    \item the worst case running time is $T(n)=T(\lceil\frac{n}{5}\rceil)+T(\lfloor{\frac{3n}{4}}\rfloor)+cn$.
+    \item This recursive relation cannot be solved by the Master Theorem. We can prove using induction that $T(n)<20cn$.
+\end{itemize}
+\textbf{Question: Why groups of 5?}
+\begin{itemize}
+    \item With groups of 5, the total size of subproblems: $\frac{n}{5}+\frac{3n}{4}=\frac{19n}{20}<n$
+    \item With groups of 3, the total size of subproblems: $\frac{n}{3}+\frac{3n}{4}=\frac{13n}{12}>n$, not sufficient.
+    \item So group size of $5,7,9,11,\dots$ would also work.
+\end{itemize}
+
+\section{Closest Pair of Points}
+\begin{itemize}
+    \item Problem: Given a set of $n$ points, find the pair of points that are the closest in $O(n\log n)$.
+\end{itemize}
+\subsection{Closest Pair in 2D}
+\begin{itemize}
+    \item Divide: points roughly in half by drawing vertical line on midpoint
+    \item Conquer: Find closest pair on each half, recursively.
+    \item Combine: Find the closest pair $(p,q)$, $p\in L$, $q\in R$. However, there may be $\Theta(n^2)$ pairs.
+\end{itemize}
+\begin{itemize}
+    \item Claim: Let $p=(x_p,y_p)\in B_L,q=(x_q,y_q)\in B_R$ with $y_p\leq y_q$. If $d(p,q)<\delta$ then there are at most \textbf{six} other points (x,y) in $B$ such that $y_p\leq y\leq y_q$.
+    \item Proof:
+    \item $S_L=\{p'=(x,y):p'\neq p\in B_L\land y_p\leq y\leq y_q\}$ (other points on the left of the middle)
+    \item $S_R=\{p'=(x,y):p'\neq q\in B_R\land y_p\leq y\leq y_q\}$ (other points on the right of the middle)
+    \item Assume by contradiction that $|S_L\cup S_R|\geq 7$. WLOG assume $|S_L|\geq 4$.
+    \item In a $\delta\times\delta$ square there are at least $4+1=5$ points. Divide the square into 4 smaller squares, by Pigeonhole Principle, there is a square with at least 2 points, whose distance is at most $\delta/\sqrt2$. This contradicts the assumption that the closest pair on the left is at most $\delta$.
+\end{itemize}
+\begin{itemize}
+    \item Then, we can sort everything in the $y$ axis, and check the next seven points by the $y$ coordinate for the minimum distance. This takes linear time.
+    \item We only need to modify the combine step in the algorithm so it's $\Theta(n)$ runtime.
+\end{itemize}
+
+\begin{algorithm}
+\caption{Closest Pair in 2D}
+\begin{algorithmic}[1]
+\Procedure{ClosestPair}{$P$}
+\State $P_x:=\text{the list of points in }P\text{ sorted by x-coordinate}$
+\State $P_y:=\text{the list of points in }P\text{ sorted by y-coordinate}$
+\EndProcedure
+\Procedure{RCP}{$P_x,P_y$}
+\If{$|P_x|\leq 3$}
+\Return{$\text{brute force}(P_x)$}
+\EndIf
+\State $L_x:=\text{the first half of }P_x;R_x:=\text{the second half of }P_x$
+\State $m:=(\text{max x-coordinate of }L_x+\text{min x-coordinate of }R_x)/2$
+\State $L_y:=\text{sublist of }P_y\text{ with points in }L_x$
+\State $R_y:=\text{sublist of }P_y\text{ with points in }R_x$
+\State $(p_L,q_L):=\text{RCP}(L_x,L_y);(p_R,q_R):=\text{RCP}(R_x,R_y)$
+\State $\delta:=\min\{d(p_L,q_L),d(p_R,q_R)\}$
+\If {$\delta=d(p_L,q_L)$}
+\State $p:=p_L;q:=q_L$
+\Else
+\State $p:=p_R;q:=q_R$
+\EndIf
+\State $B:=\text{sublist of }P_y\text{ with points in }[m-\delta,m+\delta]$
+\Foreach {$p$ in $B$}
+\Foreach {next seven $q$ after $p$ in $B$}
+\If {$d(p,q)<d(p^*,q^*)$} then $(p^*,q^*):=(p,q)$
+\EndForeach
+\EndForeach
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\begin{itemize}
+    \item So $T(n)=2T(\frac{n}{2})+cn$, which is $O(n\log n)$.
+\end{itemize}
+
 
 \end{document}
