@@ -47,4 +47,39 @@ General solution of the free-particle schrodinger equation
 
 For simplicity, we will use $t=0$ and 1 dimension, with a normal distribution of frequencies $g(k)=\exp{-\frac{(k-k_0)^2}{2(\Delta k)^2}}$. We can perform the fourier transform to get $\psi(x)=\exp{i\Delta k^2 x^2}$
 
+Stationary States: 
+These are eigenvectors of the hamiltonian, $H=-\frac{\hbar^2}{2m}\nabla^2+V(x)$.
+
+We will analyze the finite square well
+\begin{equation}
+    V(x) = \begin{cases}
+        -V_0 & \text{if } |x|<a/2\\
+        0 & \text{otherwise}
+    \end{cases}
+\end{equation}
+For bound states, plane waves will solve the schrodinger equation within the well $\phi_k(x)=A_1e^{ikx}+A_2e^{-ikx}$. Outside the well, exponentials will solve the schrodinger equation $\phi_k(x)=B_1e^{qx}+B_2e^{-qx}$. 
+
+Note how there is a nonzero probability to find the particle outside the well, which is classically disallowed. This is one case of tunneling.
+
+Also note the symmetry of the potential, then the bound states must be either odd or even. Then, we only need to solve for one side of the well. We will focus on the even states first.
+
+For even states, $\psi'(0)=0$ so $ikA_1-ikA_2=0\implies A_1=A_2\equiv A$. Also note the boundary condition $\psi(a/2), \psi'(a/2)$ must be continuous. 
+\begin{align}
+    A\cos\frac{ka}{2}&=Be^{-qa/2}\\
+    Ak\sin\frac{ka}{2}&=Bqe^{-qa/2}
+\end{align}
+
+We can divide the equations by each other and obtain
+\begin{equation}
+    \cot\frac{ka}{2}=\frac{k}{q}
+\end{equation}
+
+We know $k=\sqrt{2m(E+V_0)}/\hbar>0$ and $q=\sqrt{-2mE}/\hbar>0$. We define $k^2+q^2=2mV_0/\hbar^2\equiv k_0^2$. Then, $k/k_0=|cos(ka/2)$.
+
+We can non dimensionalize the equation by letting $x=ay$. Then, $a=\sqrt{2mV_0/\hbar^2}$. We can then solve for $y$:
+\begin{equation}
+    \left(\frac{-\hbar^2}{2ma^2}\frac{d^2}{dy^2}-V_0\right) \psi = E\psi
+\end{equation}
+
+Recapture the classical limit for step, smooth out the potential step
 \end{document}

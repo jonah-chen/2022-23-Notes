@@ -215,7 +215,8 @@ We should select splitter $s$ uniformly at random.
 \State $B:=\text{sublist of }P_y\text{ with points in }[m-\delta,m+\delta]$
 \Foreach {$p$ in $B$}
 \Foreach {next seven $q$ after $p$ in $B$}
-\If {$d(p,q)<d(p^*,q^*)$} then $(p^*,q^*):=(p,q)$
+\If {$d(p,q)<d(p^*,q^*)$} $(p^*,q^*):=(p,q)$
+\EndIf
 \EndForeach
 \EndForeach
 \EndProcedure
@@ -223,6 +224,61 @@ We should select splitter $s$ uniformly at random.
 \end{algorithm}
 \begin{itemize}
     \item So $T(n)=2T(\frac{n}{2})+cn$, which is $O(n\log n)$.
+\end{itemize}
+
+\section{Greedy Algorithms}
+\begin{itemize}
+    \item There is an optimization problem: given an input, find a solution that minimize/maximize an objective function $f$ under some constraint.
+    \item Build the solution incrementally in stages
+    \item At each stage, extend the solution greedily and irrevocably.
+    \item For some problems this gives optimal solutions (i.e. MST), but for other problems it does not.
+    \item The order of the stages is very important.
+\end{itemize}
+
+\subsection{Interval Scheduling}
+\begin{itemize}
+    \item Input: $n$ intervals, with interval $j$ starts at time $s_j$ and finishes at time $f_j$.
+    \item Output: maximum-size set of intervals that do not overlap
+    \item Naive algorithm is to try each subset of $n$ intervals by brute force $O(2^n)$, way too slow.
+    \item Greedy algorithm sorts interval in some order, then if it doesn't overlap then add it to the solution.
+    \item \textbf{What order gives the biggest feasible set?}
+    \begin{enumerate}
+        \item Increasing start time: $s_j$
+        \item Increasing finish time: $e_j$
+        \item Shortest interval: $e_j-s_j$
+        \item Fewest conflicts
+    \end{enumerate}
+    \item The question is which one is optimal? Option 1 has a clear counterexample with one very long interval that overlaps each other interval. Option 3 is also not optimal using a short interval between two long interval. Option 4 is not optimal (not very clear counterexample).
+    \item Option 2 is optimal. The intuition is that chosing these intervals first will leave the most time for the rest of the intervals.
+    \item To find if the interval is compatible, we just need to check if the start time of the new interval is greater than the finish time of the latest scheduled interval.
+\end{itemize}
+\subsubsection{Proof of optimality}
+\begin{itemize}
+    \item Suppose for contradiction that this greedy algorithm is not optimal
+    \item Say greedy selects interval $i_1,\dots,i_k$ sorted by increasing finish time.
+    \item Suppose the optimal schedule $j_1,\dots,j_m$ has $m>k$ intervals, and sort by increasing finish time. Consider an optimal schedule that can match the greedy $j_1=i_1,\dots,j_r=i_r$ for the greatest possible $r$.
+    \item By the nature of the greedy algorithm, then $i_{r+1}$ finishes the earliest amongst the compatible intervals remaining. So consider the schedule $S:i_1,\dots,i_r,\mathbf{i_{r+1}},j_{r+2},\dots,j_m$. 
+    \item This is also optimal (contains $m$ intervals) but matches the greedy algorithm by one more position. This is a contradiction.
+\end{itemize}
+
+\subsection{Interval Partitioning}
+\begin{itemize}
+    \item Motivation: given a set of lecture time intervals, schedule them into as few classrooms as possible.
+    \item Input: $n$ intervals, interval $j$ starts at $s_j$ and finishes at $f_j$.
+    \item Output: group interval into fewest partitions such that intervals in each partition are compatible.
+    \item An idea is to find the maximum set of compatible intervals using the previous algorithm. This doesn't work.
+    \item We can try the same orders as the previous problem, but only earliest start time is optimal in this case.
+    \item To implement it efficiently, we will use a heap with increase-key operation.
+\end{itemize}
+\subsubsection{Proof of optimality}
+\begin{itemize}
+    \item We define the \textbf{depth} at time $t$ as the number of intervals that contain time $t$. The \textbf{maximum depth} $d_{max}$ is the maximum depth over all times.
+    \item Clearly, the number of partitions needed is at least $d_{max}$. We will show that this greedy algorithm create only $d_{max}$ partitions.
+    \item Let $d$ be the number of partition the greedy algorithm opened.
+    \item Partition $d$ was created because there was an interval $j$ that overlaps with some previously scheduled interval in each of the $d-1$ other partitions.
+    \item This means that for $d-1$ intervals, their start times are all before $s_j$ and their finish times are all after $f_j$ (otherwise $j$ must be compatible). Hence, the depth at $s_j$ is exactly $d$.
+    \item Thus, $d_{max}\geq d$ so the greedy algorithm is optimal.
+    \item Warning: this proof rely on the fact that the start time
 \end{itemize}
 
 

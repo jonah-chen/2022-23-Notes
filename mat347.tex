@@ -162,5 +162,36 @@ Note that the left and right cosets are different. They are the same if the grou
     \end{align}
 \end{definition}
 
+If $G$ is a group, it acts on itself. This is called a ``left translation'' or ``left regular action''.
+
+How about the right action $(g,x)\mapsto xg$. The second condition may not be true\begin{align}
+    (gh,x)=xgh\\
+    (g,(hx))=(g,xh)=xhg
+\end{align} which is not true. Instead, let $(g,x)=xg\inv$. Then,
+\begin{align}
+    (gh,x)=x(gh)\inv=xh\inv g\inv\\
+    (g,(h,x))=(g,xh\inv)=xh\inv g\inv
+\end{align}
+This is the definition of the right action.
+
+There is a third action of $G$ on itself by $(g,x)=gxg\inv.$ This action is called conjugation.
+
+Take the following example: Let $G=SO(3)$ and let $X=S^2$. $G$ acts on $X$ by rotation. Let $H=\left\{\begin{pmatrix}
+    \cos\theta & -\sin\theta & 0\\
+    \sin\theta & \cos\theta & 0\\
+    0 & 0 & 1
+\end{pmatrix}\right\}$ be the subgroup of rotations that fixes the $z$-axis. 
+
+$H$ also acts on $X$ ??
+\begin{definition}[Orbit]
+    If $G$ acts on $X$, the \textbf{orbit} of $x\in X$ is the set $Gx=\{gx|g\in G\}$. i.e. the set of all points $x$ is taken to by elements of $G$.
+\end{definition}
+
+The orbits of $H\approx SO(2)$ on the sphere are the lines of latitude (and the north and south poles). 
+
+$H$ fixes the north pole, thus every coset $gH$ takes the north pole to a point. Suppose $gH$ and $g'H$ are cosets such that $gHN=g'HN\implies gN=g'N\implies (g')\inv gN=N\implies (g')\inv g\in H\implies gH...$ so the points ofn the sphere are in 1-1 correspondence with the left cosets of $H$. 
+\begin{definition}[Stabilizer]
+    If $G$ acts on $X$ and $x\in X$, the ``stabilizer'' of $x$ in $G$ is $\{g\in G|gx=x\}$
+\end{definition}
 
 \end{document}

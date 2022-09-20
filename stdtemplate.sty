@@ -12,6 +12,10 @@
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
+\algblockdefx[Foreach]{Foreach}{EndForeach}[1]{\textbf{for each} #1 \textbf{do}}{\textbf{end for}}
+\makeatletter
+\ifthenelse{\equal{\ALG@noend}{t}}{\algtext*{EndForeach}}{}
+\makeatother
 \usepackage[inline]{asymptote}
 \usepackage{xcolor}
 
