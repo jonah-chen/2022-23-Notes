@@ -194,4 +194,156 @@ $H$ fixes the north pole, thus every coset $gH$ takes the north pole to a point.
     If $G$ acts on $X$ and $x\in X$, the ``stabilizer'' of $x$ in $G$ is $\{g\in G|gx=x\}$
 \end{definition}
 
+\begin{definition}[Centralizer]
+    If $A\subset G$, the \textbf{centralizer} of $A$ in $G$ is $C_G(A)=\{g\in G|ga= ag\forall a\in A\}$
+\end{definition}
+\begin{itemize}
+    \item If $G$ is abelian, then $C_G(A)=G$ for any $A$. 
+    \item In the triangle group, $C_G(\{\rho\})=\{e,\rho,\rho^2\}$
+\end{itemize}
+\begin{definition}[Center]
+    The \textbf{center} of $G$ is $Z(G)=\{g\in G|gg'=g'g\forall g'\in G\}=C_G(G)$ 
+\end{definition}
+\begin{proposition}
+    For any $A\subset G$, $C_G(A)\leq Z(G)$ (is a subgroup).
+\end{proposition}
+
+Consider the regular $n$-gon ($n\geq3$), what are its rigid motion symmetries?
+\begin{itemize}
+    \item There are always $n$ rotations by $\frac{2\pi}{n}$ about the origin.
+    \item When $n$ is even, there are $n/2$ reflections in each pair of edges, and each pair of vertices. When $n$ is odd, there are $n$ reflections in each pair of (edge, vertex). There are always $n$ reflections.
+    \item Write $\rho$ for clockwise rotation by $\frac{2\pi}{n}$. Fix one vertex and let $\sigma$ be the reflection that fixes that vertex.
+    \item Note that $\rho\sigma=\sigma\rho\inv$. To show this, it suffices to find where two of the vertices gets mapped.
+\end{itemize}
+\begin{proposition}
+    The symmetries are $e,\rho,\rho^2,\dots,\rho^{n-1},\sigma,\sigma\rho,\sigma\rho^2,\dots,\sigma\rho^{n-1}$
+\end{proposition}
+\begin{definition}[dihedral group]
+    The group of symmetries of the regular $n$-gon is $D_{2n}$, the \textbf{dihedral group} of order $2n$.
+\end{definition}
+
+Given $H\leq G$ we write $G/H$ as the set of left cosets
+\begin{align}
+    G/H&=\{gH|g\in G\}\\
+    H\setminus G&=\{Hg|g\in G\}
+\end{align}
+Both of these are called ``$G$ mod $H$''. In general, the two are \underline{different}. 
+
+Now we want to ask, is $H\setminus G$ a group?
+\begin{itemize}
+    \item The most naive idea is to reuse multiplication in $G$, i.e. $Hg\cdot Hg'=Hgg'$, but it only sometimes works.
+    \item This formula means: $hg\cdot h'g'=h''gg'$. For any $h,h'\in H,\exists h''$ s.t. this holds.
+    \item Trick: $hg\cdot h'g'=hgh'eg'=hgh'(g\inv g)g'=h(ghg\inv)gg'$. Now we can ask if $ghg\inv\in H$ (for every $h'\in H$)
+\end{itemize}
+\begin{definition}[Normal Subgroup]
+    A subgroup $H\leq G$ is \textbf{normal} if $ghg\inv\in H\forall g\in G,h\in H$, which is abbreviated as $gHg\inv=H$. $H\trianglelefteq G$ means $H$ is a normal subgroup of $G$
+\end{definition}
+\begin{itemize}
+    \item Notice that if $gHg\inv=H$ then $gH=Hg$. So $H$ is normal, the left and right cosets must be the same.
+\end{itemize}
+
+\begin{definition}[Quotient Group]
+    If $H\trianglelefteq G$, then $G/H$ is called the quotient group.
+\end{definition}
+\subsection{Homomorphisms}
+\begin{definition}[Homomorphism]
+    If $G,K$ are groups, a \textbf{homomorphism} is a map $\varphi:G\to K$ such that $\varphi(gg')=\varphi(g)\varphi(g')\,\forall g,g'\in G$.
+\end{definition}
+Observations: IF $\varphi:G\to K$ is a homomorphism and $g\in G$, then
+\begin{enumerate}
+    \item $\varphi(g)=\varphi(eg)=\varphi(e)\varphi(g)$, so $\varphi(e)=e$ (the identity element of $K$)
+    \item $e=\varphi(e)=\varphi(gg\inv)=\varphi(g)\varphi(g\inv)$, so $\varphi(g\inv)=\varphi(g)\inv$
+\end{enumerate}
+Examples
+\begin{itemize}
+    \item $G=\Z$ and $\varphi:\Z\to\Z, \varphi(n)=2n$ is a homomorphism, as $\varphi(n+m)=2(n+m)=2n+2m=\varphi(n)+\varphi(m)$
+    \item $G=\Z,K=\R$ and $\varphi:\Z\to\R,\varphi(n)=n$. This mapping is called an \bluebf{inclusion} as $Z\subset\R$.
+    \item If $G$ is a group and $g_0\in G$, then $C_{g_0}:G\to G,g\mapsto g_0gg_0\inv$ is a homomorphism.
+    \item A linear transformation $T:V\to W$ if $V,W$ are vector spaces (the additive group). 
+    \item Note that $\varphi:g\mapsto g\inv$ is \bluebf{only} a homomorphism if $G$ is abelian.
+\end{itemize}
+\begin{definition}[Kernel/Image]
+    If $\varphi:G\to G'$ is a homomorphism, then the \textbf{kernel} of $\varphi$ is\begin{equation}
+        \ker(\varphi)=\{g\in G|\varphi(g)=e\}.
+    \end{equation}
+    The \textbf{image} of $\varphi$ is\begin{equation}
+        \mathrm{im}(\varphi)=\{\varphi(g)|g\in G\}\subseteq G'
+    \end{equation}
+\end{definition}
+\begin{theorem}
+    $\ker(\varphi)\leq G$ and $\mathrm{im}(\varphi)\leq G'$ $\ker(\varphi)\trianglelefteq G$
+    \begin{proof}
+        Since $\varphi(e)=e$, $e\in\ker(\varphi)$, and $e\in\mathrm{im}(\varphi)$.
+        So both are nonempty.
+
+        Suppose $g,h\in\ker(\varphi)$, $e=\varphi(e)=\varphi(hh\inv)=\varphi(h)\varphi(h\inv)$ \dots
+    \end{proof}
+\end{theorem}
+\begin{itemize}
+    \item Suppose $N\trianglelefteq G$ and then define $G\to G/N, g\mapsto Ng$. We claim this is a homomorphism. Proof is simple $\varphi(gg')=Ngg'$, $\varphi(g)\varphi(g')=NgNg'=NgN(g\inv gg')=N(gNg\inv)gg'=NNgg'=Ngg'$ 
+    \item This map is called the (natural) \bluebf{projection} of $G$ onto $G/N$. Sometimes written $\Pi_{G/N}$ or $\mathrm{proj}_{G/N}$.
+    \item $\mathrm{im}(\Pi_{G/N})=G/N$ and $\ker(\Pi_{G/N})=N$.
+    \item Any homomorphism is related to this one, so this could be considered as the ``generic homomorphism''.
+\end{itemize}
+\begin{definition}[Isomorphism]
+    If $\varphi:G\to H$ is a homomorphism, and $\ker(\varphi)=\{e\}$ then $\varphi$ is injective.
+    If $\varphi(G)=H$ then $\varphi$ is surjective. Thinking of $G$ and $H$ as sets, there is an inverse $\varphi\inv:H\to G$ such that $\varphi\inv\circ\varphi=1_G$ and $\varphi\circ\varphi\inv=1_H.$ It is easy to check that $\varphi\inv$ is also a homomorphism.
+
+    In this case, $\varphi$ is an \textbf{isomorphism}
+\end{definition}
+\begin{itemize}
+    \item Suppose we have an injective homomorphism $\varphi:G\to H$ where $\ker(\varphi)=\{e\}.$ Then, we can consider $\varphi:G\to\mathrm{im}(\varphi)<H.$ Sometimes we say $\varphi:G\to H$ is an \bluebf{isomorphism into} $H,$ as opposed to an isomorphism \bluebf{onto} $H$ or between $G$ and $H.$
+\end{itemize}
+\begin{definition}[Automorphism]
+    If $G$ is a group, an \textbf{automorphism} of $G$ is an isomorphism $\varphi:G\to G.$
+\end{definition}
+Examples:
+\begin{itemize}
+    \item If $G=\Z,n\mapsto-n$ is the only automorphism apart from the identity.
+    \item If $G$ is abelian, $g\mapsto g\inv$ is an automorphism.
+    \item If $F$ is a field, and $G=GL(n,F)$ then $g\mapsto(g^t)\inv$ (transposed inverse) is an automorphism.
+    \item If we fix $g_0\in G$ then the conjugation $C_{g_0}:G\to G$ where $C_{g_0}(g)=g_0g{g_0}\inv$ is an automorphism. 
+\end{itemize}
+\begin{definition}[Automorphism Group]
+    $\mathrm{Alt}(G)$ is the \textbf{group} of automorphisms of $G$.
+\end{definition}
+\begin{definition}[Inner/Outer Automorphisms]
+    The \textbf{inner automorphisms} of $G$ are \begin{equation}
+        \textrm{Inn}(G)=\{\varphi\in\mathrm{Alt}(G)|\varphi=C_{g_0}\text{ for some }g_0\in G\}.
+    \end{equation}
+    If an element of $\mathrm{Alt}(G)$ that is not inner is \textbf{outer}.
+\end{definition}
+\begin{itemize}
+    \item It is easy to show that $\mathrm{Inn}(G)\leq\mathrm{Alt}(G).$ 
+    \item Observe that if $G$ is abelian, then $\mathrm{Inn}(G)=\{\mathrm{id}\}$
+    \item In general, $\{\mathrm{id}\}\leq\mathrm{Inn}(G)\leq\mathrm{Alt}(G).$
+\end{itemize}
+\begin{itemize}
+    \item The map \begin{align}
+        G&\to\mathrm{Alt}(G)\\
+        g&\to C_g
+    \end{align}
+    is a homomorphism. Its image is $\mathrm{Inn}(G)$ and its kernel is $Z_G$ (the center).
+\end{itemize}
+\begin{definition}[Fiber]
+    If $p$ is a projection, then $p\inv(x)$ is the \textbf{fiber} over $x$
+\end{definition}
+\begin{itemize}
+    \item If $N\triangleleft G,$ the projection $\pi:G\to G/N$ is a homomorphism. The fibers of $\pi$ is the cosets $gN=Ng,$ and they are all the same size.
+    \item Suppose $\varphi:G\to H$ is a homomorphism, and $N=\ker(\varphi)\trianglelefteq G.$ The fibers of $\varphi$ is the cosets of $G/N.$
+    \item We have $\varphi:G\to H$ and $\pi:G\to G/N.$ Wouldn't it be nice if $G/N\to H$ ``induced by $\varphi$'' were a homomorphism? Well, it is. 
+\end{itemize}
+\begin{theorem}[(First) Isomorphism]
+    If $\varphi:G\to H$ is a homomorphism, and $N=\ker(\varphi),$ then there is a homomorphism $\bar\varphi:G/N\to H$ such that $\bar\varphi\circ\pi=\varphi.$ 
+    
+    Moreover, $\ker(\bar\varphi)=\{eN\},$ the trivial subgroup of $G/N,$ so $\bar\varphi$ is injective. So, $\bar\varphi:G/N\to\mathrm{im}(\varphi)$ is an \bluebf{isomorphism}.
+\end{theorem}
+\begin{itemize}
+    \item This theorem suggests that you can construct an isomorphism from an arbitrary homomorphism. First, $\varphi$ factors through $G/N,$ then we can include it into $H.$
+    \begin{equation}
+        G\to^\pi G/N\to^{\bar\varphi}\mathrm{im}(\varphi)\to^{\text{inclusion}}H
+    \end{equation}
+\end{itemize}
+
+
 \end{document}

@@ -1,4 +1,4 @@
-\documentclass[a4paper]{article}
+\documentclass[a4paper,12pt]{article}
 \usepackage{stdtemplate}
 
 \title{CSC373 Algorithms}
@@ -35,8 +35,8 @@
 \end{itemize}
 \subsection{Karatsuba Multiplication}
 \begin{itemize}
-    \item \textbf{Add} two binary $n$-bit numbers naively takes $\Theta(n)$ time
-    \item \textbf{Multiply} two binary $n$-bit numbers naively takes $\Theta(n^2)$ time
+    \item \bluebf{Add} two binary $n$-bit numbers naively takes $\Theta(n)$ time
+    \item \bluebf{Multiply} two binary $n$-bit numbers naively takes $\Theta(n^2)$ time
     \item Divide and Conquer approaches \begin{enumerate}
         \item Multiply $x$ and $y$. We can divide them into two parts\begin{align}
             x &= x_1\cdot 2^{n/2} + x_0\\
@@ -160,7 +160,7 @@ We should select splitter $s$ uniformly at random.
     \item the worst case running time is $T(n)=T(\lceil\frac{n}{5}\rceil)+T(\lfloor{\frac{3n}{4}}\rfloor)+cn$.
     \item This recursive relation cannot be solved by the Master Theorem. We can prove using induction that $T(n)<20cn$.
 \end{itemize}
-\textbf{Question: Why groups of 5?}
+\redbf{Question: Why groups of 5?}
 \begin{itemize}
     \item With groups of 5, the total size of subproblems: $\frac{n}{5}+\frac{3n}{4}=\frac{19n}{20}<n$
     \item With groups of 3, the total size of subproblems: $\frac{n}{3}+\frac{3n}{4}=\frac{13n}{12}>n$, not sufficient.
@@ -178,7 +178,7 @@ We should select splitter $s$ uniformly at random.
     \item Combine: Find the closest pair $(p,q)$, $p\in L$, $q\in R$. However, there may be $\Theta(n^2)$ pairs.
 \end{itemize}
 \begin{itemize}
-    \item Claim: Let $p=(x_p,y_p)\in B_L,q=(x_q,y_q)\in B_R$ with $y_p\leq y_q$. If $d(p,q)<\delta$ then there are at most \textbf{six} other points (x,y) in $B$ such that $y_p\leq y\leq y_q$.
+    \item Claim: Let $p=(x_p,y_p)\in B_L,q=(x_q,y_q)\in B_R$ with $y_p\leq y_q$. If $d(p,q)<\delta$ then there are at most \bluebf{six} other points (x,y) in $B$ such that $y_p\leq y\leq y_q$.
     \item Proof:
     \item $S_L=\{p'=(x,y):p'\neq p\in B_L\land y_p\leq y\leq y_q\}$ (other points on the left of the middle)
     \item $S_R=\{p'=(x,y):p'\neq q\in B_R\land y_p\leq y\leq y_q\}$ (other points on the right of the middle)
@@ -241,7 +241,7 @@ We should select splitter $s$ uniformly at random.
     \item Output: maximum-size set of intervals that do not overlap
     \item Naive algorithm is to try each subset of $n$ intervals by brute force $O(2^n)$, way too slow.
     \item Greedy algorithm sorts interval in some order, then if it doesn't overlap then add it to the solution.
-    \item \textbf{What order gives the biggest feasible set?}
+    \item \redbf{What order gives the biggest feasible set?}
     \begin{enumerate}
         \item Increasing start time: $s_j$
         \item Increasing finish time: $e_j$
@@ -272,7 +272,7 @@ We should select splitter $s$ uniformly at random.
 \end{itemize}
 \subsubsection{Proof of optimality}
 \begin{itemize}
-    \item We define the \textbf{depth} at time $t$ as the number of intervals that contain time $t$. The \textbf{maximum depth} $d_{max}$ is the maximum depth over all times.
+    \item We define the \bluebf{depth} at time $t$ as the number of intervals that contain time $t$. The \bluebf{maximum depth} $d_{max}$ is the maximum depth over all times.
     \item Clearly, the number of partitions needed is at least $d_{max}$. We will show that this greedy algorithm create only $d_{max}$ partitions.
     \item Let $d$ be the number of partition the greedy algorithm opened.
     \item Partition $d$ was created because there was an interval $j$ that overlaps with some previously scheduled interval in each of the $d-1$ other partitions.
@@ -281,5 +281,141 @@ We should select splitter $s$ uniformly at random.
     \item Warning: this proof rely on the fact that the start time
 \end{itemize}
 
+\subsection{Minimum Lateness Scheduling}
+\begin{itemize}
+    \item $n$ intervals: $1,2,\dots,n$, with each interval $j$ requires $t_j$ units of time and has deadline $d_j$.
+    \item The lateness of an interval is $l_j=\max\{0,f_j-d_j\}$
+    \item Output the schedule that minimizes the maximum lateness $L=\max_jl_j$.
+    \item Fact 1: there is an optimal schedule with no gaps.
+    \item The naive algorithm is to try all possible schedules, which is $O(n!)$.
+    \item For greedy algorithm, we will sort intervals in this order
+    \begin{enumerate}
+        \item Shortest processing time, $t_j$
+        \item Smallest slack first $d_j-t_j$
+        \item Earliest deadline first $d_j$
+    \end{enumerate}
+    \item 1 and 2 are not optimal, and they have simple counterexamples with $n=2$.
+    \item an \bluebf{inversion} is two intervals $i,j$ such that $d_i>d_j$ but $i$ is scheduled before $j$.
+    \item \redbf{Note that in general:} Define inversion as a violation of what your order is, then prove that inversion is slightly worse or bad.
+\end{itemize}
+\subsubsection{Proof of optimality}
+\begin{itemize}
+    \item Observation 1: The greedy algorithm has no gaps.
+    \item Observation 2: The greedy algorithm has no inversions.
+    \item We will prove
+    \item \bluebf{Claim 1}: If a schedule $S$ with no gaps has an inversion, then $S$ has a pair of inverted intervals that are adjacent.
+    \item Suppose for contradiction that there is $S$ with an inversion but does not have adjacent intervals that are inverted. Then, $d_j<d_i\leq d_{i+1}\leq d_{i+2}\leq\dots\leq d_{j-1}\leq d_j$, so $d_j<d_j$ which is a contradiction.
+    \item \bluebf{Claim 2}: All schedules with no gaps and no inversions have the same lateness
+    \item Let $S$ and $S'$ be two distinct schedules with no gaps and no inversions
+    \item Note $S$ and $S'$ differ only by the schedule of intervals with the same deadline
+    \item Consider the intervals with the same deadline, they must be adjacent in both $S$ and $S'$. As a group, the maximum lateness of these intervals is the same because the group will finish at the same time.
+    \item \bluebf{Claim 3}: Swapping adjacent inverted interval does not increase lateness and reduces the total number of inversions by one.
+    \item Let $i$ and $j$ denote two adjacent inverted intervals in the schedule $S$. By swapping $i$ and $j$, we get a schedule $S'$ with one fewer inversion.
+    \item Let $l$ and $l'$ be the lateness before/after swap. $\forall k\neq i,j, l_k=l'_k$.
+    \item We know $d_i>d_j$ because it was an inversion. Thus, $l_j\geq l_j'$ and $l_j\geq l_i'$
+    \item $l_j=f_j-d_j\geq f_i'-d_i=l_i'$
+    \item Suppose by contradiction that the greedy schedule $S$ is not optimal.
+    \item Let $S^*$ is the schedule with no gaps and fewest inversion.
+    \item \textbf{Case 1:} $S^*$ has no inversion. By claim 2, this is contradiction.
+    \item \textbf{Case 2:} $S^*$ has at least one inversion. By claim 1, it must have two inverted intervals that are adjacent. By claim 3, we can swap them to get a schedule with no greater lateness with one fewer inversion so it must be optimal. Then $S^*$ does not have the fewest inversions among all optimal schedules. This is also a contradiction.
+\end{itemize}
+\subsection{Huffman Code}
+\begin{itemize}
+    \item Given an alphabet $\Gamma$: a set of $n$ symbols
+    \item You need to encode symbols using binary code. 
+    \item Fixed length code requires $\lceil\log n\rceil$ bits per symbol.
+    \item This is easy to decode, but this is not optimal
+    \begin{itemize}
+        \item ``e'': 12.7\% of letters in english
+        \item ``z'': 0.07\% of letters in english
+        \item We should give a shorter code to ``e'' than ``z''.
+    \end{itemize}
+    \item The goal is to find a code that minimize the length of text coding
+    \item Variable length code can save space, but is harder to decode. Suppose $\Gamma=\{a,b,c\}$ and $a=1,b=01,c=010$. Then $0101$ is ambiguous as $bb$ or $ca$.
+    \item A \bluebf{prefix code} is a code where no codeword is a prefix of any other. Scan from left to right until you see a codeword.
+    \item Prefix code can be represented as a binary tree (edges are leaf), with the leaves as the symbols.
+    \item The efficiently of a code is the weighted height of this tree, where the weight of a leaf is the probability of that symbol.
+\end{itemize}
+\subsection{Prefix Code Problem}
+\begin{itemize}
+    \item Input: A set of $\Gamma$ with their frequencies $f:\Gamma\to\R$ where $\sum_{x\in\Gamma}f(x)=1$
+    \item Output: Binary tree $T$ representing the optimal prefix code for $\Gamma,f$
+    \item Optimal Solution is a tree with the weighted average height $AD(T)$ of the tree is minimum.
+    \item \textbf{Fact 1:} An optimal tree is a full binary tree, where each internal has two children.
+    \item \textbf{Fact 2:} In an optimal tree $T$, $\forall x,y;f(x)<f(y)\implies \mathrm{depth}_T(x)\geq\mathrm{depth}_T(y)$.
+    \item \textbf{Fact 3:} If $x,y$ have minimum frequency, then there is an optimal tree $T$ such that $x,y$ are siblings and are at max depth.
+    \item \textbf{Huffman's Algorithm}: Combine the two smallest frequencies into a new symbol $z$ with frequency $f(z)=f(x)+f(y)$, and repeat recursively until there are only two symbol left, in which case we assign them $0$ and $1$.
+\end{itemize}
+\subsubsection{Proof of Optimality}
+\begin{itemize}
+    \item We will prove by induction. The base case for $n=2$ is trivial.
+    \item Induction hypothesis: for all $\Gamma,f$ for $n-1$ symbols, the algorithm produces an optimal tree.
+    \item Let $\Gamma,f$ be an alphabet with frequencies with $n$ symbols. Let $H$ be the tree produced by the algorithm.
+    \item  The algorithm constructed by $H$ by: (1) replacing two symbols $x,y\in\Gamma$ of minimum frequency with a new symbol $z$, and
+    \begin{align}
+        \Gamma'&=(\Gamma\setminus\{x,y\})\cup\{z\}\\
+        f'(\alpha)&=\begin{cases}
+            f(x)+f(y),&\alpha=z\\
+            f(\alpha),&\text{otherwise}
+        \end{cases}
+    \end{align}
+    \item We know that $x,y$ are siblings (with parent $z$) in $H$
+    \item Since $H'$ has $n-1$ symbols, $H'$ is optimal for $\Gamma',f'$
+    \item We know $AD(H)=AD(H')+f(x)+f(y)$
+    \item Now take an optimal tree $T$ for $(\Gamma,f)$ where $x,y$ are siblings. We know $T$ exists by fact 3.
+    \item Let $T'$ be the tree constructed from $T$ by removing $x,y$ and replacing their parent with symbol $z$ (and $f(z)=f(x)+f(y)$)
+    \item Clearly, $T'$ is a prefix code for $(\Gamma',f')$ with $AD(T)=AD(T')+f(x)+f(y)$
+    \item We know $AD(T')\geq AD(H')$ as $H'$ is optimal for $(\Gamma',f')$ Thus, $AD(T)-f(x)-f(y)=AD(T')\geq AD(H')=AD(H)-f(x)-f(y)\implies AD(T)\geq AD(H)$. but $T$ is optimal so $H$ is optimal.
+\end{itemize}
+\subsection{Dijkstra's Single-Source Shortest Path Algorithm}
+\begin{itemize}
+    \item Input: A weighted directed graph $G=(V,E)$ with weights $w:E\to\R_+$ and a source vertex $s\in V$
+    \item Output: Length of the shortest path from $s$ to every other node $t\in V$
+    \item Suppose $R$ is a subset of nodes of $G$ that includes $s.$ A path $s\to v$ is a \bluebf{$R$-path} from $s\to v$ is restricted to contain only in $R$ before reaching $v.$
+    \item At a high level, the algorithm maintains a set $R\subseteq V,$ (at the beginning $s$, and at the end $V$)
+    \item The algorithm also contains $d(v)$ where
+    \begin{enumerate}
+        \item if $v\in R$, then $d(v)$ is the length of the shortest path from $s\to v.$ This is exactly what we want.
+        \item if $v\in V\setminus R$, then $d(v)$ is the length of the shortest $s\to v$ $R$-path.
+    \end{enumerate}
+    \item The goal of the algorithm is to have $R$ contain all the nodes. In each iteration, the algorithm adds one more node from $R$ and maintains its properties.
+    \item The algorithm will greedily choose the node $u\in V\setminus R$ with the minimum $d(u)$.
+    \item We know that $d(u)$ is the length of the shortest $s\to u$ $R$-path. We will show that this is also the length of the shortest $s\to u$ path. If the claim is true, we can
+    \begin{enumerate}[label=\alph*)]
+        \item move $u$ to $R$ and still maintain property 1.
+        \item update $d(v)$ for nodes in $V\setminus R$ to satisfy property 2.
+    \end{enumerate}
+    \item The proof of the claim is simple, suppose by contradiction that there is a shorter path $P$ with $len(P)<d(u).$ $P$ must cross from $R$ to $V\setminus R$ at least once. Let $v$ be the first node this $P$ reaches in $V\setminus R,$ so first section of $P,$ we denote $P_1$ from $s\to v$ is an $R$-path. As all the weights are non-negative, $len(P)\geq len(P_1)\geq d(v)\geq d(u),$ so $len(P)$ cannot be less than $d(u),$ which is a contradiction.
+    \item Upon adding $u$ to $R,$ we gain more freedom for $R$-paths. For points in $V\setminus R,$ we can choose to retain the previous $R$-path or to use $u$ for the new $R$-path. Thus, for some $v\in V\setminus R,$
+    \begin{itemize}
+        \item if the shortest $R$-path does not contain $u,$ do nothing.
+        \item if the shortest $R$-path contains $u,$ then the new $d(v)=d(u)+w(u,v)$. \begin{itemize}
+            \item Note that $u$ must be the last node in the shortest $R$-path. Suppose there is another node $r\in R$ where $s\to u\to r\to v$ is shorter than $s\to u\to v.$
+            \item Since $r\in R$ when $u$ was still in $V\setminus R,$ $d(r)$ must be the length of the shortest path of $R\setminus\{u\}.$ So in this case, the shortest path to $v:s\to r\to v$ doesn't require $u.$
+        \end{itemize}
+    \end{itemize}
+    \item So for every $v\in V\setminus R,$ we update $d(v)\gets\min\{d(v),d(u)+w(u,v)\}.$
+    \item \redbf{Note} that the algorithm does not work with negative weights.
+\end{itemize}
+\begin{algorithm}
+    \caption{Dijkstra's Algorithm}
+    \begin{algorithmic}[1]
+    \Procedure{Dijkstra}{}
+    \State $R\gets\{s\}$
+    \State $d(s)\gets 0$
+    for each nodes $v\neq s$ do if $(s,v)$ is an edge then $d(v)\gets w(s,v), p(v)\gets s$ else $d(v)\gets\infty,p(v)\gets Nil$
+    \While{$R\neq V$}
+        \State $u\gets$ node not in $R$ with the minimum $d(u)$
+        \State $R\gets R\cup\{u\}$
+        \Foreach{$v$ s.t. $(u,v)$ is an edge}
+            \If{$d(v)>d(u)+w(u,v)$}
+                \State $d(v)\gets d(u)+w(u,v)$
+                \State $p(v)\gets u$
+            \EndIf
+        \EndForeach
+    \EndWhile
+    \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
 
 \end{document}

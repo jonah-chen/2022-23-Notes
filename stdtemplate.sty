@@ -1,11 +1,18 @@
 \usepackage[margin=1in,a4paper]{geometry}
-\usepackage{amsthm}
 \usepackage{siunitx}
 \usepackage{physics}
+\AtBeginDocument{\RenewCommandCopy\qty\SI}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{cancel}
 \usepackage{enumitem}
+\usepackage{listings}
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
 \setlength{\parskip}{\baselineskip}%
 \usepackage[breakable,many]{tcolorbox}
 % Math
@@ -40,6 +47,16 @@
 \pgfplotsset{compat=1.18}
 \setlength{\parindent}{0cm}
 \AtBeginDocument{\RenewCommandCopy\qty\SI}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\titleformat{\section}
+  {\large\scshape}{\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\scshape}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalfont\scshape}{\thesubsubsection}{1em}{}
+\pagenumbering{arabic}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%% COLORS %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -54,6 +71,12 @@
 \definecolor{my-blue2}{RGB}{93,169,199}
 \definecolor{my-blue3}{RGB}{169,199,240}
 \definecolor{my-blue4}{RGB}{69,201,199}
+
+
+% bluebf
+\newcommand{\bluebf}[1]{\textcolor{blue}{\textbf{#1}}}
+%redbf
+\newcommand{\redbf}[1]{\textcolor{red}{\textbf{#1}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%% Style Definitions %%%%%%%%%%%%%%%%%%%%%

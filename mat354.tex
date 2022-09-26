@@ -1,0 +1,180 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{stdtemplate}
+
+\title{MAT354 Complex Analysis}
+\author{Jonah Chen}
+\date{}
+\begin{document}
+\maketitle
+\sffamily
+
+\section{Rational Functions}
+\subsection{Classification of rational functions of order 2}
+(up to fractional linear transformations of the source and target):
+\begin{enumerate}
+    \item One double pole $\beta$
+    \item Two distinct poles $a,b$
+\end{enumerate}
+
+In case 1: Make a fractional linear transformation to move $\beta$ to $\infty$
+\begin{equation}
+    z=\beta+\frac{1}{\zeta}
+\end{equation}
+We set a rational function with double pole at $\infty$, i.e. a polynomial of degree $2$
+\begin{align}
+    w&=az^2+bz+c\\
+    &=a\left(z+\frac{b}{2a}\right)^2-\frac{b^2}{4a}+c\\
+\end{align}
+Making a change of coordinates in the source and the target
+\begin{align}
+    w_1&=w+\frac{b^2}{4a}-c\\
+    z_1&=z+\frac{b}{2a}\\
+\end{align}
+so we have $w_1=z_1^2$
+
+In case 2: Make a fractional linear transformation to move $a,b$ to $0,\infty$.
+\begin{align}
+    w=\frac{z-b}{z-a}
+\end{align}
+
+Rational function of order 2 with poles at $0,\infty$ can be written $w=Az+B+\frac{C}{z}$. Make the coefficients of $z$ and $1/z$ equal by $z_1=\sqrt{\frac{A}{C}}z$ and $w_1=\frac{1}{A}(w-B)$ then $w=z+\frac{1}{z}$.
+
+\subsection{Rational functions of order 1}
+Fractional linear transformation \begin{align}
+    w=S(z)=\frac{az+b}{cz+d}, ad-bc\neq0
+\end{align}
+Note that $S(\infty)=a/c$ and $S(-d/c)=\infty$.
+
+We want to show that all fractional linear transformations can be written as a composition of translation, inversion, homothety
+
+For $c=0$, $w=az+b$ which is a translation, homothety.
+
+For $c\neq0$, \begin{equation}
+    \frac{az+b}{cz+d}=\frac{\frac{a}{c}(z+d/c)+b+\frac{bc-ad}{c^2}}{z+d/c}=\frac{a}{c}+\frac{bc-ad}{c^2}\frac{1}{z+d/c}
+\end{equation}
+This is a composition of \begin{enumerate}
+    \item translation: $z_1=z+d/c$
+    \item inversion: $z_2=1/z_1$
+    \item homethety: $z_3=\frac{bc-ad}{c^2}\cdot z_2$
+    \item translation: $z_4=z_3+a/c$
+\end{enumerate}
+
+\begin{theorem}
+    Given any 3 distinct points $z_2,z_3,z_4$, $\exists!$ fractional linear transformation $S:z_2,z_3,z_4\mapsto 1,0,\infty$
+    \begin{proof}
+        \begin{equation}
+            S(z)=\begin{cases}
+                \frac{z-z_3}{z-z_4}\Big/\frac{z_2-z_3}{z_2-z_4} & \text{otherwise}\\
+                \frac{z-z_3}{z-z_4} & \text{if }z_2=\infty\\
+                \frac{z_2-z_4}{z-z_4} & \text{if }z_3=\infty\\
+                \frac{z-z_3}{z_2-z_3} & \text{if }z_4=\infty
+            \end{cases}
+        \end{equation}
+        Suppose also $T:z_2,z_3,z_4\mapsto 1,0,\infty$. Consider $ST\inv:1,0,\infty\mapsto 1,0,\infty$. $ST\inv$ is also a fractional linear transformation $\frac{az_b}{cz+d}$
+
+        Given any pair of circles/lines
+    \end{proof}
+\end{theorem}
+\begin{definition}[Cross ratio]
+    \begin{equation}
+        (z_1:z_2:z_3:z_4)=S(z_1)
+    \end{equation}
+    is the cross ratio of $z_1,z_2,z_3,z_4$.
+\end{definition}
+\begin{theorem}
+    \begin{enumerate}
+        \item If $z_1,z_2,z_3,z_4$ are distinct points, and $T$ is a fractional linear transformation, then\begin{equation}
+            (z_1:z_2:z_3:z_4)=(Tz_1:Tz_2:Tz_3:Tz_4)
+        \end{equation}
+        \item $(z_1:z_2:z_3:z_4)$ is real if and only if $z_1,z_2,z_3,z_4$ lie on a circle or a line.
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}
+            \item Let $Sz=(z:z_2:z_3:z_4)$. Then, $ST\inv:Tz_2,Tz_3,Tz_4\mapsto1,0,\infty$. Then, $(Tz_1:Tz_2:Tz_3:Tz_4)$ is by definition equal to $Tz_1$ under the fractional linear transformation that takes $Tz_2,Tz_3,Tz_4$ to $1,0,\infty$, which is precisely $ST\inv$. So, $(Tz_1:Tz_2:Tz_3:Tz_4)=ST\inv(Tz_1)=Sz_1=(z_1:z_2:z_3:z_4)$.
+            \item First, we show the image of the real axis under fractional linear transformation $T\inv$ is either a circle of line.
+            
+            $w=T\inv(z)$ for $z\in\R$, we want to see that $w$ satisfies the equation of a circle or line. 
+            
+            We are interested in all $w$ such that $z=Tw=\frac{aw+b}{cw+d}$ is real. If $z\in\R$, then $Tw=\overline{Tw}$ and \begin{align}
+                \frac{aw+b}{cw+d}=\frac{\bar a\bar w+\bar b}{\bar c\bar w+\bar d}\\
+                (aw+b)(\bar c\bar w+\bar d)=(cw+d)(\bar a\bar w+\bar b)\\
+                (\underbrace{a\bar c-\bar ac}_\text{imaginary})|w|^2+\underbrace{(a\bar d-\bar bc)w+(b\bar c-\bar ad)}_\text{imaginary}+\underbrace{b\bar d-\bar bd}_\text{imaginary}=0
+            \end{align}
+            If $a\bar c-\bar ac\neq 0$, then this is an equation of a circle. If $a\bar c-\bar ac=0$, then this is an equation of a line.
+
+            Next, $Sz=(z:z_2:z_3:z_4)$ is real on the image of the real axis under $S\inv$ and nowhere else. $S\inv:1,0,\infty\mapsto z_2,z_3,z_4$
+        \end{enumerate}
+    \end{proof}
+\end{theorem}
+
+Fractional linear transformations $T$ takes the set of all circles and lines in the complex plane to itself. 
+
+Given any pair of circles/lines, there is a fractional linear transformation taking one to the other.
+
+
+\begin{example}
+    Fractional linear transformation that takes the upper half plane $H^+$ to the unit disk $D$ and the real axis to the unit circle.
+
+    We will take $i$ to $0$, so the numerator should be $z-i$. $w=\frac{z-i}{z+i}:i\mapsto0,0\mapsto-1,\infty\mapsto1,1\mapsto-i$
+\end{example}
+
+\section{Holomorphic Functions}
+\begin{itemize}
+    \item $f(z)$ complex valued functions in an open set $\Omega\subset\C$ or $\Omega\subset\C\cup\{\infty\}$
+    \item $f$ is holomorphic if $\lim_{h\to0}\frac{f(z+h)-f(z)}{h}$ exists. i.e. for some $c\in\C, f(z+h)-f(z)=ch+\varphi(h)h$ where $\varphi(h)\in o(h)$.
+    \item This is similar to the definition of the derivative from an open set in the plane to an open set in the plane. (writing $z=x+iy,f(z)=u+iv,c=a+ib,h=\xi+i\eta$ and $f:(x,y)\mapsto(u,v)$)
+    \item The derivative at $z$ takes\begin{align}
+        h&\mapsto ch\\
+        \begin{pmatrix}
+            \xi\\
+            \eta
+        \end{pmatrix}&\mapsto\begin{pmatrix}
+            a & -b\\
+            b & a
+        \end{pmatrix}\begin{pmatrix}
+            \xi\\
+            \eta
+        \end{pmatrix}
+    \end{align}
+    The matrix $\begin{pmatrix}
+        a & -b\\
+        b & a
+    \end{pmatrix}=\begin{pmatrix}
+        \partialderivative{u}{x} & \partialderivative{u}{y}\\
+        \partialderivative{v}{x} & \partialderivative{v}{y}
+    \end{pmatrix}$
+    \item For a function to be holomorphic, it requires an additional constraint than being simply differentiable. $\partialderivative{u}{x}=\partialderivative{v}{y}$ and $\partialderivative{u}{y}=-\partialderivative{v}{x}$. This is the Cauchy-Riemann equations. Or, $\partialderivative{f}{x}+i\partialderivative{f}{y}=0$.
+    \item The derivative at $z$ is a linear transformation $h\mapsto ch$.
+    \item The jacobian determinant is $a^2+b^2=|f'(z)|^2$.
+    \item Consider $f(x,y)$ differentiable, but complex valued. The differential $\dd f=\partialderivative{f}{x}\dd x+\partialderivative{f}{y}\dd y$. For example, $z=x+iy$ or $\bar z=x-iy$. Then, $\dd z=\dd x+i\dd y$ and $\dd\bar z=\dd x-i\dd y$.
+    \item Then we have $\dd x=\frac{1}{2}(\dd z+\dd\bar z)$ and $\dd y=\frac{1}{2i}(\dd z-\dd\bar z)$. Then, \begin{align}
+        \dd f=\frac{1}{2}\left(\partialderivative{f}{x}-i\partialderivative{f}{y}\right)\dd z+\frac{1}{2}\left(\partialderivative{f}{x}+i\partialderivative{f}{y}\right)\dd\bar z
+    \end{align}
+    \item So, we \redbf{define}\begin{align}
+        \partialderivative{f}{z}=\frac{1}{2}\left(\partialderivative{f}{x}-i\partialderivative{f}{y}\right)\\
+        \partialderivative{f}{\bar z}=\frac{1}{2}\left(\partialderivative{f}{x}+i\partialderivative{f}{y}\right)
+    \end{align}
+    \item Thus, we can write the 1-form $\dd f=\partialderivative{f}{z}\dd z+\partialderivative{f}{\bar z}\dd\bar z$.
+    \item $\partialderivative{}{z}$ and $\partialderivative{}{\bar z}$ are defined as the dual basis for $\dd z,\dd\bar z$.
+    \item We can rewrite the Cauchy-Riemann equations as $\partialderivative{f}{\bar z}=0$. This means for holomorphic functions, it's \redbf{only} a function of $z$, \redbf{not} $\bar z$.
+    \begin{definition}[Harmonic Function]
+        $f(x,y)$ is a \textbf{harmonic function} if $f\in C^2$ and $\Delta f=0$, or $\frac{\partial^2f}{\partial z\partial\bar z}=0$. (laplace equation) 
+    \end{definition}
+    \item We will see that holomorphic functions are harmonic. (but we need to first show we can differentiate holomorphic functions twice) So, the real and imaginary parts of holomorphic functions are also harmonic.
+    \item Remark: $\partialderivative{f}{\bar z}=0\iff\partialderivative{\bar f}{z}=0$. Why? Consider $f=u+iv,\bar f=u-iv$.
+    \begin{align}
+        \partialderivative{f}{\bar z}&=\frac{1}{2}\left(\partialderivative{f}{x}+i\partialderivative{f}{y}\right)\\
+        \overline{\partialderivative{f}{\bar z}}&=\frac{1}{2}\left(\partialderivative{\bar f}{x}-i\partialderivative{\bar f}{y}\right)=\partialderivative{\bar f}{z}\\
+    \end{align}
+    \begin{lemma}
+        If $f(z)$ is holomorphic in a connected open set and $f'(z)=0$ (identically), then $f$ is constant.
+        \begin{proof}
+            \begin{equation}
+                \dd f=\underbrace{\partialderivative{f}{z}}_{0}\dd z+\underbrace{\partialderivative{f}{\bar z}}_{0\text{ holomorphic}}\dd\bar z=0
+            \end{equation}
+        \end{proof}
+    \end{lemma}
+\end{itemize}
+
+
+\end{document}

@@ -81,5 +81,22 @@ We can non dimensionalize the equation by letting $x=ay$. Then, $a=\sqrt{2mV_0/\
     \left(\frac{-\hbar^2}{2ma^2}\frac{d^2}{dy^2}-V_0\right) \psi = E\psi
 \end{equation}
 
-Recapture the classical limit for step, smooth out the potential step
+Recapture the classical limit for step, smooth out the potential step.
+
+\section{Postulates of QM}
+\begin{itemize}
+    \item Take for example, a $3$-dimensional vector $\mathbf v=(v_1,v_2,v_3).$ The components $v_1,v_2,v_3$ is dependent on your basis. Somebody else can represent the same vector with different $v_1,v_2,v_3.$ In quantum mechanics, the wavefunction $\psi(x):\R\to\C$ is just a representation of the more abstract state-vector $\ket\psi$ in the position basis.
+    \item We will eventually show that the stationary states forms an orthonormal basis for this abstract vector space.
+    \item Project operator $\ketbra{\phi}{\phi}$ is related to the act of observation.
+\end{itemize}
+\subsection{Mathematical Tools}
+\begin{itemize}
+    \item We will declare that these state vectors belong to $L^2$ hilbert space, and inherit its inner product.\begin{equation}
+        \braket{\phi}{\psi}=\int\phi^*\psi\dd\mu
+    \end{equation}
+    and its norm \begin{equation}
+        |\psi|=\sqrt{\braket{\psi}{\psi}}
+    \end{equation}
+\end{itemize}
+
 \end{document}

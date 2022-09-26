@@ -44,6 +44,38 @@
     \item Between 0 to 7 prompt neutrons may be emitted by fission, on average around 2.4. This is very important.
     \item The fission neutron spectrum is approximately $\chi(E)=0.484\sinh(\sqrt{2E})e^{-E}\si{MeV}^{-1}$. Integrate this over a interval of $E$ to obtain the probability of energy in that interval. (Average \SI{2}{MeV})
     \item Delayed neutrons are much lower energy (\SI{400}{keV})
+    \item Reaction Rate stuff
+    \begin{itemize}
+        \item Intensity $I=nv$ (\si{1/cm^2s})
+        \item Flux $\phi$ (\si{1/cm^2s})
+        \item Number density $N=\frac{\rho N_A}{M}$ (\si{1/cm^3})
+        \item Microscopic cross section $\sigma$ (\si{1/cm^2})
+        \item Macroscopic cross section $\Sigma=N\sigma$ (\si{1/cm})
+        \item Reaction rate $R=\Sigma\phi$ (\si{1/cm^3s})
+    \end{itemize}
+    \item \textit{Passive} or non-multiplying media are characterized by the scattering ($\sigma_s$) and capture ($\sigma_c$) cross sections.
+    \item \textit{Multiplying} media contain at least one fissile or fissionable (fissile at high energy only) isotope and are further characterized by fission cross-section $\sigma_f$ and $\nu$.
 \end{itemize}
-
+\section{Propogation of Neutrons in a Passive Medium}
+\begin{itemize}
+    \item Due to interactions with the medium, the initial intensity $I_0$ decreases to $I(x)$ at depth $x$.
+    \item The rate of decrease is the reaction rate $I'=-R=\Sigma I$, with solution $I(x)=I_0e^{-\Sigma x}$. $\Sigma$ is the total cross-section. 
+    \item Understood in probability terms, $e^{-\Sigma x}$ is the probability that a neutron survive to depth $x$. Also, for very small $\Delta x$, $\Sigma\Delta x$ is the probability that a neutron will interact in $\Delta x$.
+    \item Finally, $\Sigma e^{-\Sigma x}\Delta x$ is the probability that a neutron will interact between distance $x$ and $x+\Delta x$.
+    \item The \bluebf{mean free path} is defined as the average distance a neutron travels before interacting \begin{equation}
+        \lambda=\int_0^\infty xp(x)\dd x=\int_0^\infty x\Sigma e^{-\Sigma x}\dd x=\frac{1}{\Sigma}
+    \end{equation}
+    Note that the mean free path can be used for a single reaction type also, e.g. $\lambda_s, \lambda_c, \lambda_f$.
+    \item Point neutron source. The intensity of the source is $\dot S$. 
+    \item In empty space, $\phi(r)=\frac{\dot S}{4\pi r^2}$.
+    \item In medium, $\phi(r)=\frac{\dot S}{4\pi r^2}e^{-\Sigma r}$
+    \item If there is scattering, these equations will underestimate the flux.
+\end{itemize}
+\section{Neutron Flux and Current}
+\begin{itemize}
+    \item In analyzing a nuclear reactor, we are interested in the neutron population at any position/time, and the rates of all nuclear reaction at any position/time.
+    \item The neutron density is $n(\mathbf r, \mathbf v, t)$. It is useful to express the velocity vector as the speed $v$ and the unit direction $\mathbf\Omega$. We also use kinetic energy (which contains the same information as the speed $E=\frac{1}{2}mv^2$) i,e, $n(\mathbf r,E,\mathbf\Omega, t)$.
+    \item $n(\mathbf r,E,\mathbf\Omega, t)$ is a density function with units \si{1/cm^3\electronvolt\steradian}. $n(\mathbf r,E,\mathbf\Omega, t)\dd V\dd E\dd\Omega$.
+    \item Here, we define $\dd\Omega=\dd S/4\pi=-\dd\varphi\dd(\cos\theta)/4\pi$. Note that $\int_{4\pi}\dd\Omega=\frac{1}{4\pi}\int_0^{2\pi}\dd\varphi\int_0^\pi\sin\theta\dd\theta=1$
+\end{itemize}
 \end{document}
