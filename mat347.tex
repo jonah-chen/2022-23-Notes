@@ -345,5 +345,30 @@ Examples:
     \end{equation}
 \end{itemize}
 
-
+\begin{theorem}[(Third) Isomorphism]
+    $N\trianglelefteq G$ and $H\leq G,$ then $N\leq H\implies N\trianglelefteq G.$
+    \begin{proof}
+        ????
+    \end{proof}
+\end{theorem}
+\begin{theorem}
+    \begin{equation}
+        G/H\cong G/N\Big/H/N
+    \end{equation}
+    \begin{proof}
+        Define $\varphi:G\to G/N\Big/H/N$ by \begin{align}
+            \varphi(g)=(gN)H/N
+        \end{align}
+        We need to show $\varphi$ is a homomorphism. Let \begin{align}
+            \varphi(gg')&=gg'N\:H/N\\
+            &=gNg'N\:H/N\\
+            &=gN\:H/N\cdot g'N\:H/N\\
+            &=\varphi(g)\varphi(g')\\
+        \end{align}
+    \end{proof}
+    We will then ask what is $\ker(\varphi).$ Suppose $\varphi(g)=H/N,$ so $gN\:H/N=H/N.$ But $g$ is a representation for $gN,$ so $gH/N$ for this to be in $H/N$ we want $g\in H$ so $\ker(\varphi)=H.$ An arbitrary element of $G/N\Big/H/N$ is $gN\:H/N$ for some $g\in G,$ so $\mathrm{im}(\varphi)=G/N\Big/H/N.$
+\end{theorem}
+\begin{itemize}
+    \item $G=\Z,H=3\Z,K=4\Z.$ By the second isomorphism theorem, $\Z/3\Z\cong 4\Z/12\Z,$ and also $Z/4\Z\cong 3\Z/12\Z.$
+\end{itemize}
 \end{document}

@@ -395,27 +395,165 @@ We should select splitter $s$ uniformly at random.
         \end{itemize}
     \end{itemize}
     \item So for every $v\in V\setminus R,$ we update $d(v)\gets\min\{d(v),d(u)+w(u,v)\}.$
+    \item \begin{algorithmic}[1]
+        \Procedure{Dijkstra}{}
+        \State $R\gets\{s\}$
+        \State $d(s)\gets 0$
+        for each nodes $v\neq s$ do if $(s,v)$ is an edge then $d(v)\gets w(s,v), p(v)\gets s$ else $d(v)\gets\infty,p(v)\gets Nil$
+        \While{$R\neq V$}
+            \State $u\gets$ node not in $R$ with the minimum $d(u)$
+            \State $R\gets R\cup\{u\}$
+            \Foreach{$v$ s.t. $(u,v)$ is an edge}
+                \If{$d(v)>d(u)+w(u,v)$}
+                    \State $d(v)\gets d(u)+w(u,v)$
+                    \State $p(v)\gets u$
+                \EndIf
+            \EndForeach
+        \EndWhile
+        \EndProcedure
+        \end{algorithmic}
     \item \redbf{Note} that the algorithm does not work with negative weights.
 \end{itemize}
-\begin{algorithm}
-    \caption{Dijkstra's Algorithm}
+\section{Dynamic Programming}
+\begin{itemize}
+    \item DP works on problems that have the \bluebf{optimal substructure property,} i.e. optimal solution can be computed efficiently from the optimal solution of subproblems.
+    \item The method is to break the problem down into subproblems, solve each subproblem only once and \redbf{store} the solutions.
+    \item When solving a subproblem, we look up previously computed solutions instead of recomputing it.
+    \item Storing the solution to subproblems is called \bluebf{memoization.}
+    \item DP is \textbf{different} from divide and conquer because:
+    \begin{itemize}
+        \item Divide and conquer is a special case of dynamic programming where the subproblems that are solve \redbf{never overlap}, so there's no need for memoization to avoid recomputing some previously solved solution.
+    \end{itemize}
+\end{itemize}
+\subsection{DAG Shortest Path (Toy Problem)}
+\begin{itemize}
+    \item Given some directed acyclic graph, find the shortest path from the root to any leaf.
+    \begin{enumerate}
+        \item The greedy algorithm is not optimal (very simple counterexample).
+        \item Naive recursion works, but it is very slow.
+        \begin{itemize}
+            \item If each node has $k$ children, then $T(0)=c,T(n)=kT(n-1)+c$ then the runtime is $\Theta(k^n)$.
+            \item Note that in naive recursion, we are solving the same subproblems over and over again. Dynamic programming will aim to solve this problem.
+        \end{itemize}
+        \item Dynamic programming. We can solve the problem by caching the solutions of the subproblems and in a bottom-up order rather than top-down. With \begin{align}
+            \mathrm{COST}(i)\gets\min\{&\mathrm{COST}(\mathrm{nextup}(i))+\mathrm{costup(i)},\\&\mathrm{COST}(\mathrm{nextdown}(i))+\mathrm{costdown(i)}\}.
+        \end{align}
+        The cost of this approach is equal to the number of nodes, which is $\Theta(n^k).$
+    \end{enumerate}
+\end{itemize}
+\subsection{Weighted Interval Scheduling}
+\begin{itemize}
+    \item In normal interval scheduling, every interval is of equal importance. So we want to schedule the maximum number of intervals.
+    \item Now, each interval have a weight (as some jobs are more important than others), so we want to schedule a set of compatible intervals with the maximum total weight.
+    \item Clearly, the greedy algorithm by earliest finish time is not optimal. Sorting by weight is not optimal either. There are obvious counterexamples. Actually, no greedy approaches will work.
+\end{itemize}
+
+\subsubsection{Dynamic Programming Approach}
+\begin{itemize}
+    \item We will sort the intervals by increasing finish time $f_1\leq f_2\leq\cdots\leq f_n.$
+    \item The \textbf{predecessor} of interval $p[j]$ is the largest index $i$ such that $f_i\leq s_j.$ ($p[j]=0$ if interval $j$ has no predecessors) We can find $p[j]$ in $O(\log j)$ time by doing binary search.
+    \item Let $S$ be the optimal subset of intervals (for intervals $\{1,\dots,n\}$)
+    \item Consider the last interval $n,$ either
+    \begin{enumerate}
+        \item $n\notin S,$ then $S$ is optimal for intervals $\{1,\dots,n-1\}.$
+        \item $n\in S,$ then $S=\{n\}\cup$ optimal subsets of intervals $\{1,\dots,p[n]\}.$
+    \end{enumerate}
+    \item $S$ is the best of case $1$ and case $2,$ (that with the highest total weight).
+    \item For dynamic programming in general, we want to define our notation and subproblems \eqref{weighted_interval_subproblem} to reach the \bluebf{Bellman equation} \eqref{weighted_interval_bellman}.
+    \begin{align}
+        OPT(j)&=\text{ max weight for intervals in }\{1,\dots,j\}\label{weighted_interval_subproblem}\\
+        OPT(j)&=\begin{cases}
+            0 & \text{if }j=0\\
+            \max\{\mathrm{OPT}(j-1),\mathrm{OPT}(p[j])+w[j]\} & \text{if }j>0
+        \end{cases}\label{weighted_interval_bellman}
+    \end{align}
+    \item We can use a top-down approach with recursion
     \begin{algorithmic}[1]
-    \Procedure{Dijkstra}{}
-    \State $R\gets\{s\}$
-    \State $d(s)\gets 0$
-    for each nodes $v\neq s$ do if $(s,v)$ is an edge then $d(v)\gets w(s,v), p(v)\gets s$ else $d(v)\gets\infty,p(v)\gets Nil$
-    \While{$R\neq V$}
-        \State $u\gets$ node not in $R$ with the minimum $d(u)$
-        \State $R\gets R\cup\{u\}$
-        \Foreach{$v$ s.t. $(u,v)$ is an edge}
-            \If{$d(v)>d(u)+w(u,v)$}
-                \State $d(v)\gets d(u)+w(u,v)$
-                \State $p(v)\gets u$
-            \EndIf
-        \EndForeach
-    \EndWhile
-    \EndProcedure
+        \Procedure{TopDown}{$w,s,f$}
+        \State Sort the intervals $(w,s,f)$ by increasing finish time $f_1\leq f_2\leq\cdots\leq f_n.$
+        \State Compute $p[j]$ for $j=1,\dots,n.$ using binary search for each $p[j].$
+        \State Let $OPT$ be a global array of size $n+1$ where $OPT[0]=0$
+        \State\Return TD-OPT($n$)
+        \EndProcedure
+        \Procedure{TD-OPT}{$j$}
+        \If{$OPT[j]$ is not initialized}
+            \State TD-OPT$[j]\gets\max\{\text{TD-OPT}(j-1),\text{TD-OPT}(p[j])+w[j]\}$
+        \EndIf
+        \State\Return $OPT[j]$
+        \EndProcedure
     \end{algorithmic}
-\end{algorithm}
+    \item However, a bottom up approach is preferred as it is more simpler and shows that you understand dynamic programming better.
+    \begin{algorithmic}[1]
+        \Procedure{BottomUp}{$w,s,f$}
+        \State Sort the intervals $(w,s,f)$ by increasing finish time $f_1\leq f_2\leq\cdots\leq f_n.$
+        \State Compute $p[j]$ for $j=1,\dots,n.$ using binary search for each $p[j].$
+        \State Let $\mathrm{OPT}$ be an array of size $n+1$ where $\mathrm{OPT}[0]=0$
+        \For{$j=1$ to $n$}
+            \State $\mathrm{OPT}[j]\gets\max\{\mathrm{OPT}[j-1],\mathrm{OPT}[p[j]]+w[j]\}$
+        \EndFor
+        \State \Return $OPT[n]$
+        \EndProcedure
+    \end{algorithmic}
+    \item The runtime of both approaches is $\Theta(n\log n)$ due to the sorting and binary search. The space complexity is $\Theta(n)$.
+    \item \redbf{Warning}: We need to be careful with our implementation. If we do not store enough information, we will still be solve the same problem multiple times. For example, the following approach does not work. \begin{algorithmic}[1]
+        \Procedure{NaiveRec}{$j$}
+        \If{$j=0$}
+            \State \Return 0
+        \Else
+            \State \Return $\max\{\mathrm{NaiveRec}(j-1),\mathrm{NaiveRec}(p[j])\}$
+        \EndIf
+        \EndProcedure
+    \end{algorithmic}
+    \item Notes on bottom up versus top down:
+    \begin{itemize}
+        \item Top down may be preferred when not all sub-solutions need to be computed on some inputs, and one does not need to think about the right order as much.
+        \item Bottom up may be preferred when all sub-solutions will anyway need to be computed, and it is sometimes faster because it prevents the overhead of recursive calls.
+    \end{itemize}
+    \item One way of figuring out what subproblems to define is to think ``we already know what the optimal solution is, then what is needed to reach that.''
+    \item We can modify the algorithm to return the actual set of intervals that are chosen. There are two ways of doing this.
+    \begin{enumerate}
+        \item Computing the optimal set \textbf{simultaneously} with the optimal weight.
+        \begin{algorithmic}[1]
+            \Procedure{BottomUp}{$w,s,f$}
+            \State Sort the intervals $(w,s,f)$ by increasing finish time $f_1\leq f_2\leq\cdots\leq f_n.$
+            \State Compute $p[j]$ for $j=1,\dots,n.$ using binary search for each $p[j].$
+            \State Let $\mathrm{OPT}$ be an array of size $n+1$ where $\mathrm{OPT}[0]=0$
+            \State Let $S$ be an array of size $n$ where $S[0]\gets\emptyset.$
+            \For{$j=1$ to $n$}
+                \State $\mathrm{OPT}[j]\gets\max\{\mathrm{OPT}[j-1],\mathrm{OPT}[p[j]]+w[j]\}$
+                \If{$\mathrm{OPT}[j]>OPT[j-1]$}
+                    \State $S[j]\gets S[p[j]]\cup\{j\}$
+                \Else
+                    \State $S[j]\gets S[j-1]$
+                \EndIf
+
+            \EndFor
+            \State \Return $S[n]$
+            \EndProcedure
+        \end{algorithmic}
+        \item Computing the optimal set \textbf{after} the optimal weight is computed.
+        \begin{algorithmic}[1]
+            \Procedure{GetSet}{$OPT,p$}
+            \State Let $S$ be an empty set.
+            \State $i\gets n$
+            \While{$i>0$}
+                \If{$OPT[i]=OPT[i-1]$}
+                    \State $i\gets i-1$ \Comment{$S$ does not contain $i$}
+                \Else
+                    \State $S\gets S\cup\{i\}$ \Comment{$S$ does contain $i$}
+                    \State $i\gets p[i]$ \Comment{$S$ does not contain $p[i]+1,\dots,i-1$}
+                \EndIf
+            \EndWhile
+            \State \Return $S$
+            \EndProcedure
+        \end{algorithmic}
+    \end{enumerate}
+\end{itemize}
+\subsection{Chain Matrix Multiplication}
+\begin{itemize}
+    \item Multiplying three matrices $D=ABC,$ then $D=(AB)C=A(BC).$ Although the answers are the same, the cost depends on the multiplication order.
+    \item The problem is to find the optimal order of multiplication of a chain of matrices $A_1,\dots,A_n$ and each matrix has dimension $d_{n-1}\times d_n$.
+\end{itemize}
+
 
 \end{document}

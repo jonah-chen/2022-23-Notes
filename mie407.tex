@@ -5,7 +5,7 @@
 \author{Jonah Chen}
 \date{}
 \begin{document}
-\maketitle
+\maketitle 
 \sffamily
 \textbf{Nuclear Stability:}
 \begin{itemize}
@@ -76,6 +76,24 @@
     \item In analyzing a nuclear reactor, we are interested in the neutron population at any position/time, and the rates of all nuclear reaction at any position/time.
     \item The neutron density is $n(\mathbf r, \mathbf v, t)$. It is useful to express the velocity vector as the speed $v$ and the unit direction $\mathbf\Omega$. We also use kinetic energy (which contains the same information as the speed $E=\frac{1}{2}mv^2$) i,e, $n(\mathbf r,E,\mathbf\Omega, t)$.
     \item $n(\mathbf r,E,\mathbf\Omega, t)$ is a density function with units \si{1/cm^3\electronvolt\steradian}. $n(\mathbf r,E,\mathbf\Omega, t)\dd V\dd E\dd\Omega$.
-    \item Here, we define $\dd\Omega=\dd S/4\pi=-\dd\varphi\dd(\cos\theta)/4\pi$. Note that $\int_{4\pi}\dd\Omega=\frac{1}{4\pi}\int_0^{2\pi}\dd\varphi\int_0^\pi\sin\theta\dd\theta=1$
+    \item With $\mu:=\cos\theta,$ we have $\dd\Omega=-\dd\varphi\dd\mu/4\pi,$ when we integrate over the all solid angles, we can integrate $\varphi$ from $0$ to $2\pi$ and $\mu$ from $1$ to $-1$.
+    \item Here, we define $\dd\Omega=\dd S/4\pi=-\dd\varphi\dd(\cos\theta)/4\pi$. Note that $\int_{4\pi}\dd\Omega=\frac{1}{4\pi}\int_0^{2\pi}\dd\varphi\int_{-1}^1\dd\mu=1$
+    \item The \bluebf{angular neutron density} $n(\mathbf r, E, \mathbf\Omega)$ is an important reactor parameter used in the definition of neutron flux and current.
+    \item The integral of the angular neutron density over all solid angles is the \bluebf{neutron density} in \si{cm^{-3}\electronvolt^{-1}}\begin{equation}
+        n(\mathbf r, E)=\int_{4\pi}n(\mathbf r, E, \mathbf\Omega)\dd\Omega.
+    \end{equation}
+    \item If some quantity $q$ with density $\rho$ can flow by a velocity field $\mathbf v,$ we can define the \bluebf{vector flux}\begin{equation}
+        \mathbf j=\rho\mathbf v.
+    \end{equation} We can define the \bluebf{neutron flux density} as\begin{equation}
+        \mathbf\phi(\mathbf r, E,\mathbf\Omega)=n(\mathbf r, E,\mathbf\Omega)\mathbf v(\mathbf r, E,\mathbf\Omega).
+    \end{equation}
+    \item The magnitude of vector flux density is the combined distance traveled by these neutrons. The \bluebf{scalar neutron flux},\begin{equation}
+        \Phi(\mathbf r,E)=\int_{4\pi}\mathbf\phi(\mathbf r, E,\mathbf\Omega)\dd\Omega=v\int_{4\pi}n(\mathbf r, E,\mathbf\Omega)\dd\Omega.
+    \end{equation}
+    \item The \bluebf{neutron current density} is\begin{equation}
+        \mathbf J(\mathbf r,E)=\int_{4\pi}\mathbf vn(\mathbf r,E,\mathbf\Omega)\dd\Omega=v\int_{4\pi}\hat{\mathbf\Omega}\, n(\mathbf r,E,\mathbf\Omega)\dd\Omega\label{eq:neutron_current_density}
+    \end{equation}
+    \item Since the integral in \eqref{eq:neutron_current_density} is performed over all direction, which yields a vector that points in a particular direction. The direction of $\mathbf J$ represents the direction of \redbf{net} neutron flow.
+    \item We can specify a unit vector $\hat n$ that is normal to $\dd A,$ then $\mathbf J\cdot\hat n\dd A$ is the net number of neutrons crossing the surface $\dd A$ per unit energy and unit time.
 \end{itemize}
 \end{document}
