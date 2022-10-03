@@ -167,14 +167,69 @@ Given any pair of circles/lines, there is a fractional linear transformation tak
         \overline{\partialderivative{f}{\bar z}}&=\frac{1}{2}\left(\partialderivative{\bar f}{x}-i\partialderivative{\bar f}{y}\right)=\partialderivative{\bar f}{z}\\
     \end{align}
     \begin{lemma}
-        If $f(z)$ is holomorphic in a connected open set and $f'(z)=0$ (identically), then $f$ is constant.
+        If $f(z)$ is holomorphic in a connected open set $\Omega$ and $f'(z)=0$ in $\Omega$, then $f$ is constant.
         \begin{proof}
             \begin{equation}
                 \dd f=\underbrace{\partialderivative{f}{z}}_{0}\dd z+\underbrace{\partialderivative{f}{\bar z}}_{0\text{ holomorphic}}\dd\bar z=0
             \end{equation}
         \end{proof}
     \end{lemma}
+    \begin{proposition}
+        Given $f(z)$ is holomorphic in a connected open set $\Omega$, then
+        \begin{enumerate}
+            \item If $|f(z)$ is constant, then $f(z)$ is constant.
+            \item If $\Re(f(z))$ is constant, then $f(z)$ is real.
+        \end{enumerate}
+        \begin{proof}
+            \begin{enumerate}
+                \item $|f(z)|^2=f(z)\overline{f(z)}$ is constant, so \begin{align}
+                    0=\partialderivative{|f|^2}{z}=\partialderivative{f}{z}\bar f+f\cancel{\partialderivative{\bar f}{z}}=\partialderivative{f}{z}\bar z
+                \end{align}
+                so either $\bar f=0$ so $f=0$ thus $f$ is constant or $\partialderivative{f}{z}=0$ so $f$ is constant.
+                \item $\Re(f)=f+\bar f$ is constant, so \begin{align}
+                    0=\partialderivative{(f+\bar f)}{z}=\partialderivative{f}{z}+\cancel{\partialderivative{\bar f}{z}}=\partialderivative{f}{z}
+                \end{align}
+                so $\partialderivative{f}{z}=0$ and $f$ is constant.
+            \end{enumerate}
+        \end{proof}
+    \end{proposition}
 \end{itemize}
+\subsection{Mapping Properties}
+Suppose $f$ is holomorphic at some point $z_0.$ The \bluebf{tangent mapping} of $f$ at $z_0$ is \begin{equation}
+    w=f(z_0)+f'(z_0)(z-z_0),
+\end{equation}
+if $f'(z)\neq 0, $ then the tangent mapping preserves angles and their orientation. \begin{definition}[Conformal Mapping]
+    A mapping $f$ is \textbf{conformal} if $f$ is holomorphic and $f'(z_0)\neq 0$. i.e. if $f$ preserves angles and orientation.
+\end{definition}
+\begin{lemma}
+    A $\R$-linear transformation $\C\to\C$ which preserves angles is of the form either $w=cz$ or $w=c\bar z.$
+\end{lemma}
+Consider $w=f(z)$ in a connected open set $\Omega.$ If $f$ is treated as a function from $\R^2\to\R^2$ has $\det f'\neq0$ in $\Omega.$
+
+If $f$ preserves angles at every point in $\Omega,$ then $\partialderivative{f}{z}=0$ or $\partialderivative{f}{\bar z}=0.$ They cannot be both zero at the same point, as otherwise $\det f'=0$ at that point. As $f\in C^1,$ the partial derivatives are continuous. This means $\{z\in\Omega|\partialderivative{f}{z}=0\},\{z\in\Omega|\partialderivative{f}{\bar z}=0\}$ are disjoint sets, and their union is $\Omega.$ Since $\Omega$ is connected, one of them must be empty.
+
+So, either $\partialderivative{f}{\bar z}=0$ throughout $\Omega\implies f$ is holomorphic, or $\partialderivative{f}{\bar z}=0$ throughout $\Omega\implies f$ is anti-holomorphic.
+
+\begin{theorem}
+    $f$ preserves angles at every point in $\Omega\iff f$ is either holomorphic or anti-holomorphic in $\Omega.$
+\end{theorem}
+
+\begin{theorem}[Inverse Function]
+    Suppose $f$ is holomorphic in a neighborhood of $z_0$ and $f'(z_0)\neq0.$ Then there are neighborhoods $U$ of $z_0$ and $V$ of $w_0=f(z_0)$ such that $f$ maps $U$ \bluebf{onto} $V,$ with an inverse $z=g(w)$ which is holomorphic in $V.$ And,\begin{align}
+        g'(w)=\frac{1}{f'(z)}.
+    \end{align}
+    \begin{proof}[Proof (to be completed later)] We will use the fact that partial derivatives of holomorphic functions are continuous, which we will prove later.
+
+    If $f'(z)=\begin{pmatrix}
+        a&-b\\
+        b&a
+    \end{pmatrix}$
+    and $g'$ is the inverse, then $g'(w)=\frac{1}{a^2+b^2}\begin{pmatrix}
+        a&b\\
+        -b&a
+    \end{pmatrix},$ so $g$ satisfies the cauchy riemann equations and $g$ is holomorphic.
+    \end{proof}
+\end{theorem}
 
 
 \end{document}

@@ -549,10 +549,83 @@ We should select splitter $s$ uniformly at random.
         \end{algorithmic}
     \end{enumerate}
 \end{itemize}
+
+\subsection{Edit Distance}
+\begin{itemize}
+    \item Input of two strings of $X=x_1,\dots,x_m$ and $Y=y_1,\dots,y_n$. An ``operation'' is defined as a deletion of a character, or replacement of a character with another character.
+    \item Some applications are spelling correction, DNA sequencing, plagiarism detection, etc.
+    \item We will solve a generalization of the edit distance problem. We will allow the cost of each operation to be different. So, we will also have as input \begin{itemize}
+        \item Cost $d(a)$ of deleting a character $a$.
+        \item Cost $r(a,b)$ of replacing a character $a$ with a character $b$ with $r(a,b)=r(b,a)$ and the triangle inequality $r(a,c)\leq r(a,b)+r(b,c)$ holds for any $b.$
+    \end{itemize}
+    We would try to find the minimum total cost for matching $X$ and $Y.$
+    \item Sometimes it is helpful to think of if you have the optimal solution, what is the last operation that was performed? Here, consider the last symbols $x_m$ and $y_n.$ There are three cases:
+    \begin{enumerate}[label=(Case \Alph*)]
+        \item Deleting $x_m$ and optimally match $x_1,\dots,x_{m-1}$ with $y_1,\dots,y_n.$
+        \item Deleting $y_n$ and optimally match $x_1,\dots,x_m$ with $y_1,\dots,y_{n-1}.$
+        \item Match $x_m$ with $y_n$ and optimally match $x_1,\dots,x_{m-1}$ with $y_1,\dots,y_{n-1}.$
+    \end{enumerate}
+    \item Let $E(i,j)$ be the edit distance between $x_1,\dots,x_i$ and $y_1,\dots,y_j.$ Then, the Bellman equation is \begin{align}
+        A&=E(i-1,j)+d(x_i)\\
+        B&=E(i,j-1)+d(y_j)\\
+        C&=E(i-1,j-1)+r(x_i,y_j)\\
+        E(i,j)&=\begin{cases}
+            \min\{A,B,C\}&\text{if $i,j>0$}\\
+            \sum_{k=1}^i d(x_k)&\text{if $i>0$ and $j=0$}\\
+            \sum_{k=1}^j d(y_k)&\text{if $j>0$ and $i=0$}\\
+            0&\text{if $i=j=0$}
+        \end{cases}
+    \end{align}
+    \item \redbf{Make sure to remember the base cases!}\begin{algorithmic}[1]
+        \Procedure {EditDistance}{$X,Y,d,r$}
+        \State Let $E$ be an array of size $(m+1)\times(n+1)$ indexed from $0.$
+        \State $E(0,0)\gets 0$
+        \For{$i=1$ to $m$}
+            \State $E(i,0)\gets E(i-1,0)+d(x_i)$
+        \EndFor
+        \For{$j=1$ to $n$}
+            \State $E(0,j)\gets E(0,j-1)+d(y_j)$
+        \EndFor
+        \For{$i=1$ to $m$}
+            \For{$j=1$ to $n$}
+                \State $A\gets E(i-1,j)+d(x_i)$
+                \State $B\gets E(i,j-1)+d(y_j)$
+                \State $C\gets E(i-1,j-1)+r(x_i,y_j)$
+                \State $E(i,j)\gets \min\{A,B,C\}$
+            \EndFor
+        \EndFor
+        \State \Return $E(m,n)$
+        \EndProcedure
+    \end{algorithmic}
+    \item This algorithm is $O(mn).$ \redbf{When you need to compute an element (i.e. $E(m,n)),$ make sure its subproblems (i.e. $E(m-1,n-1),E(m,n-1),E(m-1,n)$) are computed!}
+    \item To reconstruct the edits, we can obtain \begin{algorithmic}[1]
+        \Procedure {RecoverPath}{$E,X,Y,d,r$}
+        \State $Ops\gets\emptyset$
+        \State $i\gets m; j\gets n$
+        \While{$i>0\land j>0$}
+            \If{$E(i,j)=d(x_i)+E(i-1,j)$}
+                \State $Ops\gets Ops\cup\{\text{Delete $x_i$}\}$
+                \State $i\gets i-1$
+            \EndIf
+            \If{$E(i,j)=d(y_j)+E(i,j-1)$}
+                \State $Ops\gets Ops\cup\{\text{Delete $y_j$}\}$
+                \State $j\gets j-1$
+            \EndIf
+            \If{$E(i,j)=r(x_i,y_j)+E(i-1,j-1)$}
+                \State $Ops\gets Ops\cup\{\text{Replace $x_i$ with $y_j$}\}$
+                \State $i\gets i-1$
+                \State $j\gets j-1$
+            \EndIf
+        \EndWhile
+        \EndProcedure
+    \end{algorithmic}
+    \item The recover path procedure is $O(m+n).$
+\end{itemize}
+
 \subsection{Chain Matrix Multiplication}
 \begin{itemize}
     \item Multiplying three matrices $D=ABC,$ then $D=(AB)C=A(BC).$ Although the answers are the same, the cost depends on the multiplication order.
-    \item The problem is to find the optimal order of multiplication of a chain of matrices $A_1,\dots,A_n$ and each matrix has dimension $d_{n-1}\times d_n$.
+    \item The problem is to find the optimal order of multiplication of a chain of matrices $A_1,\dots,A_n$ and each matrix has dimension $d_{n-1}\times d_n.$
 \end{itemize}
 
 

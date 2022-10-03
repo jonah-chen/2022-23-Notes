@@ -87,13 +87,66 @@
     \end{equation} We can define the \bluebf{neutron flux density} as\begin{equation}
         \mathbf\phi(\mathbf r, E,\mathbf\Omega)=n(\mathbf r, E,\mathbf\Omega)\mathbf v(\mathbf r, E,\mathbf\Omega).
     \end{equation}
-    \item The magnitude of vector flux density is the combined distance traveled by these neutrons. The \bluebf{scalar neutron flux},\begin{equation}
+    \item The magnitude of vector flux density is the combined distance traveled by these neutrons (\textbf{this is important for determining reaction rate}) is defined as the \bluebf{scalar neutron flux},\begin{equation}
         \Phi(\mathbf r,E)=\int_{4\pi}\mathbf\phi(\mathbf r, E,\mathbf\Omega)\dd\Omega=v\int_{4\pi}n(\mathbf r, E,\mathbf\Omega)\dd\Omega.
     \end{equation}
-    \item The \bluebf{neutron current density} is\begin{equation}
+    \item The \bluebf{neutron (net) current density} (\textbf{this is important for determining neutron transport}) is\begin{equation}
         \mathbf J(\mathbf r,E)=\int_{4\pi}\mathbf vn(\mathbf r,E,\mathbf\Omega)\dd\Omega=v\int_{4\pi}\hat{\mathbf\Omega}\, n(\mathbf r,E,\mathbf\Omega)\dd\Omega\label{eq:neutron_current_density}
     \end{equation}
     \item Since the integral in \eqref{eq:neutron_current_density} is performed over all direction, which yields a vector that points in a particular direction. The direction of $\mathbf J$ represents the direction of \redbf{net} neutron flow.
     \item We can specify a unit vector $\hat n$ that is normal to $\dd A,$ then $\mathbf J\cdot\hat n\dd A$ is the net number of neutrons crossing the surface $\dd A$ per unit energy and unit time.
 \end{itemize}
+
+\section{Neutron Diffusion Equation}
+\begin{itemize}
+    \item We will first try to understand how neutrons flows through an volume element $\Delta V=\Delta x\Delta y\Delta z$ within a passive medium. In a passive medium, there are two types of interactions (absorption and scattering).
+    \item For sake of simplicity, we will assume a partial current $\mathbf J=J_x\hat x.$ Due to interactions, we have \begin{equation}
+        \frac{J_x(x+\Delta x,y,z)-J_x(x,y,z)}{\Delta x}\to \partialderivative{J_x}{x}\dd V
+    \end{equation}
+    We can repeat this for the $J_y$ and $J_z$ to obtain the \bluebf{leakage} form
+    \begin{equation}
+        \dd\mathcal{L}=\mathrm{div\,}\mathbf J\dd V. \label{eq:leakage}
+    \end{equation}
+    \item At steady state, the net leakage \eqref{eq:leakage} represents a mismatch between neutron gain and loss.
+    \item The overall neutron balance in $\dd V$ becomes \begin{equation}
+        \dd\mathcal{L}=(Q-R_a)\dd V
+    \end{equation}
+    where $Q$ is the source density in \si{cm^{-3}s^{-1}} and $R_a=\Sigma_a\phi$ is the rate of absorption per unit volume.
+    \begin{equation}
+        \mathrm{div\,}\mathbf J+\Sigma_a\Phi=Q.\label{eq:neutron_balance}
+    \end{equation}
+    equation \eqref{eq:neutron_balance} is the \bluebf{neutron balance equation}.
+    \item We need an equation to relate $\mathbf J$ and $\Phi$. The most common approximation is the \bluebf{diffusion approximation}, which assumes the neutron flux (\redbf{not neutron density}) behaves like a fluid \begin{align}
+        \mathbf J(\mathbf r)=-\mathbf D(\mathbf r)\nabla\Phi(\mathbf r)\label{eq:fick}
+    \end{align}
+    \item Here, the diffusion coefficient $\mathbf D$ has the dimensions of length. This depends on spatial position because the material in the reactor is not homogeneous. The diffusion coefficient is related to the cross-sections of the medium \begin{equation}
+        D=\frac{\lambda_{tr}}{3}=\frac{1}{\Sigma_{tr}},
+    \end{equation}
+    where $\lambda_{tr}$ is the transport mean free path in \si{cm}.
+\end{itemize}
+\subsection{Transport Cross-Section}
+\begin{itemize}
+    \item The macroscopic transport cross-section is determined by the density of the medium, \begin{equation}
+        \Sigma_{tr}=N\sigma_{tr}
+    \end{equation}
+    \item The microscopic transport cross-section accounts for both absorption and inelastic scattering \begin{equation}
+        \sigma_{tr}=\sigma_a+(1-\bar\mu)\sigma_s,
+    \end{equation}
+    where $\bar\mu\approx\frac{2}{3A}$ is the average cosine of the scattering angle $\theta.$
+    \item In the center of mass frame, the scattering is isotropic, but in the lab frame it is not due to conservation of momentum. $0\leq\theta<\SI{180}{\degree}$ or $0\leq\bar\theta<\SI{90}{\degree}.$ As $\mu=\cos\theta,1\geq\mu>0.$
+    \item Typically, $\bar\mu<<1$ for heavier atoms $A>>1,$ so $\sigma_{tr}=\sigma_a+\sigma_s=\sigma_t.$ In this course, \textbf{make this approximation unless otherwise told}.
+\end{itemize}
+\subsection{Limitations of the Diffusion Approximation}
+\begin{itemize}
+    \item Underlying diffusion theory is an approximation that expresses the scattering kernel as an expression in Legendre polynomials, in which the first order term are used
+    \begin{align}
+        \Sigma_s(z,\mathbf\Omega\to\mathbf\Omega')=\Sigma_s(z,\Omega\cdot\Omega')=\frac{1}{2\pi}\sum_{l=0}^\infty\frac{2l+1}{2}P_l(\mu)\Sigma_s(z)
+    \end{align}
+    where $\mu=\cos(\mathbf\Omega\cdot\mathbf\Omega')$ and $P_l$ is the Legendre polynomial of order $l.$
+    \item This approximation is good \redbf{except}:\begin{itemize}
+        \item Near a strong source or absorber
+        \item At the boundary between two media with dissimilar neutron diffusion characteristics
+    \end{itemize}
+\end{itemize}
+
 \end{document}

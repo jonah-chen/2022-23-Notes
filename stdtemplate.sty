@@ -34,6 +34,8 @@
 \newcommand{\id}{\mathrm{id}}
 \newcommand{\inv}{^{-1}}
 
+\usepackage{bbm}
+
 % Allows for hyperlinking
 \usepackage{hyperref}
 \hypersetup{
@@ -138,14 +140,14 @@
   title=\textbf{{#1}},
 }
 
-\newtcolorbox{definition}{
+\newtcolorbox{definition}[1][]{
     one-sided-color=my-green,
-    title=\textbf{Definition},
+    title=\textbf{Definition--{#1}},
 }
 
-\newtcolorbox{theorem}{
+\newtcolorbox{theorem}[1][]{
     one-sided-color=my-blue,
-    title=\textbf{Theorem},
+    title=\textbf{Theorem--{#1}},
 }
 
 \newtcolorbox{proposition}{

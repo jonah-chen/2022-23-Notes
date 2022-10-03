@@ -97,6 +97,43 @@ Recapture the classical limit for step, smooth out the potential step.
     and its norm \begin{equation}
         |\psi|=\sqrt{\braket{\psi}{\psi}}
     \end{equation}
+    \item Note that these state vectors are now independent of the choice of basis.
+    \item Consider the momentum eigenstates $\frac{1}{\sqrt{2\pi}}e^{ikx},$ then a wave function $\psi(x)$ can be written as a linear combination of these states. \begin{equation}
+        \psi(x)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty\dd k\, g(k)e^{ikx}
+    \end{equation}
+    By the fourier transform, we can find $g(k)$ by taking the inverse transform \begin{equation}
+        g(k)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty\dd x\, \psi(x)e^{-ikx}
+    \end{equation}
+    \item The \bluebf{completeness relation} states that given any function $f(x),$ it can be written as a superposition of the given basis. They can be written as \begin{itemize}
+        \item Discrete case:\begin{equation}
+            \sum_{n=1}^N\ketbra{\phi_n}{\phi_n}=\mathbf 1
+        \end{equation}
+        \item Continuous case:\begin{equation}
+            \int\dd\mu\ketbra{\phi}{\phi}=\mathbf 1
+        \end{equation}
+    \end{itemize}
+    where $\mathbf 1$ is the identity operator.
+    \item The fourier transform generalizes to $n$ dimensions with \begin{align}
+        \psi(\mathbf r)&=\frac{1}{(2\pi)^{n/2}}\int\dd^nk\, g(\mathbf k)e^{i\mathbf k\cdot\mathbf r}\\
+        g(\mathbf k)&=\frac{1}{(2\pi)^{n/2}}\int\dd^nx\, \psi(\mathbf r)e^{-i\mathbf k\cdot\mathbf r}
+    \end{align}
+    \item We will show later that the eigenvectors to a hermitian operator forms an orthonormal basis of the state space.
+\end{itemize}
+\subsection{Dirac Notation}
+\begin{itemize}
+    \item For any $\psi(x)$ wavefunction, we can write it as $\psi(x)=\sum_n c_n\phi_n(x)$ where $\phi_n(x)$ is a set of basis. We can convey the same information with just the set of coefficients. This is like the coordinate representation of a vector.
+    \item In this light, the fourier transform is a unitary change of basis. We can show it's unitary by the fact it preserves norms.
+    \begin{align}
+        |g|^2=\int_{-\infty}^\infty\dd k\,g^*(k)g(k)&=\int_{-\infty}^\infty\dd k\int_{-\infty}^\infty\dd x\int_{-\infty}^\infty\dd x'\,\psi^*(x')e^{-ikx'}\psi(x)e^{ikx}\\
+        &=\int_{-\infty}^\infty\dd x\int_{-\infty}^\infty\dd x'\,\psi^*(x')\psi(x)\delta(x-x')\\
+        &=\int_{-\infty}^\infty\dd x\,\psi^*(x)\psi(x)=|\psi|^2
+    \end{align}
+    \item We will define the \bluebf{dual space} in the linear algebra sense, which is denoted as \bluebf{bra} vectors $\bra x.$ Then, the inner product of $\ket x$ and $\ket f$ can be written as $\braket{x}{f},$ which is the wavefunction (as that's the representation of $f$ in the position basis).
+    \begin{align}
+        \braket{x}{f}&=\int_{-\infty}^\infty\dd x'\,f(x')\braket{x}{x'}\\
+        &=\int_{-\infty}^\infty\dd x'\,f(x')\delta(x-x')\\
+        &=f(x)
+    \end{align}
 \end{itemize}
 
 \end{document}
