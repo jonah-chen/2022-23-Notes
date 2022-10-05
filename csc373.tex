@@ -622,11 +622,117 @@ We should select splitter $s$ uniformly at random.
     \item The recover path procedure is $O(m+n).$
 \end{itemize}
 
+\subsection{0-1 Knapsack}
+\begin{itemize}
+    \item The knapsack problem is: when given $n$ items, each with a value $v_i>0$ and weight $w_i>0$ and the knapsack can hold a weight $C.$ The goal is to find a subset $S$ of items with maximum total value such that the total weight of $S$ is at most $C.$
+    \item 0-1 knapsack refers to you can either take an item or not take an item, nothing in between.
+    \item Let $S$ be an optimal knapsack content for items $1,\dots,n$ and capacity $C.$
+    \item There are two possible cases for the last item $n.$\begin{enumerate}
+        \item If $n\notin S,$ then $S$ is optimal for items $1,\dots,n-1$ and capacity $C.$
+        \item If $n\in S,$ then $S$ is optimal for items $1,\dots,n-1$ and capacity $C-w_n.$
+    \end{enumerate}
+    \item The subproblems we want to solve now have two parameters $n$ and $C,$ with $K(i,c)$ being the value of the optimal knapsack for $1,\dots,i$ and capacity $c.$
+    \item The bellman equation is \begin{align}
+        K(i,c)&=\begin{cases}
+            0&\text{if $i=0$ or $c=0$}\\
+            K(i-1,c)&\text{if $w_i>c$}\\
+            \max\{K(i-1,c),K(i-1,c-w_i)+v_i\}&\text{if $w_i\leq c$}
+        \end{cases}
+    \end{align}
+    \item We need to compute this by $0$ to $C$ first, then $0$ to $n.$
+    \begin{algorithmic}[1]
+        \Procedure{Knapsack}{$n,C,w,v$}
+        \State For $c=0$ to $C$ do $K(0,c)\gets 0$\Comment{no items}
+        \State For $i=0$ to $n$ do $K(i,0)\gets 0$\Comment{no capacity}
+        \For{$i=1$ to $n$}
+            \For{$c=1$ to $C$}
+                \If{$c<w_i$}\Comment{item $i$ is too heavy}
+                    \State $K(i,c)\gets K(i-1,c)$
+                \Else\Comment{item $i$ can fit, take it or not}
+                    \State $K(i,c)\gets \max\{K(i-1,c),K(i-1,c-w_i)+v_i\}$
+                \EndIf
+            \EndFor
+        \EndFor
+        \State \Return $K(n,C)$
+        \EndProcedure
+    \end{algorithmic}
+    \item To find $S,$ we can backtrack from $K(n,C)$ to $K(0,0).$ \begin{algorithmic}[1]
+        \Procedure{RecoverKnapsack}{$K,n,C,w,v$}
+        \State $S\gets\emptyset;c\gets C;i\gets n$
+        \While{$i>0$ and $c>0$}
+            \If{$K(i,c)=K(i-1,c)$}\Comment{item $i$ is not in $S$}
+                \State $i\gets i-1$
+            \Else
+                \State $S\gets S\cup\{i\}$
+                \State $c\gets c-w_i$
+                \State $i\gets i-1$
+            \EndIf
+        \EndWhile
+        \State \Return $S$
+        \EndProcedure
+    \end{algorithmic}
+    \item The time complexity is $O(nC).$ The space complexity is also $O(nC).$
+    \item Question: is the running time polynomial in the \underline{input size}? \redbf{No!} because the number $C$ is \redbf{exponential in the number of bits} used to represent the input.
+    \item This is \bluebf{pseudo-polynomial} because it is polynomial in the input values, not input size.
+    \item The problem is NP-hard.
+\end{itemize}
+\subsubsection{Large Knapsack, Small Items}
+\begin{itemize}
+    \item Consider that instead of $C,w_1,\dots,w_n$ being small, we were told $v_1,\dots,v_n$ are small. Can we solve this problem in $O(nV)$ where $V=\sum v_i.$ Yes, with a different dynamic programming algorithm.
+    \item Define our subproblems $K(i,v)$ to be the minimum capacity of a knapsack that can hold a total value of at least $v$ using items $1,\dots,i.$
+    \item For item $i,$ either we should take $i$ to obtain value $v$ or we should not take $i.$
+    \begin{itemize}
+        \item If we do not choose $i,$ we need $K(i-1,v)$ capacity.
+        \item If we do choose $i,$ we need $K(i-1,v-v_i)$ capacity.
+    \end{itemize}
+    \item The Bellman equation is \begin{align}
+        K(i,v)&=\begin{cases}
+            0&\text{if $v\leq0$}\\
+            \infty&\text{if $v>0,i=0$}\\
+            \min\{K(i-1,v),K(i-1,v-v_i)+w_i\}&\text{if $v>0,i>0$}
+        \end{cases}
+    \end{align}
+    \item We should compute this array from $0$ to $V$ first, then $0$ to $n.$
+\end{itemize}
+\subsubsection{Approximation Algorithms}
+\begin{itemize}
+    \item Unless $P=NP,$ we cannot hope to solve knapsack in $O(poly(n,\log C,\log V)).$
+    \item We can find a good approximate solution in polynomial time. $\forall\varepsilon>0$ we can get a solution that is at least $(1-\varepsilon)$-optimal, in time $O(poly(n,\log C,\log V,1/\varepsilon)).$
+\end{itemize}
+
 \subsection{Chain Matrix Multiplication}
 \begin{itemize}
     \item Multiplying three matrices $D=ABC,$ then $D=(AB)C=A(BC).$ Although the answers are the same, the cost depends on the multiplication order.
-    \item The problem is to find the optimal order of multiplication of a chain of matrices $A_1,\dots,A_n$ and each matrix has dimension $d_{n-1}\times d_n.$
+    \item The problem is to find the optimal order of multiplication of a chain of matrices $A_1,\dots,A_n$ and each matrix has dimension $d_{i-1}\times d_i.$
+    \item To multiply a $p\times q$ matrix by a $q\times r$ matrix, we obtain a $p\times r$ matrix with $pqr$ multiplications
+    \item We define $m(i,j)$ as the minimum number of multiplication to compute $A_i\cdot A_{i+1}\cdot\cdots\cdot A_j.$
+    \item Try all the ways to put the outer-level parentheses, then compute \begin{align}
+        m(i,j)&=\begin{cases}
+            0&\text{if $i=j$}\\
+            \min_{i\leq k<j}\{m(i,k)+m(k+1,j)+d_{i-1}d_kd_j\}&\text{if $i<j$}
+        \end{cases}
+    \end{align}
+    \item The naive recursive procedure takes $T(n)=\sum_{k=1}^{n-1}T(k)+T(n-k)+c.$ We can notice that both terms of the sum occur twice so simplify to \begin{align}
+        T(n)&=2\sum_{k=1}^{n-1}T(k)+(n-1)c\\
+        T(n+1)&=2\sum_{k=1}^{n-1}T(k)+n\\
+        T(n+1)-T(n)&=2T(n)+c\\
+        T(n+1)&=3T(n)+c\\
+        T(n)&=\Theta(3^n)
+    \end{align}
+    \item This does not work. We can use dynamic programming to solve this problem in $O(n^3).$ We will compute from the bottom up, starting from chains of length $1$ to chains of length $n.$ \begin{algorithmic}[1]
+        \Procedure{MatrixChainOrder}{$d_1,\dots,d_n$}
+        \For{$i\gets 1$ to $n$}
+            \State $m(i,i)\gets 0$
+        \EndFor
+        \For{$l\gets 1$ to $n-1$}
+            \For{$i\gets 1$ to $n-l$}
+                \State $j\gets i+l$
+                \State $m(i,j)\gets\min_{i\leq k<j}\{m(i,k)+m(k+1,j)+d_{i-1}d_kd_j\}$
+            \EndFor
+        \EndFor
+        \State \Return $m(1,n)$
+        \EndProcedure
+    \end{algorithmic}
 \end{itemize}
-
 
 \end{document}

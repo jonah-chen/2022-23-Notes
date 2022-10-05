@@ -231,5 +231,92 @@ So, either $\partialderivative{f}{\bar z}=0$ throughout $\Omega\implies f$ is ho
     \end{proof}
 \end{theorem}
 
+\section{Power Series}
+\begin{itemize}
+    \item A complex power series $f(w)=\sum_{n=0}^\infty a_nw^n.$ Note that $w$ is not a complex number, it's just a symbol. Complex power series means $a_n\in\C.$
+    \item Suppose we have another power series $g(z)=\sum_{p=0}^\infty b_pz^p.$ We want to compose \begin{align}
+        (f\circ g)(z)=a_0+a_1(b_0+b_1z+\cdots)+a_2(b_0+b_1z+\cdots)^2+\cdots
+    \end{align} 
+    \item First we need to ask if this even make sense? The answer is yes if $b_0=0.$ However, in calculus every formal power series is the taylor series of some $C^\infty$ functions, which can be composed. So why do we have this restriction?
+    \item Consider taylor series of $f(g(z))$ at $z=z_0.$ Let $w_0=g(z_0)$ and the taylor series at $w_0$ is \begin{align}
+        f(w)=\sum_{n=0}^\infty a_n(w-w_0)^n.
+    \end{align}
+    Then we replace $w$ with the taylor series for $g$ at $z_0,$ with $b_0=w_0$ so these does not have constant term.
+\end{itemize}
+\begin{definition}[Formal Derivative]
+    We define $f(0)=a_0$ and the \bluebf{formal derivative} of $f(w)$ as \begin{align}
+        f'(w)=\sum_{n=1}^\infty na_nw^{n-1}.
+    \end{align}
+\end{definition}
+\begin{theorem}[Formal inverse function]
+    Given formal power series $f(w)=\sum_{n=0}^\infty a_nw^n.$ There is a power series $g(z)=\sum_{p=0}^\infty b_pz^p$ such that $b_0=0$ and $f\circ g=\mathrm{id}$ where $\mathrm{id}(z)=z$ \redbf{iff} $f(0)=0,f'(0)\neq0.$ In that case $g$ is uniquely determined by $f$ and $g\circ f=\mathrm{id}$ also.
+    \begin{proof}[Proof by method of undetermined coefficients]
+        We are trying to solve \begin{align}
+            a_0+a_1(b_1z+b_2z^2+\cdots)+a_2(b_1z+b_2z^2+\cdots)^2+\cdots=z.
+        \end{align}
+        We know right away that $a_0=0$ and $a_1b_1=1.$ so we know that $a_0=0$ and $a_1\neq=$ are necessary conditions. Conversely, they are sufficient to solve for \bluebf{unique} coefficients of $g$.
+
+        The coefficient of $z^n$ on the LHS is the same as the coefficient of $z^n$ in \begin{align}
+            \cancel{a_0}+a_1g(z)+\cdots+a_ng(z)^n=a_1b_n+P(a_2,\dots,a_n,b_1,\dots,b_{n-1}).
+        \end{align}
+        And $b_1=1/a_1,$ thus $b_n$ can be calculated recursively.
+
+        Since $g(0)=0$ and $g'(0)\neq0,$ there is a unique formal power series $f_1(w)$ s.t. $g\circ f_1=\mathrm{id}.$\begin{align}
+            f_1=\mathrm{id}\circ f_1=(f\circ g)\circ f_1=f\circ(g\circ f_1)=f
+        \end{align}
+    \end{proof}
+\end{theorem}
+\begin{proposition}
+    If $f=\sum_{n=0}^\infty a_nw^n$ and $g=\sum_{p=0}^\infty b_pw^p$ are convergent power series, then $f\circ g$ is also convergent. In fact, take $r>0$ s.t. $\sum_{p=1}^\infty|b_p|r^p<R(f)$ the radius convergence of $f.$ Then,\begin{enumerate}[label=(\arabic*)]
+        \item $R(f\circ g)\geq r$
+        \item If $|z|<r$ then $|g(z)<R(f).$
+        \item $f(g(z))=(f\circ g)(z)$ (by rearrangement of absolute convergent series) where RHS is formal power series composition and LHS is substituting the value of $g(z)$ into $f.$
+    \end{enumerate}
+    \begin{proof}[Proof of (1)]
+        \begin{align}
+            \sum_{n=0}^\infty|a_n|\left(\sum_{p=1}^\infty|b_p|r^p\right)^n=:\sum_{k=0}^\infty\gamma_kr^k<\infty
+        \end{align}
+        Say $(f\circ g)(z)=\sum c_kz^k.$ By triangle inequality, $|c_k|\leq\gamma_k.$ As $\sum\gamma_kr^k<\infty,$ then $\sum c_k\gamma^k$ is convergent.
+    \end{proof}
+\end{proposition}
+\begin{theorem}[Reciprocal] 
+    If $f(z)=\sum_{n=0}^\infty a_nz^n$ and $a_0\neq0$ then there is an unique power series $g(z)$ s.t. $f(z)=g(z)=1.$ If $f$ has a positive radius of convergence, then so does $z.$
+    \begin{proof}
+        As $a_0\neq0,$ then WLOG $a_0=1.$ Write $f(z)=1-h(z)$ then \begin{align}
+            f(z)\inv=(1-h(z))\inv=1+\sum_{n=1}^\infty w^n\quad \text{where }w=h(z).
+        \end{align}
+    \end{proof}
+\end{theorem}
+\begin{theorem}[Inverse function for convergent power series]
+    In the previous statement, if $f(w)$ has a positive radius of convergence, then so does $g(z).$
+    \begin{proof}
+        By direct estimate OR follows from inverse function theorem for holomorphic functions once we know holomorphic function has infinite taylor series that converges.
+    \end{proof}
+\end{theorem}
+
+\subsection{Logarithmic Function}
+\begin{itemize}
+    \item The principal branch of $\log z$ is defined on the largest simply connected set that does not contain zero, which we will choose $\C\setminus(-\infty,0].$ In this domain, there is a unique value of $\arg z\in(-\pi,\pi),$ we will call it $\mathrm{Arg}(z).$
+    \item We can show that this is continuous by showing it is continuous on $S'\setminus\{-1\}.$ We can show this by its the fact its inverse $z=e^{i\theta}$ is continuous on $[-(\pi-\epsilon),\pi+\epsilon]$ hence the it's the inverse of an bijection on compact hausdorff space.
+    \item The principal branch of $\log z$ is defined as $\log|z|+i\mathrm{Arg}\,z,$ which is continuous on its entire domain $\C\setminus(-\infty,0].$ Note that this is equal to the real logarithm if $z\in\R.$
+    \begin{proposition}
+        The power series $f(z)=\sum_{n=1}^\infty(-1)^{n+1}\frac{z^n}{n}$ converges if $|z|<1$ and the sum is equal to the principal branch of $\log(1+z).$ \begin{proof}
+            The power series $f(z)$ and $g(w)=\sum_{n=1}^\infty\frac{w^n}{n!}=e^w-1$ are inverses. The proof is by MAT157 since the coefficients here are all real with $g(f(z))=z$ when $|z|<1$.
+
+            We also know that $e^{f(z)}=1+z$ and it's the principal branch because $f(0)=\log 1=0$
+        \end{proof}
+    \end{proposition}
+    \begin{definition}[Power]
+        \begin{align}
+            z^\alpha=e^{\alpha\log z}
+        \end{align}
+        where $\alpha\in\C,z\neq0.$ Note that for fixed $\alpha,\: z^\alpha$ is a many-valued function of $z.$ This has a branch in any \bluebf{domain} (connected open subset of $\C$) where $\log$ has a branch. \redbf{Any} branch of $\log z$ in $\Omega$ defines a branch of $z^\alpha.$
+    \end{definition}
+    \begin{itemize}
+        \item e.g. The \bluebf{binomial series} $(1+z)^\alpha=e^{\alpha\log(1+z)}$ and its power series expansion in $|z|<1$ is $\sum\binom{\alpha}{n}z^n.$
+    \end{itemize}
+\end{itemize}
+
+
 
 \end{document}
