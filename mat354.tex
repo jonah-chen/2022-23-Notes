@@ -317,6 +317,154 @@ So, either $\partialderivative{f}{\bar z}=0$ throughout $\Omega\implies f$ is ho
     \end{itemize}
 \end{itemize}
 
+Mapping Properties of Holomorphic Functions
+\begin{itemize}
+    \item $w=z^\alpha$ for real, positive $\alpha$ maps angles $\theta$ to an angle $\alpha\theta.$
+    \item In general $z^\alpha$ is not 1-1 if $\alpha\neq1,$ and is multi-valued if $\alpha$ is fractional.
+    \item Often, we will use a branched covering (mapping $X\to\C$) so we can have a single valued branch. Consider the multi-valued function $w=z^{1/2}.$ Consider \begin{align}
+        X=\{(z,w)\in\C^2|z=w^2\}
+    \end{align}
+    $X$ is a manifold (it is a graph of a continuous function) with local coordinate $w.$
+    \item This multi-valued function $w=z^{1/2}$ lifts to a single valued $(w,z)\mapsto w$ by the covering surface $X.$ $X$ is an example of a \bluebf{Riemann surface}.
+\end{itemize}
+
+Consider a mapping that takes the upper half plane $H^+=\{z\in\C|\Im(z)>0\},$ and consider the mapping that takes $H^+\to D=\{z\in\C|z|<1\},$ We can use a fractional linear transformation \begin{align}
+    w=\frac{z-i}{z+i}
+\end{align}
+this takes $i\mapsto0.$ We also know that it maps $\R$ to $S^1$ as we can pick three points $0,1,\infty\in\R$ and we know $0\mapsto-1.$ We know this preserves orientations so $1\mapsto-i$ and $\infty\mapsto1.$
+
+Now, we want to find a conformal mapping of a circular wedge onto $D$ or $H^+.$
+
+If  circular wedge is formed by two circles intersecting in $a$ and $b,$ first use a fractional linear transformation $\zeta=\frac{z-a}{z-b}$ to map $a\mapsto0$ and $b\mapsto\infty.$ This takes the two circles into rays. Then, we can rotate the region by multiplying a complex number $e^{i\theta}$ and then change the angle by taking $w=e^{i\theta}\zeta^\alpha$ for some power $\alpha.$
+
+In the case they are degenerate, and only intersect at $a,$ we take $\zeta=\frac{1}{z-a}$ which leads to two parallel lines. Then we can rotate and stretch it so that they become the real line and the line $\Im(z)=\pi,$ then $\exp$ will map it to the upper half plane.
+
+\textbf{Exercise:} Find a conformal mapping that takes the complement of the line segment to the interior (or exterior) of the unit disk. We will apply \begin{equation}
+    z_1=\frac{z-1}{z+1}
+\end{equation}
+will map the interval $[-1,1]$ to $(-\infty,0].$ Then we can apply \begin{align}
+    z_2=z_1^{1/2}
+\end{align}
+This maps the set to the right half plane. Finally, \begin{align}
+    w=\frac{z_2-1}{z_2+1}=z-\sqrt{z^2-1}
+\end{align}
+will map the right half plane into the interior of the unit disk (flipping the fraction maps to exterior). Check which branch of square root we need to use? Finally, show that $z=\frac{1}{2}(w+1/w)$
+
+\subsection{Mapping Properties of $\exp$ and $\log$}
+\begin{itemize}
+    \item We know that $w=e^z$ is periodic with period $2\pi i,$\begin{align}
+        e^z=e^xe^{iy}\\
+        &=e^x(\cos y+i\sin y)\\
+    \end{align}
+    \item The exponential maps a vertical line to circle about $0,$ a horizontal line to a ray through $0,$ and any other line to a logarithmic spiral.
+    \item The exponential is not injective. To make it single-valued, we need to restrict its domain. The image of $e^z$ on $a<\Im z<b$ is a wedge in the complex plane $a<\arg w<b.$
+    \item The logarithm is clearly multi-valued. Can we construct a riemann surface for $w=\log z$?
+    \begin{tikzcd}  
+    X \arrow[d,"\text{covering}"] \arrow[r, "\text{single value}"] & \C \\
+    \C \arrow[ru,"\log z"] &
+    \end{tikzcd}
+    Let $X=\{(z,w)\in\C^2|z=e^w\}$ then again the single-valued function $(w,z)\to w$ is singled valued.
+\end{itemize}
+Now we can try to map the open strip $-i\pi/2<\Im(z)<i\pi/2$ to the unit disk. First we use $\zeta=e^z$ to map to the right half plane, then $w=\frac{\zeta-1}{\zeta+1}.$
+\section{Analytic functions}
+\begin{definition}[Analytic Function]
+    A function $f$ is \bluebf{analytic} in an open set $\Omega$ if it has a convergent power series representation at every point $z_0\in\Omega.$
+
+    i.e. $\forall\,z_0\in\Omega$ there is a power series $\sum a_n(z-z_0)^n$ such that $f(z)=\sum a_n(z-z_0)^n$ when $|z-z_0|<R$ for some $R>0.$
+\end{definition}
+\begin{itemize}
+    \item If $f(z)$ has convergent power series representation at $z_0,$ then there is a convergent power series $g(z)$ at $z_0$ such that $g'(z)=f(z)$ in some disk $|z-z_0|<R,$ where $R$ is the radius of convergence of $f.$ We know \begin{align}
+        f(z)&=\sum_{n=0}^\infty a_n(z-z_0)^n\\
+        g(z)&=c+\sum_{n=0}^\infty\frac{a_n}{n+1}(z-z_0)^{n+1}\\
+    \end{align}
+    The primitive is uniquely determined up to a constant.
+    \item \textbf{Question:} Does a convergent power series define an analytic function?
+    \begin{proposition}
+        If $f(z)=\sum a_nz^n$ is a convergent power series with radius of convergence $R,$ then $f(z)$ is analytic in $|z|<R.$
+        \begin{proof}
+            Note what we need to show. For any $z_0$ with $|z_0|<R,$ then $f(z)$ has convergent power series representation at $z_0$ with radius of convergence $R-|z_0|.$\begin{align}
+                f(z)&=\sum a_nz^n\\
+                &=\sum a_n(z_0+(z-z_0))^n\\
+                &=\sum_{n=0}^\infty a_n\sum_{k=0}^n\binom{n}{k}z_0^{n-k}(z-z_0)^k
+            \end{align}
+            Note that if we take \begin{align}
+                \sum_{n=0}^\infty|a_n|\left(|z_0|+|z-z_0|\right)^n&=\sum_{n=0}^\infty|a_n|\sum_{k=0}^n\binom{n}{k}|z_0|^{n-k}|z-z_0|^k
+            \end{align}
+            We know this series is absolutely convergent. So we can change the order of summation  to conclude \begin{align}
+                f(z)=\sum_{k=0}^\infty\left(\sum_{n=k}^\infty a_n\binom{n}{k}z_0^{n-k}\right)(z-z_0)^k
+            \end{align}
+        \end{proof}
+    \end{proposition}
+    \item We notice that the inner sum\begin{align}
+        \frac{1}{k!}f^{(k)}(z_0)=\sum_{n=k}^\infty a_n\binom{n}{k}z_0^{n-k}
+    \end{align} is the $k$th derivative of $f$ at $z_0,$ so $f$ is holomorphic.
+\end{itemize}
+\subsection{Analytic Continuation}
+\begin{theorem}
+    Given $f(z)$ is analytic in a domain $\Omega$ and $z_0\in\Omega,$ then the following are equivalent\begin{enumerate}
+        \item $f^{(n)}(z_0)=0$ for all $n\geq 0.$
+        \item $f$ is identically $0$ in a neighborhood of $z_0.$
+        \item $f$ is identically $0$ in $\Omega.$
+    \end{enumerate}
+    \begin{proof}
+        $(3)\implies(1)$ is trivial, $(1)\implies(2)$ can be shown from the convergent power series representation of $f$ at $z_0$ (as the coefficient are the derivatives).
+        
+        To show $(2)\implies(3)$, we define \begin{align}
+            \Omega'=\{z\in\Omega|f=0\text{ in a neighborhood of }z\text{ in }\Omega\}.
+        \end{align}
+        Clearly $\Omega'\neq\emptyset$ because $z_0\in\Omega.$
+
+        $\Omega'$ is open by definition.
+
+        $\Omega'$ is also closed. Take $z\in\overline{\Omega'}.$ Then, $f^{(n)}(z)=0$ for all $n\geq 0$ by continuity. Then $f=0$ in a neighborhood of $z,$ by $(1)\implies(2).$ So $z\in\Omega'.$ thus $\Omega'$ is closed. 
+
+        Hence, $\Omega=\Omega'.$
+    \end{proof}
+    \begin{corollary}
+        \begin{enumerate}
+            \item If $f,g$ are analytic in domain $\Omega$ and $f=g$ in a neighborhood of some point then $f=g$ in $\Omega.$
+            \item The ring $\mathcal A(\Omega)$ if analytic functions in a domain $\Omega$ is an \bluebf{integral domain}.
+        \end{enumerate}
+        \begin{proof}
+            The proof of $(1)$ is trivial using $h=f-g.$ For $(2),$ suppose $f,g\in\mathcal{A}(\Omega)$ and $fg=0.$ Suppose $f\neq0$ then there is $z_0$ s.t. $f$ is non-vanishing in a neighborhood in a neighborhood $U$ of $z_0.$ So $g=0$ in $U$ hence $g=0$ in $\Omega.$
+        \end{proof}
+    \end{corollary}
+\end{theorem}
+\begin{itemize}
+    \item Integral domains are good, but it is better to work with fields. Hence, we will now analyze the zeros and poles.
+    \item Consider $f$ is analytic in a neighborhood of $z_0.$ Then $f(z)=\sum a_n(z-z_0)^n$ is a convergent power series with radius of convergence $R.$ Suppose $f(z_0)=0$ but $f\neq0.$
+    \item Let $k$ be the smallest integer s.t. $f^{(k)}(z_0)\neq0$ (i.e. $a_k\neq0$) Then, we define $g$ s.t. $f(z)=(z-z_0)^kg(z).$ Then, \begin{align}
+        g(z)=\sum_{n=k}^\infty a_n(z-z_0)^{n-k}
+    \end{align}
+    \item $k$ is the \bluebf{order} or \bluebf{multiplicity} of the zero at $z_0,$ characterized by $f^{(k)}(z_0)\neq0,$ but $f^{(j)}(z_0)=0$ for $j<k.$
+    \item This shows the zero is \bluebf{isolated} meaning $f(z)\neq0$ in $0<|z-z_0|<\epsilon$ for any $\epsilon>0.$
+    \item If we make a local change of variable near $z,$\begin{align}
+        \zeta=(z-z_0)g(z)^{1/k}.
+    \end{align}
+    This is a change of coordinates because its derivative is nonzero. Then, $f(z(\zeta))=\zeta^k.$
+    \item We now consider the quotients of analytic functions $f(z)/g(z)$ where $g$ is not identically zero. $f(z)/g(z)$ is well-defined and analytic in a neighborhood of $z_0$ if and only if $g(z)$ is analytic in a neighborhood of $z_0$ where $g(z_0)\neq0.$
+    \item What if $g(z_0)=0$? We can try to factor out terms of $z-z_0$ so that $f_1(z_0)\neq0$ and $g_1(z_0)\neq0$ and\begin{align}
+        f(z)&=(z-z_0)^k f_1(z)\\
+        g(z)&=(z-z_0)^l g_1(z)
+    \end{align}
+    Then \begin{align}
+        \frac{f(z)}{g(z)}=(z-z_0)^{k-l}\frac{f_1(z)}{g_1(z)}
+    \end{align}
+    We know that $f_1(z)/g_1(z)$ is analytic and nowhere vanishing in a neighborhood of $z_0.$ There are two cases \begin{itemize}
+        \item $k\geq l$ then $f/g$ extends to be analytic at $z_0.$
+        \item $k<l$ then $z_0$ is a \bluebf{pole} of $f/g$ of \bluebf{order} $l-k.$ Then, \begin{align}
+            \left|\frac{f(z)}{g(z)}\right|\to\infty\text{ as }z\to z_0,
+        \end{align}
+        so $f/g$ still make sense as a function with values in the Riemann sphere.
+    \end{itemize} 
+\end{itemize}
+\begin{definition}[Meromorphic Function]
+    In an open set $\Omega,$ a \bluebf{meromorphic function} is well-defined and analytic in $\Omega\setminus D$ where $D$ is a discrete set, and expressible at in a neighborhood of any point of $\Omega$ as the quotient $f/g$ with $g$ is not identically zero. 
+\end{definition}
+\begin{itemize}
+    \item Meromorphic functions in domain $\Omega$ form a \textbf{field}.
+    \item \textbf{Exercise:} If $f(z)$ is meromorphic in $\Omega,$ then $f'(z)$ is also meromorphic in $\Omega$ with the same poles as $f.$ If $z_0$ is a pole of order $k$ of $f(z)$ then $z_0$ is a pole of order $k+1$ of $f'(z)$.
+\end{itemize}
 
 
 \end{document}

@@ -148,5 +148,66 @@
         \item At the boundary between two media with dissimilar neutron diffusion characteristics
     \end{itemize}
 \end{itemize}
+\subsection{Equation and Boundary Conditions}
+\begin{itemize}
+    \item Combining the diffusion approximation with the neutron balance equation, we obtain the \bluebf{neutron diffusion equation} \begin{equation}
+        (\mathrm{div}(D\nabla)+\Sigma_a)\Phi=Q
+    \end{equation}
+    \item A reactor core is modelled composed of numerous homogeneous regions in which this dependence on $\mathbf D$ vanishes. Then, this reduces to \begin{equation}
+        (-D\Delta+\Sigma_a)\Phi=Q
+    \end{equation}
+    \item The net current at a plane $x=b$ inside a homogeneous material region in a slab reactor consists of two contributions\begin{align}
+        J_+(b)&=\frac{\Phi(b)}{4}-\frac{D}{2}\derivative{\Phi}{x}(b)\\
+        J_-(b)&=\frac{\Phi(b)}{4}+\frac{D}{2}\derivative{\Phi}{x}(b)
+    \end{align}
+    \item These equations yield the net current at $x=b$ which agrees with Fick's law.
+    \item Since neutrons leaving one region must enter the other, the additional boundary conditions are\begin{align}
+        J_+^A(b)=J_+^B(b)\\
+        J_-^A(b)=J_-^B(b)
+    \end{align}
+    Then substituting the values for $J,$ we obtain \begin{align}
+        \frac{\Phi_A(b)}{4}-\frac{D_A}{2}\derivative{\Phi_A}{x}(b)=\frac{\Phi_B(b)}{4}-\frac{D_B}{2}\derivative{\Phi_B}{x}(b)\\
+        \frac{\Phi_A(b)}{4}+\frac{D_A}{2}\derivative{\Phi_A}{x}(b)=\frac{\Phi_B(b)}{4}+\frac{D_B}{2}\derivative{\Phi_B}{x}(b)
+    \end{align}
+    We can add and subtract these equations and obtain \begin{align}
+        \Phi_A(b)=\Phi_B(b)\\
+        D_A\derivative{\Phi_A}{x}(b)=D_B\derivative{\Phi_B}{x}(b)
+    \end{align}
+    Thus, we know from Fick's law that \begin{align}
+        J_A(b)=J_B(b)\\
+    \end{align}
+    \item When region $B$ is vacuum, there is no return current. Hence, \begin{align}
+        0=J_-^A(b)=\frac{\Phi_A(b)}{4}+\frac{D_A}{2}\derivative{\Phi_A}{x}(b)\\
+        \derivative{\Phi_A}{x}(b)=-\frac{1}{2D_A}\Phi_A(b)=-\frac{3}{2}\derivative{\Phi_A}{\lambda_{tr}^A}(b)
+    \end{align}
+    \item We approximate beyond the boundary the neutron current is linear thus,\begin{align}
+        \delta_{ex}=-\frac{\Delta_A(b)}{\derivative{\Phi_A}{x}(b)}=\frac{2}{3}\frac{\lambda_{tr}^A}{\Phi_A(b)}\Phi_A(b)=\frac{2}{3}\lambda_{tr}^A
+    \end{align}
+    With neutron transport theory, we get a better approximation for $\delta_{ex}=0.71\lambda_{tr}^A.$ This value $\delta_{ex}$ is called the \bluebf{extrapolation length}.
+\end{itemize}
+\subsection{Solution of the Neutron Diffusion Equation}
+\begin{itemize}
+    \item Consider a point isotropic source $\dot S$ in an infinite homogeneous and isotropic medium. The problem has spherical symmetry and has no source apart from $r=0,$ so the neutron diffusion equation reduces to \begin{align}
+        -D\Delta\Phi+\Sigma_a\Phi=0\\
+        -\frac{D}{r^2}\derivative{}{r}\left(r^2\derivative{\Phi}{r}\right)+\Sigma_a\Phi=0\\
+        \frac{1}{r^2}\derivative{}{r}\left(r^2\derivative{\Phi}{r}\right)-\frac{\Sigma_a}{D}\Phi=0
+    \end{align}
+    We will define the \bluebf{diffusion area} as \begin{align}
+        L^2=\frac{D}{\Sigma_a}=\frac{1}{3\Sigma_{tr}\Sigma_a}
+    \end{align}
+    Therefore,
+    \begin{align}
+        \frac{1}{r^2}\derivative{}{r}\left(r^2\derivative{\Phi}{r}\right)-\frac{\Phi}{L^2}=0
+    \end{align}
+    \item We can think of the diffusion area as 
+    \item Using the substitution $\Phi(r)=R(r)/r,$ the differential equation becomes \begin{align}
+        \derivative{^2R}{r^2}-\frac{R}{L^2}=0
+    \end{align}
+    So the general solution is \begin{align}
+        R(r)=Ae^{-r/L}+Be^{r/L}.
+    \end{align}
+    \item We can determine $A$ and $B$ using the boundary conditions at $r=0$ and $r=\infty.$ With the condition $\Phi(\infty)=\lim_{r\to\infty}R(r)/r=0,$ we have $B=0.$ For the boundary condition at $r=0,$ we have $\Phi(0)=\dot S=A/r$
+\end{itemize}
+
 
 \end{document}

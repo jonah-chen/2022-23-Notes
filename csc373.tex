@@ -734,5 +734,110 @@ We should select splitter $s$ uniformly at random.
         \EndProcedure
     \end{algorithmic}
 \end{itemize}
-
+\subsection{Bellman-Ford Single Source Shortest Paths}
+\begin{itemize}
+    \item We want to revisit the shortest paths problem. When the edge weights may be negative, Dijkstra's algorithm does not work. We want an algorithm that works with some negative edge weights.
+    \item \redbf{Note that if the graph has a negative cycle, the problem makes no sense.}
+    \item \textbf{Claim 1:} With no negative cycles, for every node $t\in V$ there is a shortest path that is \bluebf{simple} (i.e. contains no repeated nodes). Any cycle will have weight $\geq0,$ so just remote it and the path will not be any longer.
+    \item Hence, for any node $t\in V,$ there is a shortest path with at most $n-1$ edges.
+    \item For $t\neq s,$ consider an oracle that tells us the shortest path from $s$ to $t$ that contains $i$ edges $s\to\cdots\to u\to t.$ Then the shortest path from $s\to u$ has at most $i-1$ edges.
+    \item We define our subproblems as $OPT(i,t)$ as the length of a shortest $s\to t$ path using \textbf{at most} $i$ edges. So, $OPT(i,t)=OPT(i-1,u)+w(u,t)$ for some $u\in V.$
+    \item So, \begin{align}
+        OPT(i,t)&=\begin{cases}
+            0&\text{if $i=0$ and $t=s$}\\
+            \infty&\text{if $i=0$ and $t\neq s$}\\
+            \min_{u\in V}\{OPT(i-1,u)+w(u,t)\}&\text{if $i>0$}
+        \end{cases}
+    \end{align}
+    Note that part of the $\min$ is the case where $u=t.$ In that case $w(t,t)=0$ so this case would be $OPT(i-1,t).$
+    \item Then, $OPT(n-1,t)$ is the length of the shortest path from $s$ to $t.$ The naive implementation is $O(n^3).$ \begin{algorithmic}[1]
+        \State $OPT(0,s)\gets0$
+        \State for all $t\neq s,\,OPT(0,t)\gets\infty$
+        \For{$i=1$ to $n-1$}
+            \For{all $t\in V$}
+                \State $OPT(i,t)\gets\min_{u\in V}\{OPT(i-1,u)+w(u,t)\}$
+            \EndFor
+        \EndFor
+        \State \Return $OPT(n-1,t)$
+    \end{algorithmic}
+    \item We can improve this by not checking all the nodes, but only nodes that have an edge going \bluebf{into} $t$ as well as $t$ to itself. This is like reversing an adjacency list. Hence, instead of minimizing over all $u\in V,$ we only minimize over $u\in\{v\in V|w(u,t)<\infty\}.$ This way the runtime is $O(nm).$
+    \item We do not have to store the matrix, which is $O(n^2)$ space. As each row only depends on the previous row, we can just store the two rows reducing the space complexity to $O(n).$
+    \item To recover the path, we keep track of the current predecessor. Each time our path decreases, we update the predecessor.
+\end{itemize}
+\subsubsection{Detecting Negative Cycles}
+\begin{itemize}
+    \item \textbf{Claim 2:}\begin{align}
+        \Big(\forall t\in V,\,OPT(k,t)=OPT(k-1,t)\Big)\implies\Big(\forall t\in V,\,OPT(k,t)=OPT(k+1,t)\Big).
+    \end{align}
+    \item Using the bellman equation, \begin{align}
+        OPT(k+1,t)&=\min_{u\in V}\{OPT(k,u)+w(u,t)\}\\
+        &=\min_{u\in V}\{OPT(k-1,u)+w(u,t)\}\\
+        &=OPT(k,t).
+    \end{align}
+    \item Even if we don't care about negative cycles, this may help us stop early when we go through one iteration with no improvement.
+    \item If $G$ has no negative cycle reachable from $s,$ \textbf{iff} $\forall t\in V,\,OPT(n,t)=OPT(n-1,t).$
+    \item Proof $[\implies]:$ If there are no negative cycles reachable from $s,$ there exists a shortest path from $s$ to $t$ with at most $n-1$ edges. Hence, $OPT(n,t)=OPT(n-1,t).$
+    \item Proof $[\impliedby]:$ Suppose $\forall t\in V,\,OPT(n,t)=OPT(n-1,t).$ Then for any $n'\geq n,OPT(n',t)=OPT(n-1,t).$ Suppose for contradiction that there is a negative cycle reachable from $s.$ Then, we can find a path from $s\to t$ for some $t$ in the negative cycle. We will repeat the negative cycle enough time so that $OPT(n',t)<OPT(n-1,t).$ This is a contradiction.
+    \item Hence, to detect negative cycles we run Bellman Ford one extra time and check if $OPT(n,t)=OPT(n-1,t).$ If there is some $t\in V$ such that $OPT(n,t)<OPT(n-1,t),$ then there is a negative cycle reachable from $s.$
+    \item \textbf{To detect all negative cycles}, we add a new node $s$ to the graph and connect it to all other nodes with weight $0.$ Then, we run Bellman Ford on this new graph. If there is a negative cycle it is reachable from $s.$
+    \item \textbf{Claim 4:} Suppose that $OPT(n,t)\neq OPT(n-1,t)$ for some node $t.$ Then let $P$ be an $s\to t$ path of length $OPT(n,t)$ and with at most $n$ edges then \begin{enumerate}
+        \item $P$ contains a cycle.
+        \item Every cycle of $P$ has a negative length.
+    \end{enumerate}
+    \item $1$ is trivial, as the path has $n$ edges and $n+1$ nodes. By pigeonhole principle, there at least one node is included twice because $G$ only has $n$ nodes.
+    \item Suppose $P=s\to\cdots\to v\to\cdots\to v\to\cdots\to t.$ Suppose by contradiction the path $v\to\cdots\to v$ has non-negative weight. Then, let $P'=s\to\cdots\to v\to\cdots\to t.$ The length of $P'$ is at most the length of $P$ but has at most $n-1$ edges. Hence, $OPT(n,t)\geq len(P')\geq OPT(n-1,t)$ which is a contradiction.
+\end{itemize}
+\subsection{Floyd-Warshall All-Pairs Shortest Paths}
+\begin{itemize}
+    \item Suppose we are given a graph $G=(V,E)$ with no negative length cycles. We want the shortest path from each node $s$ to each node $t.$ 
+    \item If we use Bellman Ford, it will run in $O(n^2m)$ and if the graph is dense $m=O(n^2)$ then the runtime is $O(n^4),$ which is bad.
+    \item $V=\{1,2,\cdots,n\}.$ We define $P$ as a $i\to^kj$ path if every intermediate node in $P$ is $\leq k.$ (i.e. $P=1\to 5\to 2\to 7$ is a $1\to^57$ path but not a $1\to^67$ path)
+    \item Hence, we will define $OPT(i,j,k)$ as the length of the shortest (simple) $i\to^kj$ path. Consider the following two cases \begin{enumerate}
+        \item $k$ is not an intermediate node of $P.$ Then, $OPT(i,j,k)=OPT(i,j,k-1).$
+        \item $k$ is an intermediate node then $OPT(i,j,k)=OPT(i,k,k-1)+OPT(k,j,k-1).$
+    \end{enumerate}
+    \item The bellman equation is \begin{align}
+        OPT(i,j,0)&=\begin{cases}
+            0&\text{if }i=j\\
+            w(i,j)&\text{if }i\to j\text{ is an edge}\\
+        \end{cases}\\
+        OPT(i,j,k)&=\min\{OPT(i,j,k-1),OPT(i,k,k-1)+OPT(k,j,k-1)\}
+    \end{align}
+    \begin{algorithmic}[1]
+        \For{$i=1$ to $n$}
+            \For{$j=1$ to $n$}
+                \If{$i=j$}
+                    \State $OPT(i,j,0)=0$
+                \Else
+                    \State $OPT(i,j,0)=w(i,j)$
+                \EndIf
+            \EndFor
+        \EndFor
+        \For{$k=1$ to $n$}
+            \For{$i=1$ to $n$}
+                \For{$j=1$ to $n$}
+                    \If{$OPT(i,j,k-1)>OPT(i,k,k-1)+OPT(k,j,k-1)$}
+                        \State $OPT(i,j,k)=OPT(i,k,k-1)+OPT(k,j,k-1)$
+                    \Else
+                        \State $OPT(i,j,k)=OPT(i,j,k-1)$
+                    \EndIf
+                \EndFor
+            \EndFor
+        \EndFor
+    \end{algorithmic}
+    \item The runtime complexity is $O(n^3).$ Naively, the space complexity is also $O(n^3),$ but note that row $k$ only depends on row $k-1,$ so we can reduce the space complexity to $O(n^2).$
+    \item To recover the path, each node need to store for every source, what is the previous node in the shortest path.
+\end{itemize}
+\subsubsection{Transitive Closure Graph}
+\begin{itemize}
+    \item The \bluebf{transitive closure} of a graph $G^*=(V,E^*),$ where \begin{align}
+        E^*=\{(u,v)|G\text{ has an edge from $u\to v$}\}.
+    \end{align}
+    \item To compute the transitive closure of $G(V,E),$ we can use Floyd Warshall after changing all edge weights to $i.$ If $OPT(u,v,n)\neq\infty\iff G$ has a $u\to v$ path $\iff G^*$ has an edge from $u\to v.$
+    \item A better way is to modify the Floyd Warshall (replace $+$ with $\land$ and $\min$ with $\lor$)
+\end{itemize}
+\subsubsection{Detecting Negative Cycles}
+\begin{itemize}
+    \item \textbf{Claim 4:} If $G$ has a negative cycle, then $\exists u\in V,OPT(u,u,n)<0$ 
+\end{itemize}
 \end{document}

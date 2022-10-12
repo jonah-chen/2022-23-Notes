@@ -464,6 +464,82 @@ In $G\times G',$ the subset $G_0=:\{(g,e)|g\in G\}\cong G$ is a subgroup. Likewi
     \end{align}
     So $\tau\sigma\tau\inv$ takes $a'\to b'\to c'\to\cdots.$ Conjugating by $\tau$ ``relabels'' what $\sigma$ by replacing $a$ with $a',$ \dots.
 \end{itemize}
+\subsection{Simple Group}
+One way we study groups is to write it as a chain of normal subgroups $G_0=\{e\}\triangleleft G_1\triangleleft G_2\triangleleft\cdots\triangleleft G_r=G,$ where $G_{i+1}/G$ is a simple group $\forall i=0,\dots,r-1.$ A decomposition like this is called a \bluebf{Jordan-Holder Series} (composition series), and the quotients are called the \bluebf{composition factors}. However, the same $G$ may have different composition series. \begin{theorem}[Jordan-Holder]
+    Any two Jordan-Holder series for $G$ have the same length. Moreover, the composition factors are the same (but perhaps in different orders).
+\end{theorem}
 
+Example: Suppose $H,K$ are both normal subgroups of $G.$ Apply 2nd isomorphism theorem. Note, $H\subseteq Norm_G(K)=G$ and $K\subseteq Norm_G(H)=G.$ Thus, $HK/K\cong H/H\cap K$ and $HK/H\cong K/H\cap K.$ In this example there are two composition series\begin{align}
+    \{e\}\triangleleft H\cap K\triangleleft H\triangleleft HK\triangleleft G\\
+    \{e\}\triangleleft H\cap K\triangleleft K\triangleleft HK\triangleleft G
+\end{align}
+
+Every group has a Jordan-Holder series. In genera, a group $G$ is not determined by its Jordan-Holder series. However, if $G$ is simple, then its Jordan-Holder series is $\{e\}\triangleleft G.$
+
+\begin{definition}[Solvable]
+    If the composition factor $G_{i+1}/G_i$ of $G$ are all \textbf{abelian}, we say $G$ is \bluebf{solvable}.
+\end{definition}
+
+If $G$ acts on a set $X,$ then each $g\in G$ permutes the element of $X.$ So there is a map $G\to S_X$ (the symmetric group of $X$). It is easy to show that this map is a homomorphism. So, we will allow ourselves to go between group actions and Homomorphisms into $S_X.$
+
+Suppose $H\leq G$ and let $X=G/H$ be the coset space. So, $G$ acts on $X$ by left multiplication $g(xH)\mapsto gxH.$ If $n=[G:H]=|X|,$ the action amounts to a homomorphism $\varphi:G\to S_n.$
+
+Our first observation is that $G$ acts \textbf{transitively}. For any $x,y\in X,\,\exists\,g\in G$ s.t. $gx=y.$ i.e. the orbit of any $x\in X$ is $X.$
+
+What is $\ker\varphi?$ We know that if $h\in\ker\varphi,$ that $hxH=xH.$ Then consider $h',h''\in H$ then \begin{align}
+    hxh'=xh''\\
+    hx=xh''{h'}\inv\\
+    h=xh''{h'}\inv x\inv\\
+    \ker\varphi=\bigcap_{x\in G}xHx\inv
+\end{align}
+If $H=\{e\},$ then $G/H=G,$ so $\ker\varphi=\{e\}.$ then $\varphi$ is injective. By the first isomorphism theorem, $G\cong \mathrm{im}\,\varphi=S_n.$
+\begin{theorem}[Cayley]
+    Any group $G$ with $|G|=n$ is isomorphic to a subgroup of $S_n.$
+    \begin{proof}
+        We already proved it!
+    \end{proof}
+\end{theorem}
+Another example is to let $G$ act on itself by conjugation. In this case, $\varphi$ with $g\cdot x=gxg\inv=C_g(x).$ This is not a transitive action unless $G$ is trivial.  The orbits of conjugation are the \bluebf{conjugacy classes} of $G.$ They are disjoint (because conjugacy is an equivalence relation). 
+
+Note that $geg\inv=e,\,\forall g.$ If $z\in Z(G),$ then $gzt\inv=zgg\inv=z\,\forall g,$ then the conjugacy classes contain a single element.
+
+If $G$ is abelian, $Z(G)=G$ and every element is its own conjugacy class.
+
+Because conjugacy is an equivalence relation, $G$ is a disjoint union of all conjugacy classes.
+
+If $Z(G)=\{e,z_1,\dots,z_k\}$ and $g_1,\dots,g_m$ are representatives from the non-central conjugacy classes. Let's write $C(g_i)=\{gg_ig\inv|g\in G\}.$ So,\begin{align}
+    G=Z(G)\sqcup\left(\bigsqcup C(g_i)\right)
+\end{align}
+so \begin{align}
+    |G|=|Z(G)|+\sum_i|C(g_i)|
+\end{align}
+This is called the \bluebf{Class Equation}.\begin{theorem}[Orbit-Stabilizer]
+    If $G$ acts on $X,$ for each $x\in X,$ write $G\cdot x$ for its orbit. Then,\begin{align}
+        |G\cdot x|=[G:G_x]=[G:\mathrm{Stab}(x)]
+    \end{align}
+    The point is that two things in the same coset of $G_x$ has the same effect on $x$.
+\end{theorem}
+Under conjugation, \begin{align}
+    \mathrm{Stab}(x)=G_x=\{g\in G|gxg\inv=x\}=Z(x),
+\end{align}
+the centralizer of $x$. So the class equation can be rewritten as \begin{align}
+    |G|=|Z(G)|+\sum_{i}[G:Z(g_i)]
+\end{align}
+\begin{definition}[$p$-group]
+    Suppose $p$ is prime, $G$ is a \bluebf{$p$-group} if $|G|=p^k$ for some $k\geq 1.$
+\end{definition}
+\begin{theorem}
+    If $G$ is a non-trivial $p$-group, then it has a non-trivial center.
+    \begin{proof}
+        Suppose $|G|=1.$ Then \begin{align}
+            |G|=|Z(G)|+\sum_{i}[G:Z(g_i)]
+        \end{align}
+        Claim $Z(g_i)<G$, otherwise $g_i\in Z(G).$ By Lagrange's theorem $|Z(g_i)|\Big||G|=p^k.$ So $|Z(g_i)|=p^l$ for some $l<k.$ Then,\begin{align}
+            p^k=|G|=|Z|+\sum_{i}[G:Z(g_i)]\\
+        \end{align} 
+        Since $|Z|=1,$ the RHS is not divisible by $p$ so this is a contradiction.
+    \end{proof}
+\end{theorem}
 
 \end{document}
+
