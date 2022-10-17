@@ -6,6 +6,7 @@
 \date{}
 \begin{document}
 \maketitle
+\tableofcontents
 \sffamily
 \section{Divide and Conquer}
 \begin{itemize}
@@ -840,4 +841,50 @@ We should select splitter $s$ uniformly at random.
 \begin{itemize}
     \item \textbf{Claim 4:} If $G$ has a negative cycle, then $\exists u\in V,OPT(u,u,n)<0$ 
 \end{itemize}
+
+\section{Network Flow}
+\begin{itemize}
+    \item A \bluebf{flow network} $\mathcal F=(G,s,t,c)$ where $G=(V,E)$ is a directed graph and $s\in V$ is the start node and have no incoming edge, $t\in V$ is the terminal node and have no outgoing edge, and $c:E\to\R_+$ is the capacity function.
+    \item A \bluebf{flow} $f:E\to\R$ that respects the following constraints:\begin{enumerate}
+        \item $\forall\,e\in E,0\leq f(e)\leq c(e)$
+        \item $\forall\,v\in V\setminus\{s,t\},\sum_{e\in E^+(v)}f(e)-\sum_{e\in E^-(v)}f(e)=0$
+    \end{enumerate}
+    \item The \bluebf{value} of a flow $f$ is $v(f)=f^{out}(s)=f^{in}(t).$
+    \item The \textbf{max-flow problem} is: given a flow network $\mathcal F$ to find the flow $f$ with maximum $v(f).$
+    \item Given a flow $f,$ the \bluebf{residual graph} is the graph $G_f=(V,E_f)$ where for each edge $(u,v)\in E,$ $E_f$ has at most two edges \begin{itemize}
+        \item Forward edge: $e=(u,v)$ with residual capacity $c(e)-f(e)>0$
+        \item Reverse edge: $e'=(v,u)$ with residual capacity $f(e')>0$) 
+    \end{itemize}
+    Note that if an edge is saturated, the edge is not included in $E_f.$
+    \item An \bluebf{augmenting path} is a path $P$ in $G_f$ from $s$ to $t.$ The \bluebf{bottleneck} of $P$ is the smallest residual capacity of any edge in $P.$
+    \item To augment $f,$ we can add the bottleneck $x$ of an augmenting path to $f$ to obtain $f'$ by \begin{itemize}
+        \item For each forward edge of $P,$ increase the flow by $x.$
+        \item For each reverse edge of $P,$ decrease the flow by $x.$
+    \end{itemize}
+    \item We will first argue that $v(f')>v(f).$ As there is no edge into $s,$ we only have forward edges from $s,$ then $v(f')=f'^{out}(s)=f^{out}(s)+x>v(f)$
+    \item We also need to argue we do not violate the capacity constraints. This is trivial.
+    \item Finally, we must argue that flow conservation is preserved. At each node $e,$ we must consider $4$ cases. \begin{enumerate}
+        \item If $v$ is not on $P,$ then nothing changes.
+        \item The edge entering $v$ and the edge leaving $v$ in the augmenting path $P$ are both forward edges. Then both $f^{out}(v)$ and $f^{in}(v)$ increase by $x.$
+        \item If one is forward and one is reverse, then $f^{in}(v)$ and $f^{out}(v)$ are unchanged.
+        \item If both are reverse, then both $f^{in}(v)$ and $f^{out}(v)$ decrease by $x.$
+    \end{enumerate}
+\end{itemize}
+\subsection{Ford-Fulkerson Algorithm}
+\begin{algorithmic}[1]
+    \Procedure{FordFulkerson}{$\mathcal F=(G,s,t,c)$}
+        \Foreach{edge $(u,v)$ of $G$} 
+            \State $f(u,v)\leftarrow 0$
+        \EndForeach
+        \State construct $G_f$
+        \While{$G_f$ has an $s\to t$ path}
+            \State $P\gets$ any simple $s\to t$ path in $G_f$
+            \State augment$(f,P)$
+            \State update $G_f$
+        \EndWhile
+        \Return $f$
+    \EndProcedure
+\end{algorithmic}
+
+
 \end{document}

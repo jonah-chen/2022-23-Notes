@@ -465,6 +465,68 @@ Now we can try to map the open strip $-i\pi/2<\Im(z)<i\pi/2$ to the unit disk. F
     \item Meromorphic functions in domain $\Omega$ form a \textbf{field}.
     \item \textbf{Exercise:} If $f(z)$ is meromorphic in $\Omega,$ then $f'(z)$ is also meromorphic in $\Omega$ with the same poles as $f.$ If $z_0$ is a pole of order $k$ of $f(z)$ then $z_0$ is a pole of order $k+1$ of $f'(z)$.
 \end{itemize}
+\section{Cauchy's Integral Formula}
+\begin{itemize}
+    \item Review of integration over curves: Let $\Omega\subset\R^2$ be an open set. A curve $\gamma:[a,b]\to\Omega$ where $\gamma(t)=(x(t),y(t)).$
+    \item Let a differential $1$ form $\omega=P\dd x+Q\dd y$ where $P,Q$ are continuous function on $\Omega.$ Let $F(t)=P(x(t),y(t))+Q(x(t),y(t))$ Then, \begin{align}
+        \int_\gamma\omega=\int_a^bF(t)\dd t.
+    \end{align}
+    because \begin{align}
+        \int_\gamma\omega&=\int_a^b\gamma^*\omega\\
+        \gamma^*P&=P\circ\gamma\\
+        \gamma^*(\dd x)&=\dd(\gamma*x)-\dd((x\circ\gamma)(t))=\dd(x(t))
+    \end{align}
+    \item We also know that this integral is independent of the choice of parametrization of $\gamma.$ Suppose $\delta(u)=\gamma(t(u))$ where $t:[c,d]\to[a,b]$ where $t(c)=a,t(d)=b,t'(u)>0.$ Then, $\delta^*\omega=F(t(u))t'(u)\dd u,$ then \begin{align}
+        \int_\delta\omega=\int_\gamma\omega
+    \end{align}
+    by integration by substitution (MAT157).
+    \item If the change of parametrization is orientation reversing (where $t(c)=b,t(d)=a,t'(u)<0$) then \begin{align}
+        \int_\delta\omega=-\int_\gamma\omega,
+    \end{align}
+    as the integral from $c$ to $d$ becomes an integral from $t(c)=b$ to $t(d)=a,$ which is the negative of the integral from $a$ to $b.$
+    \item If $\gamma_i=\gamma|_{[t_{i-1},t_i]},$ where $a=t_0<t_1<\cdots<t_n=b,$ then \begin{align}
+        \int_\gamma\omega=\sum_{i=1}^n\int_{\gamma_i}\omega.
+    \end{align}
+    so $\int_\gamma\omega$ makes sense if $\gamma$ is piecewise $C^1.$
+    \item When we have a closed curve $\gamma(a)=\gamma(b),$ the integral is independent of the choice of initial and final points.`'
+\end{itemize}
+\begin{lemma}
+    Any two points of a connected open subset $\Omega\subset\R^2$ can be joined by a piecewise $C^1$ curve.
+    \begin{proof}
+        Fix $a\in\Omega.$ Let $E=\{b\in\Omega|\text{$a$ and $b$ can be joined by piecewise $C^1$ curve}\}.$ If $b\in E$ then a neighborhood of $b$ is in $E.$ Hence, $E$ is open.
+
+        Let $b\in\overline E.$ Then any neighborhood of $b$ will intersect $E.$ Then, $\exists\,c\in E$ in this neighborhood. We can join $c$ and $b$ by a straight line, and $a$ and $c$ by a piecewise $C^1$ curve as $b\in E$. Hence, $b\in E$ and $E$ is closed.
+
+        Clearly, $E\neq\emptyset$ because $a\in E.$ Thus, $E=\Omega.$
+    \end{proof}
+\end{lemma}
+\begin{itemize}
+    \item The \bluebf{primitive of $\omega$} is a $C^1$ function $F$ on $\Omega$ s.t. $\omega=\dd F.$ Then, \begin{align}
+        \int_\gamma\dd F=\int_{\partial\gamma} F=F(\gamma(b))-F(\gamma(a)).
+    \end{align}
+    \item If $\Omega$ is connected and $dF=0,$ then $F$ is constant.
+    \item As the primitive is easy to integrate, we want to ask given $\omega,$ can we find a primitive?
+\end{itemize}
+\begin{proposition}
+    $\omega$ has a primitive \textbf{iff} $\int_\gamma\omega=0$ for every piecewise $C^1$ \underline{closed} curve $\gamma.$
+    \begin{proof}[Proof $\Rightarrow$]
+        Suppose $\omega$ has a primitive $F.$ Then for any $\gamma$ \begin{align}
+            \int_\gamma\omega=\int_\gamma\dd F=\int_{\partial\gamma}F=F(\gamma(b))-F(\gamma(a))=0.
+        \end{align} because $\gamma$ is closed.
+    \end{proof}
+    \begin{proof}[Proof $\Leftarrow$]
+        Fix a base point $x_0\in\Omega.$ Take any piecewise $C^1$ curve $\gamma$ from $x_0$ to $x.$ Then, define \begin{align}
+            F(x)=\int_\gamma\omega.
+        \end{align}
+        This is well defined as if we choose another curve $\delta$ from $x_0$ to $x,$ then the curve $\gamma$ then $\delta$ is a closed curve, and by the hypothesis it is $0$ so $F(x)$ is independent of the choice of $\gamma.$
+
+        Now, we need to show $F$ is $C^1.$ If $h$ is small enough, then we pick $\gamma$ from $x_0$ to $x,$ then a straight line segment $x$ to $x+h.$ \begin{align}
+            F(x+h)-F(x)&=\int_{x}^{x+h}P(t,y)\dd t\\
+            \lim_{h\to0}\frac{F(x+h)-F(x)}{h}&=\lim_{h\to0}\frac{1}{h}\int_{x}^{x+h}P(t,y)\dd t=P(x,y).
+        \end{align}
+        by the fundamental theorem of calculus. This can be repeated for the other partial derivatives, and hence $F$ is $C^1.$
+    \end{proof}
+\end{proposition}
 
 
 \end{document}

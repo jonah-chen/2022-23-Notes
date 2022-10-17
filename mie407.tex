@@ -208,6 +208,32 @@
     \end{align}
     \item We can determine $A$ and $B$ using the boundary conditions at $r=0$ and $r=\infty.$ With the condition $\Phi(\infty)=\lim_{r\to\infty}R(r)/r=0,$ we have $B=0.$ For the boundary condition at $r=0,$ we have $\Phi(0)=\dot S=A/r$
 \end{itemize}
+\section{Neutron Interaction with Matter}
+\begin{itemize}
+    \item Most of the neutron interactions are elastic scattering as it takes a very high energy neutron to excite a nucleus.
+    \item In the lab frame, the nucleus is stationary and the neutron is moving. As momentum is conserved, the initial velocity of the neutron and the final velocity of the neutron and nucleus are on a plane, so we can solve this as a 2D problem.
+    \item In the center of mass frame, the observer will see the two particle approach it, collide, and leave the center of mass at a different angle.
+    \item Let the nucleus be at the origin. Then, the center of mass will be \begin{align}
+        x_0&=\frac{m_nx}{m_n+M}=\frac{x}{1+M/m_n}\approx\frac{1}{1+A}\\
+        v_{cm}&=\derivative{x_0}{t}=\frac{v}{1+M/m_n}\approx\frac{1}{1+A}v
+    \end{align}
+    \item In the center of mass frame, the total momentum is zero. The speeds are \begin{align}
+        \text{neutron}&\qquad v_{c}=v-v_{cm}=v-\frac{1}{1+A}v=\frac{A}{1+A}v\\
+        \text{nucleus}&\qquad V_{c}=V+v_{cm}=0+\frac{1}{1+A}v=-\frac{1}{1+A}v
+    \end{align}
+    \item From conservation of momentum we know that the velocities after collision can be related with \begin{align}
+        v_c'=-\frac{M}{m}V_c'
+    \end{align}
+    \item As kinetic energy is also conserved in elastic collisions, so in the center of mass frame, the speed is unchanged. Hence, only the angle rotates by the angle of scattering $\Theta.$
+    \item We suppose the center of mass is moving in the $z$ direction. Then, the $xy$ component of the final velocity is the same in the lab and center of mass frames, so \begin{align}
+        v'\sin\theta&=v_c'\sin\Theta\\
+        v'\cos\theta&=v_{cm}+v_c'\cos\Theta
+    \end{align}
+    Then, we can divide the two equations \begin{align}
+        \cot\theta&=\frac{v_{cm}+v_c'\cos\Theta}{v_c'\sin\Theta}\\
+        &=\cot\Theta+\frac{1}{A\sin\Theta}
+    \end{align}
+\end{itemize}
 
 
 \end{document}

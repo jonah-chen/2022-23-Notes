@@ -539,7 +539,95 @@ the centralizer of $x$. So the class equation can be rewritten as \begin{align}
         \end{align} 
         Since $|Z|=1,$ the RHS is not divisible by $p$ so this is a contradiction.
     \end{proof}
+    \begin{corollary}
+        Suppose $p$ is prime. If $|G|=p^2,$ then $G$ is abelian.
+        \begin{proof}[Proof]
+            We know $Z(G)$ is a non-trivial subgroup so $1\neq|Z(G)|\Big|p^2.$ So $|Z(G)|=p$ or $p^2.$ If $|Z(G)|=p^2,$ then $G$ is abelian by definition. If $|Z(G)|=p,$ then $|G/Z(G)|=p$ hence $G/Z(G)\cong C_p.$ So $x\notin Z(G),$ then $G/Z(G)=\{\bar e, \bar x, \bar x^2,\dots\bar x^{p-1}\}$ where $\bar x=:xZ(G).$ Also, $\bar x^p=\bar e\in G/Z(G).$ Note that $\mathrm{ord}(x)$ is either $p$ or $p^2$.
+            \begin{itemize}
+                \item If $|\langle x\rangle|=p^2$ so $\langle x\rangle=G$ and $G$ is cyclic hence abelian. 
+                \item If $\mathrm{ord}(p),$ then $G=\bigcup_{k=0}^{p-1}x^kZ(G).$ Recall $|Z(G)|=p,$ so $Z(G)$ is cyclic. Then, \begin{align}
+                    Z(G)=\{e,z,z^2,\dots,z^{p-1}\}
+                \end{align}
+                so \begin{align}
+                    G=\{x^iz^j|0\leq i,j<p\}
+                \end{align}
+                These elements commute. $x^iz^jx^mz^n=x^ix^mz^jz^n=x^{i+m}z^{j+n}$
+            \end{itemize}
+        \end{proof}
+    \end{corollary}
 \end{theorem}
+Note we need to be careful with the steps in this proof. Just because $\bar x^p=\bar e$ doesn't mean there is a representative $x\in\bar x$ that is order $p.$
 
+\begin{itemize}
+    \item Now we consider the rotations of a tetrahedron. A easy way to think about this is to identify a ``top'' vertex, which is well defined ($4$ possibilities). Then, we fix the top and we have $3$ rotations (like of the triangle). So, there are $12$ rotations.
+    \item Apart from $e$, there are two non-trivial rotations that fix any particular vertex. This only accounts for $8$ rotations, and $e$, so we are missing $3$ rotations. 
+    \item The other rotations does not fix any vertices and are like $(1\,2)(3\,4).$ Then, $2,3,4$ goes with $1$ so we have $3$ rotations. This accounts for all 12.
+    \item In summary, we have $e,$ and $8$ rotations in the form $(a\,b\,c)$ and $3$ rotations in the form $(a\,b)(c\,d).$ This is $A_4.$
+    \item The rigid motions are $S_4.$
+\end{itemize}
+\begin{proposition}
+    $A_5$ is simple. $A_5\triangleleft S_5$ with index $2,$ so $|A_5|=60.$
+    
+    \begin{proof}
+        We will enumerate the conjugacy classes of $S_5$ \begin{itemize}
+            \item $(a\,b\,c\,d\,e)\in A_5$
+            \item $(a\,b\,c\,d)\notin A_5$
+            \item $(a\,b\,c)\in A_5$
+            \item $(a\,b\,c)(d\,e)\notin A_5$
+            \item $(a\,b)(c\,d)\in A_5$
+            \item $(a\,b)\notin A_5$
+            \item $e\in A_5$
+        \end{itemize}
+        There are $24$ elements in the conjugacy class of $(a\,b\,c\,d\,e).$ However, $24$ does not divide $60$ so it is not a conjugacy class of $A_5.$
+
+        Consider the centralizer $Z_{A_5}(a\,b\,c\,d\,e)\geq\left\langle(a\,b\,c\,d\,e)\right\rangle$ which has order $5$. But $Z_{A_5}(a\,b\,c\,d\,e)\leq Z_{S_5}(a\,b\,c\,d\,e)$ so $Z_{A_5}(a\,b\,c\,d\,e)=\left\langle(a\,b\,c\,d\,e)\right\rangle$
+
+        So there are two $A_5$ conjugate classes of $5$-cycles, each with $12$ elements.
+
+        There are $20$ $3$-cycles in $S_5.$ Are they all conjugate in $A_5?$ If $(a\,b\,c)$ is conjugate to $(x\,y\,z)$ by $\sigma\in S_5$, then it is also conjugate by $\sigma(d\,e)$ If $\sigma\notin A_5$ then $\sigma(d\,e)\in A_5$ so there is one conjugate class of $20$ $3$-cycles. 
+
+        There are $15$ double transpositions.
+
+        \textbf{If we have a normal subgroup, it is a union of the conjugacy classes,} so if $A_5$ has a normal subgroup it must be a combination of $1+15,20,12,12$ but there is no combination (apart from $1$) that divides $60.$ Hence, $A_5$ is simple. 
+    \end{proof}
+\end{proposition}
+\section{Sylow Theorems}
+\begin{theorem}
+    Suppose $|G|=p^\alpha n$ where $p\not|n.$ Then, a subgroup $P\leq G$ is a Sylow $p$-subgroup if $|P|=p^\alpha.$ We'll write $n_p(G)$ for the number of Sylow $p$-subgroups of $G.$ \begin{enumerate}
+        \item Sylow $p$-subgroups exist.
+        \item Suppose $P$ is a Sylow $p$-subgroup of $G$ and $Q\leq G$ s.t. $|Q|=p^r$ for some $r>0.$ Then, $\exists\,g\in G$ s.t. $gQg\inv\subseteq P.$ In particular, all Sylow $p$-subgroups of $G$ are conjugate. 
+        \item $n_p(G)\equiv1\mod{p}$ and $n_p(G)=[G:\mathrm{Norm}_G(P)]$ for any Sylow $p$-subgroup. Hence $n_p(G)||G|.$ It actually also divides $n=|G|/|P|.$
+    \end{enumerate}
+\end{theorem}
+Before proving the theorem we will consider the following example: Let $G=S_3.$ The Sylow $2$ subgroups are $\{e,(1\,2)\},\{e,(1\,3)\},\{e,(2\,3)\}$ we know $n_2(S_3)=3\equiv1\mod2.$ The only Sylow $3$ subgroup is $A_3,$ so $n_3(S_3)=1.$\begin{lemma}
+    If $G$ is abelian and $p\Big||G|,$ then $G$ contains an element of order $p.$
+    \begin{proof}
+        If $|G|=p$ then $G$ is cyclic and every non-trivial element has order $p$.
+
+        If $|G|>p,$ and $x\in G$ with order $p^rm$ where $p\not{\big|}m.$ If $r\neq0,$then $x^{p^{r-1}m}$ has order $p.$
+        
+        This reduces us to the case where $p\nmid\mathrm{ord}(x), \forall x\in G.$ We will use induction. \begin{itemize}
+            \item Assume the result is true for all groups smaller than $G.$ 
+            \item If $p\nmid\mathrm{ord}(x)=|\langle x\rangle|<|G|.$ As $G$ is abelian, then $N=:\langle x\rangle\triangleleft G.$ 
+            \item By induction $G/N$ contains an element of order $p.$
+            \item i.e. $\exists y=y_0N\in G/N$ s.t. $y^p=e=N.$ so $y_0^p\in N$
+            \item We claim that $\langle y_0^p\rangle<\langle y_0\rangle$ since otherwise $y_0\in N$ which has order $1.$
+            \item This means $p\mid|y_0|$ otherwise $\langle y_0^p\rangle=\langle y_0\rangle.$ This is a contradiction.
+            \item This means a suitable power of $y_0$ must have order $p.$
+        \end{itemize}
+    \end{proof}
+\end{lemma}
+\begin{lemma}
+    If $P\in\mathrm{Syl}_p(G)$ and $Q$ is a non-trivial $p$-subgroup of $G.$ Then, $Q\cap\mathrm{Norm}_G(P)=Q\cap P.$
+    \begin{proof}
+        Let $H=Q\cap\mathrm{Norm}_G(P)\geq Q\cap P.$ We need to show that $H\leq Q\cap P.$
+        But $H\leq Q$ so we only need to show that $H\leq P.$
+
+        $H\leq N_G(P)\implies HP$ is a subgroup. The result will follow if we can argue that $HP$ is a $p$-group. We know that \begin{align}
+            |HP|=\frac{|H||P|}{|H\cap P|}
+        \end{align}
+        Since $|H|,|P|,|H\cap P|$ are all powers of $P.$ So $HP\geq P$ but $|HP|$ can't be bigger than $|P|.$
+    \end{proof}
+\end{lemma}
 \end{document}
 
