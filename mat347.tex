@@ -534,7 +534,7 @@ the centralizer of $x$. So the class equation can be rewritten as \begin{align}
         Suppose $|G|=1.$ Then \begin{align}
             |G|=|Z(G)|+\sum_{i}[G:Z(g_i)]
         \end{align}
-        Claim $Z(g_i)<G$, otherwise $g_i\in Z(G).$ By Lagrange's theorem $|Z(g_i)|\Big||G|=p^k.$ So $|Z(g_i)|=p^l$ for some $l<k.$ Then,\begin{align}
+        Claim $Z(g_i)<G$, otherwise $g_i\in Z(G).$ By Lagrange's theorem $|Z(g_i)|\mid|G|=p^k.$ So $|Z(g_i)|=p^l$ for some $l<k.$ Then,\begin{align}
             p^k=|G|=|Z|+\sum_{i}[G:Z(g_i)]\\
         \end{align} 
         Since $|Z|=1,$ the RHS is not divisible by $p$ so this is a contradiction.
@@ -629,5 +629,75 @@ Before proving the theorem we will consider the following example: Let $G=S_3.$ 
         Since $|H|,|P|,|H\cap P|$ are all powers of $P.$ So $HP\geq P$ but $|HP|$ can't be bigger than $|P|.$
     \end{proof}
 \end{lemma}
+
+Proof that Sylow $p$-subgroup exists. We will use induction on $|G|.$
+
+If $p\mid |Z(G)|,$ we know by the lemma that $\exists z\in Z(G)$ with $|z|=p.$ Let $N=\langle z\rangle$ is a normal subgroup as $N\leq Z(G).$ Then, $G/N$ is a smaller group than $G.$ By the induction hypothesis say $G/N$ has a Sylow $p$-subgroup.
+
+If $|G|=p^\alpha m,p\nmid m$ then $G/N=p^{\alpha-1}m.$ So, it has a Sylow $p$-subgroup of order $p^{\alpha-1}.$ By the lattice isomorphism theorem, the preimage of this group in $G$ has order $p^\alpha,$ as required.
+
+Assume $p\nmid|Z(G)|.$ Let $g_1,\dots,g_k$ be representatives of the non-central conjugacy classes of $G.$ So,\begin{align}
+    |Z(G)|+\sum_{i=1}^k[G:C_G(g_i)]=|G|.
+\end{align}
+We know that $p\mid |G|$ but $p\nmid |Z(G)|$ meaning for some $i,$ we know $p\nmid[G:C_G(g_i)].$ As $g_i$ represents a non-central conjugacy class, then $C_G(g_i)<G.$ We will use the induction hypothesis. Note that since $p\nmid[G:C_G(g_i)],$ then $p^\alpha\mid|C_G(g_i)|.$ By the induction hypothesis, $C_G(g_i)$ has a Sylow $p$-subgroup of order $p^\alpha,$ it is also a Sylow $p$-subgroup of $G.$ Thus, Sylow $p$-subgroups exist.
+
+Fix a Sylow $p$-subgroup $P_1$ of $G$ and enumerate all its distinct conjugates as $P_1,\dots,P_r.$ Let $Q$ be any $p$-subgroup.
+
+$G$ acts on $\mathcal S=\{P_1,\dots,P_r\},$ and $Q$ also act on $\mathcal S,$ but it may not have a single orbit. Decompose $\mathcal S$ into $Q$ orbits, \begin{align}
+    S=\mathcal O_1\sqcup\mathcal O_2\sqcup\cdots\sqcup\mathcal O_s.
+\end{align}
+How big is $\mathcal O_k$? Relabel $P_1,\dots P_k$ s.t. $\mathcal O_k=\{qP_kq\inv|q\in Q\}.$ We know how to find the size of a conjugacy class. $|\mathcal O_k|=[Q:N_Q(P_k)].$ Note that $N_Q(P_k)=N_G(P_k)\cap Q.$ The second lemma states $N_G(P_k)\cap Q=P_k\cap Q.$
+
+For now, let $Q=P_1.$ So, $\mathcal O_1=\{qP_1q\inv|q\in P_1\}=P_1.$ \begin{align}
+    |S|=r=\underbrace{|\mathcal O_1|}_{1}+\underbrace{\sum_{i=2}^s[P_1:P_1\cap P_i]}_{\text{divisible by }p}
+\end{align}
+If we know that if all Sylow $p$-subgroup are conjugate, then we know the number of Sylow $p$-subgroup is $1\mod p.$
+
+Let $Q$ be any $p$-subgroup of $G$ and suppose $Q$ is not contained in any of the $P_1,\dots P_r.$ Then, $Q\cap P_i$ is a proper subgroup of $Q.$ Then, \begin{align}
+    |\mathcal O_k|=[Q:P_k\cap Q]
+\end{align}
+is divisible by $P.$ So, $p\mid|\mathcal S|$ so $p\mid|r$ but $r\equiv 1\mod p$ so this is a contradiction. 
+
+
+Suppose $|G|=pq,$ and $p<q$ prime. We know $n_q(G)=1,$ i.e. $\mathrm{Syl}(G)=\{Q\},$ then $Q\triangleleft G.$ One possibilities is that $G$ is cyclic. Often, $n_p(G)=0$ unless $p\mid(q-1),$ then it is more complicated.
+
+The significance os $q-1=$ the number of units $\mod q,$ which turns out to be the number of automorphisms of $C_q.$ (multiply each element of $C_q$ by a unit $u=(\Z/q\Z)^x.$
+
+So this is a homomorphism $C_p\to\mathrm{Aut}(C_q).$ We can use this homomorphism to make a group that is not abelian.
+
+\begin{definition}[Finitely Generated]
+    An abelian group $G$ is \bluebf{finitely generated} if there exists a finite set $S$ such that $G=\langle S\rangle.$
+\end{definition}
+Examples of finitely generated abelian groups are finite abelian groups, $\Z,\Z^r$ but not $\R,S^1,\mathbb Q$.
+\begin{theorem}[Fundamental Theorem of Abelian Groups]
+    If $G$ is a finitely generated abelian group, then $G$ is isomorphic to a product \begin{align}
+        G\cong\Z^r\times\prod_{i=1}^sC_{r_i}
+    \end{align}
+    where $r\in\N_0,n_i\in\N^{>1},$ and $n_{i+1}\mid n_i\forall i=1,\dots,s-1.$ Note the following:\begin{itemize}
+        \item $r=0\iff G$ is finite.
+        \item $G$ is cyclic $\iff r=0\land s=1$
+    \end{itemize}
+    Moreover, this decomposition is unique up to isomorphism.
+    \begin{proof}
+        The proof will come easily from another theorem later.
+    \end{proof}
+\end{theorem}
+\begin{definition}
+    In this decomposition, $r$ is called the \bluebf{free rank} of $G$ or the \bluebf{Betti number}Other Information of $G.$ The $n_i$'s are called the \bluebf{invariant factors} of $G.$
+\end{definition}
+
+Another version. Any finitely generated abelian group $G$ can be written as \begin{align}
+    G=\Z^r\times\prod_{i=1}^kP_{p_i}
+\end{align}
+where $|G/\Z^r|=\prod_i p_i^{\alpha_i}.$ Moreover, for each $i,$ \begin{align}
+    P_{p_i}=C_{p_i^{\beta_1^i}}\times C_{p_i^{\beta_2^i}}\times\cdots\times C_{p_i^{\beta_{\alpha_i}^i}}
+\end{align}
+where $\beta_1^i\geq \beta_2^i\geq\cdots\geq\beta_{\alpha_i}^i$ and $\beta_1^i+\beta_2^i+\cdots+\beta_{\alpha_i}^i=\alpha_i.$
+The notation is awful, but idea is we can decompose $G$ into its Sylow $p$-subgroups and then decompose each Sylow $p$-subgroup into its cyclic factors. This decomposition is unique up to isomorphism.
+
+\begin{definition}[Elementary Divisors]
+    The subgroups $C_{p_i^{\beta_1^i}},\dots,C_{p_i^{\beta_{\alpha_i}^i}}$ or sometimes their orders are called the \bluebf{elementary divisors} of $G.$
+\end{definition}
+
 \end{document}
 

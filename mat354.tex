@@ -474,7 +474,7 @@ Now we can try to map the open strip $-i\pi/2<\Im(z)<i\pi/2$ to the unit disk. F
     because \begin{align}
         \int_\gamma\omega&=\int_a^b\gamma^*\omega\\
         \gamma^*P&=P\circ\gamma\\
-        \gamma^*(\dd x)&=\dd(\gamma*x)-\dd((x\circ\gamma)(t))=\dd(x(t))
+        \gamma^*(\dd x)&=\dd(\gamma^*x)-\dd((x\circ\gamma)(t))=\dd(x(t))
     \end{align}
     \item We also know that this integral is independent of the choice of parametrization of $\gamma.$ Suppose $\delta(u)=\gamma(t(u))$ where $t:[c,d]\to[a,b]$ where $t(c)=a,t(d)=b,t'(u)>0.$ Then, $\delta^*\omega=F(t(u))t'(u)\dd u,$ then \begin{align}
         \int_\delta\omega=\int_\gamma\omega
@@ -527,6 +527,148 @@ Now we can try to map the open strip $-i\pi/2<\Im(z)<i\pi/2$ to the unit disk. F
         by the fundamental theorem of calculus. This can be repeated for the other partial derivatives, and hence $F$ is $C^1.$
     \end{proof}
 \end{proposition}
+% \begin{theorem}[Cauchy]
+%     Let $\omega=P\dd x+Q\dd y$ be a differential form in open $\Omega\subseteq\R^2,$ where $P,Q$ are continuous. Then, $\omega$ has a primitive iff $\int_\gamma\omega=0$ for any piecewise $C^1$ closed curve $\gamma$ in $\Omega.$
+% \end{theorem}
+\begin{definition}
+    $\omega$ is \bluebf{closed} if $\omega$ locally has a primitive. This is equivalent to \begin{enumerate}
+        \item $\int_\gamma\omega=0$ whenever $\gamma$ is the boundary of a sufficiently small rectangle $R$ in $\Omega.$
+        \item If $\gamma$ is the boundary of any rectangle in $\Omega,$ because any rectangle can be split up into many small rectangles.
+    \end{enumerate}
+\end{definition}
+
+So every closed differential form $\omega$ \textbf{in a disk} has a primitive. 
+
+Note that closed differential form in a domain $\Omega$ need not have a primitive. Note the following counterexample. Let $\Omega=\C\setminus\{0\}$ and $\omega=\dd z/z.$ Clearly, $\omega$ is closed because locally at each point of $\omega$ there is a branch of $\log$ in a neighborhood of that point, which is a primitive.
+
+However, $\omega$ does not have a global primitive. Let $\gamma(t)=e^{it}$ with $t\in[0,2\pi].$ Then, $z=e^{it}$ so $\dd z=ie^{it}\dd t$ and \begin{align}
+    \int_\gamma\frac{\dd z}{z}=\int_0^{2\pi i}\dd t=2\pi i.
+\end{align}
+Note that the example need not be complex. The imaginary part was \begin{align}
+    \dd t=\frac{x\dd y-y\dd x}{x^2+y^2},
+\end{align}
+where $t=\arctan(y/x),$ which was proven to not have a global primitive in MAT257.
+
+\begin{theorem}
+    \textbf{Aside:} assume $P$ and $Q$ are continuous with the following continuous partial derivatives $\partialderivative{P}{y},\partialderivative{Q}{x}$ in some neighborhood of a closed rectangle $A$ and let $\gamma=\partial A.$ Then, Green's theorem says \begin{align}
+        \int_\gamma\underbrace{P\dd x+Q\dd y}_{\omega}=\int_A\underbrace{\left(\partialderivative{Q}{x}-\partialderivative{P}{y}\right)\dd x\wedge\dd y}_{\dd\omega}.
+    \end{align} 
+    \begin{proof}
+        We can apply Stoke's theorem, but that is too easy. Let $A=[a_1,a_2]\times[b_1,b_2]$ then \begin{align}
+            \int_A\partialderivative{Q}{x}\dd x\wedge\dd y&=\int_{b_1}^{b_2}\left(\int_{a_1}^{a_2}\partialderivative{Q}{x}\dd x\right)\dd y\\
+            &=\int_{b_1}^{b_2}\left(Q(a_2,y)-Q(a_1,y)\right)\\
+            &=\int_\gamma Q\dd y.
+        \end{align}
+        We can repeat the same argument for $\partialderivative{P}{y}.$
+    \end{proof}
+\end{theorem}
+Green's theorem tells us that if $\partialderivative{P}{y},\partialderivative{Q}{x}$ exists and are continuous then $\int_\gamma=0$ for a sufficiently small rectangle $A$ iff $\int_A=\left(\partialderivative{Q}{x}-\partialderivative{Q}{y}\dd x\wedge\dd y\right)$ for sufficiently small rectangle $A$ iff $\partialderivative{Q}{x}-\partialderivative{P}{y}=0.$ This means that our definition of closed is equivalent to the MAT257 definition $(\dd\omega=0)$ when $\omega$ is $C^1.$
+
+\begin{theorem}[Cauchy]
+    If $f(z)$ is a holomorphic function in an open subset $\Omega\subseteq\C$ then the differential form $f(z)\dd z$ is closed.
+    \begin{proof}[Proof (with additional assumption)] Let $z=x+iy,$ and additionally assume $\partialderivative{f}{x}$ and $\partialderivative{f}{y}$ exist and are continuous. Then, \begin{align}
+        f(z)\dd z=f(z)\dd x+if(z)\dd y.
+    \end{align}
+    By Green's theorem, it is sufficient to show that $\partialderivative{f}{y}=i\partialderivative{f}{x}.$ This is the Cauchy-Riemann equation which holds because $f$ is holomorphic.
+    
+    \redbf{Warning:} \textcolor{red}{we do not want to use this assumption, because we will use Cauchy's theorem to prove that the partial derivatives are continuous. If we accept this proof, we accept} \redbf{circular reasoning}. 
+    \end{proof}
+    \begin{proof}[Proof (complete)]
+        It suffices to show $\mu(R)=\int_\gamma f(z)\dd z=0$ when $\gamma$ is the boundary of any rectangle $R\subset\Omega.$ Let's divide $R$ into $4$ equal parts $R_i$; each with an oriented boundary $\gamma_i.$ Then, \begin{align}
+            \int_\gamma f(z)\dd z&=\sum_{i=1}^4\int_{\gamma_i} f(z)\dd z.
+        \end{align}
+        So, for at least one $i,$ \begin{align}
+            \left|\int_{\gamma_i} f(z)\dd z\right|&\geq\frac{1}{4}\left|\int_\gamma f(z)\dd z\right|,
+        \end{align}
+        for this $i,$ we define $\gamma^{(1)}=:\gamma_i,R^{(1)}=R_i.$ Hence, $|\mu(R^{(1)})|=\frac{1}{4}|\mu(R)|.$ If we continue to subdivide, we have $R\supset R^{(1)}\supset R^{(2)}\supset\cdots$ and $|\mu(R^{(n+1)})|\geq\frac{1}{4}|\mu(R^{(n)})|.$ Then, \begin{align}
+            |\mu(R^{(n)})|=\int_{\gamma^{(k)}}f(z)\dd z\geq \frac{1}{4^k}\left|\int_\gamma f(z)\dd z\right|=\frac{1}{4^k}|\mu(R)|.
+        \end{align}
+        Then, we know $\exists! z_0\in\bigcup_k R^{(k)}.$ Since $f$ is holomorphic at $z_0$ then \begin{align}
+            f(z)=f(z_0)+f'(z_0)(z-z_0)+\varphi(z)|z-z_0|
+        \end{align}
+        where $\lim_{z\to z_0}\varphi(z)=0$ i.e. $\forall\varepsilon>0\,\exists\delta>0$ s.t $|z-z_0|<\delta\implies|\varphi(z)|<\varepsilon.$ \begin{align}
+            \int_{\gamma^{(k)}}f(z)\dd z=\int_{\gamma^{(k)}}f(z_0)\dd z+\int_{\gamma^{(k)}}f'(z_0)(z-z_0)\dd z+\int_{\gamma^{(k)}}\varphi(z)|z-z_0|\dd z.
+        \end{align}
+        The first two integrals are zero because their integrands have primitives. Given $\varepsilon>0,$ if $|z-z_0|<\delta$ then \begin{align}
+            \left|\int_{\gamma^{(k)}}\varphi(z)|z-z_0|\dd z\right|&\leq\varepsilon\int_{\gamma^{(k)}}|z-z_0|\dd z\\
+            &\leq\varepsilon\cdot\mathrm{diameter}(R^{(k)})\cdot\mathrm{perimeter}(R^{(k)})\\
+            &=\varepsilon\cdot\frac{1}{2^k}\mathrm{diameter}(R)\cdot\frac{1}{2^k}\mathrm{perimeter}(R).\\
+            &=\varepsilon\cdot\frac{1}{4^k}\mathrm{diameter}(R)\cdot\mathrm{perimeter}(R).
+        \end{align}
+        We know that \begin{align}
+            |\mu(R)|\leq 4^k\left|\int_{\gamma^{(k)}}f(z)\dd z\right|\leq\varepsilon\cdot\mathrm{diameter}(R)\cdot\mathrm{perimeter}(R).
+        \end{align}
+        for any $\varepsilon>0,$ so $\mu(R)=0.$
+    \end{proof}
+    \begin{corollary}
+        If $f(z)$ is a holomorphic function in an open $\Omega\subset\C$ locally has a primitive, \textbf{which is also holomorphic}.
+        \begin{proof}
+            Consider the local primitive $F(z).$ Then, by definition $f(z)\dd z=\dd F.$ We know \begin{align}
+                \dd F=\partialderivative{F}{z}\dd z+\partialderivative{F}{\bar z}\dd\bar z. 
+            \end{align}
+            We know $\partialderivative{F}{\bar z}=0$ because $\dd z$ and $\dd\bar z$ are linearly independent, so $F$ is holomorphic.
+        \end{proof}
+    \end{corollary}
+    \begin{corollary}
+        In Cauchy's theorem, it is enough to assume that $f$ is continuous in $\Omega$ and holomorphic outside a line parallel to the real axis. \begin{proof}
+            Consider the following three cases: \begin{enumerate}
+                \item If the rectangle does not intersect the line, then $f$ is holomorphic in the rectangle.
+                \item If the boundary of the rectangle intersects the line, integrate over a slightly smaller rectangle that does not intersect the line. By continuity, the integral is the same as the difference between the rectangles approach zero.
+                \item If the line intersects the interior of the rectangle, then split the region into two and integrate over the boundary of each of the smaller rectangle.
+            \end{enumerate}
+            This corollary extends to a finite union of lines.
+        \end{proof}
+    \end{corollary}
+\end{theorem}
+\begin{theorem}
+    Closed differential form $\omega$ in a \textbf{simply-connected} open subset $\Omega$ of $\R^2$ has a global primitive.
+\end{theorem}
+Next time we will show that a closed differential form $\omega=P\dd x+Q\dd y$ in an open $\Omega\subset\R^2$ always has a \textbf{primitive along a curve} $\gamma(t),t\in[a,b].$ i.e. a continuous function $f(t)$ s.t. for any $t_0\in[a,b]$ then \begin{enumerate}
+    \item $\exists$ a primitive $F$ of $\omega$ in a neighborhood of $\gamma(t)$ s.t. $f(t)=F(\gamma(t))$ for $t$ sufficiently close to $t_0.$
+\end{enumerate}
+
+\subsection{Homotopy}
+We want to know what is a primitive of a closed differential form? We know this is not always the case, but \begin{proposition}
+    $\Omega\subset\R^2$ open and $\omega$ closed differential form in $\Omega.$ Let $\gamma:[a,b]\to\Omega$ be a continuous curve. Then, there is a continuous function $f(t)$ on $[a,b]$ s.t. for every $t_0\in[a,b]$ there is a primitive $F$ of $\omega$ in a neighborhood of $\gamma(t_0)$ s.t. $f(t)=F(\gamma(t))$ for $t$ in a neighborhood of $t_0.$ $f$ is uniquely determined up to a constant.
+    \begin{proof}[Proof (Uniqueness)]
+        Suppose $f_1,f_2$ are primitives of $\omega$ along $\gamma.$ Then in a neighborhood of $t_0,$ then $f_1(t)-f_2(t)=F_1(\gamma(t))-F_2(\gamma(t)).$ $F_1$ and $F_2$ are local primitives of $\omega$ in the same neighborhood, so they differ by a constant. Since $f_1-f_2$ is locally constant and $f_1-f_2$ is continuous, $f_1-f_2$ is constant.
+    \end{proof}
+    \begin{proof}[Proof (Existence)]
+        There is a primitive $a=t_0<t_1<\cdots<t_n=b$ of $[a,b]$ s.t. every $\gamma([t_{i-1},t_i])$ lies in an open disk $U_i$ in which $\omega$ has a primitive $F_i.$ The partition is finite because the curve is compact. We know that $U_i\cap U_{i+1}$ is connected, that $F_{i+1}-F_i$ is constant in $U_i\cap U_{i+1}$. Hence, we can choose the constants step-by-step to make $F_i=F_{i+1}$ in $U_i\cap U_{i+1}.$ Then define $f(t)=F_i(\gamma(t)).$
+    \end{proof}
+\end{proposition}
+
+If $\gamma$ is piecewise $C^1$ and $f$ is a primitive of $\omega$ along $\gamma,$ then $\int_\gamma\omega=f(b)-f(a).$ Consider a partition $\gamma_i=:\gamma|_{[t_{i-1},t_i]}.$ Then, \begin{align}
+    \int_\gamma\omega=\sum_i\int_{\gamma_i}\omega=\sum_i\big(F_i(\gamma(t_i))-F_i(\gamma(t_{i-1}))\big)=f(b)-f(a).
+\end{align}
+So we can define $\int_\gamma\omega$ where $\gamma$ is a continuous curve as $f(b)-f(a).$
+
+Example: Let $\gamma$ be a closed curve about the origin. What is $\int_\gamma\dd z/z=f(b)-f(a)=$ the difference between two branches of $\log$ at $\gamma(a)=\gamma(b),$ which is $2\pi in$ for $n\in\Z.$
+
+Let the real differential form $\int_\gamma\frac{x\dd y-y\dd x}{x^2+y^2}=2\pi n,$ the difference between two branches of $\arctan.$ This is called the \bluebf{variation of $\arg z$ along $\gamma.$} We use this definition even if $\gamma$ is not closed.
+
+\begin{definition}[Homotopy]
+    $\gamma_0,\gamma_1:[0,1]\to\Omega$ continuous curves with the same endpoints are \bluebf{homotopic with fixed endpoints in $\Omega$} if there is a continuous function $\gamma:[0,1]^2\to\Omega$ such that.\begin{align}
+        \gamma(0,t)&=\gamma_0(t),\\
+        \gamma(1,t)&=\gamma_1(t),\\
+        \gamma(s,0)&=\gamma_0(0)=\gamma_1(0),\\
+        \gamma(s,1)&=\gamma_0(1)=\gamma_1(1).
+    \end{align}
+    $\gamma_0,\gamma_1:[0,1]\to\Omega$ that are continuous closed curves are \bluebf{homotopic as closed curves in $\Omega$} if there is a continuous function $\gamma:[0,1]^2\to\Omega$ such that.\begin{align}
+        \gamma(0,t)&=\gamma_0(t),\\
+        \gamma(1,t)&=\gamma_1(t),\\
+        \gamma(s,0)&=\gamma(s,1).
+    \end{align}
+    If $\gamma_1$ is constant, then $\gamma_0$ is \bluebf{homotopic to a point}.
+\end{definition}
+\begin{theorem}
+    If $\omega$ is a differential form in $\Omega$ and $\gamma_0,\gamma_1:[0,1]\to\Omega$ are continuous curves which are homotopic (either with fixed endpoints or as closed curves), then $\int_{\gamma_0}\omega=\int_{\gamma_1}\omega.$
+    \begin{proof}[Proof (Hint)]
+        What we started today by showing that a differential form always has a primitive along a curve. A curve is a mapping from $[0,1]\to\Omega.$ There is nothing in the argument that required us to work on an interval. We can also work on a rectangle. What's true is that it always exists a primitive that exists from $[0,1]^2\to\Omega$ If we extend a proof to a square, this theorem is a very simple conclusion.
+    \end{proof}
+\end{theorem}
+
+
 
 
 \end{document}

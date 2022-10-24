@@ -882,9 +882,87 @@ We should select splitter $s$ uniformly at random.
             \State augment$(f,P)$
             \State update $G_f$
         \EndWhile
-        \Return $f$
+        \State \Return $f$
     \EndProcedure
 \end{algorithmic}
+\begin{itemize}
+    \item First, assume edge capacities are integers. Note at every step, everything remains as integers. In every step, the flow increases by at least $1.$ An upper bound on the max flow is $C=\sum_{e\text{ leaving }s}c(e).$ Assume every node is reachable from $s,$ then an upper bound on the runtime $O((m+n)\cdot C).$ This is pseudo-polynomial time because $C$ can be large.
+    \item To make the algorithm run in polynomial time, we can pick the augmenting path with the maximum bottleneck capacity.\begin{itemize}
+        \item Using a modified Dijkstra's algorithm with a Fibonacci heap, we each iteration takes $O(m+n\log n)$ time.
+        \item We can prove that this takes at most $O(m\log C)$ iterations. Hence, the total running time is $O(m^2\log C+mn\log n\log C).$
+    \end{itemize}
+    \item We can also pick the augmenting path with the minimum number of edges. \begin{itemize}
+        \item Using BFS takes $O(m)$ time per iterations.
+        \item We can prove at most $O(mn)$ iterations. Hence, the total running time is $O(m^2n)$.
+    \end{itemize}
+\end{itemize}
+\subsection{Correctness of Ford-Fulkerson}
+\begin{itemize}
+    \item Given a network flow $\mathcal F=(G=(V,E),s,t,c),$ then $(A,B)$ is an \bluebf{$s$-$t$ cut} of $\mathcal F$ if $(A,B)$ is a partition of $V$ with $s\in A$ and $t\in B.$
+    \item The \bluebf{cut capacity} of $(A,B)$ is $cap(A,B)=\sum_{e:A\to B}c(e).$
+    \item \textbf{Claim:} For any flow $f$ and any $s$-$t$ cut $(A,B),$ then $v(f)=f^{out}(A)-f^{in}(A)$ where $f^{out}(A)=\sum_{e:A\to B}f(e)$ and $f^{in}(A)=\sum_{e:B\to A}f(e).$ The proof is trivial but tedious.
+    \item \textbf{Claim:} For any flow $f$ and any $s$-$t$ cut $(A,B),$ then $v(f)\leq cap(A,B).$ The proof is $v(f)=f^{out}(A)-f^{in}(A)\leq f^{out}(A)=\sum_{e:A\to B}f(e)\leq\sum_{e:A\to B}c(e)=cap(A,B).$
+    \item \textbf{Claim:} For any flow $f$ and any $s$-$t$ cut $(A,B),$ if $v(f)=cap(A,B)$ then $f$ is a max flow and $(A,B)$ is a \bluebf{min cut} (i.e. a cut with minimum cut capacity).
+    \item Proof: Let $f^*$ be a max flow and $(A^*,B^*)$ be a min cut. Let $f$ be any flow and $(A,B)$ be any $s$-$t$ cut. Then, $v(f)\leq v(f^*)$ and $v(f)\leq v(f^*)\leq cap(A^*,B^*)\leq cap(A,B).$ If $v(f)=cap(A,B),$ then $v(f)=v(f^*)=cap(A^*,B^*)=cap(A,B).$ Thus, $f$ is a max flow and $(A,B)$ is a min cut. This is known as the \bluebf{max-flow min-cut theorem.}
+    \item Now we are ready to prove that Ford-Fulkerson algorithm is correct. Let $f$ be the flow returned by the algorithm, and $G_f$ be the corresponding residual graph. Let $A$ be the set of nodes that are reachable from $s$ in $G_f$ and let $B=V\setminus A.$ Clearly, $(A,B)$ is an $s$-$t$ cut because $s\in A$ and $t\in B.$ Note that \begin{itemize}
+        \item Let $u\in A$ and $v\in B.$ Suppose for contradiction that $f(u,v)<c(u,v)$ Then, $G_f$ will have an edge from $(u,v)$ so will an path from $s\to v.$ However, by definition $v$ is not reachable from $s$. This is a contradiction.
+        \item We also know $f(v,u)=0.$ Suppose for contradiction $f(v,u)\neq 0.$ Then $G_f$ will have an reverse edge $(u,v)$ so $v$ is reachable from $s.$ However, by definition $v$ is not reachable from $s$. This is a contradiction.
+    \end{itemize}
+    By claim 2, \begin{align}
+        v(f)&=f^{out}(A)-f^{in}(A)\\
+        &=\sum_{u\in A,v\in B}f(u,v)-\sum_{u\in B,v\in A}f(v,u)\\
+        &=\sum_{u\in A,v\in B}c(u,v)-0\\
+        &=cap(A,B)
+    \end{align}
+    By max-flow min-cut, we know $f$ is a max flow. As a bonus, we also know $(A,B)$ is a min cut.
+    \item \bluebf{Integrality Theorem:} If all the edge capacities are integers, $\exists$ an integral max flow $f$.
+    \item Ford-Fulkerson algorithm can also be used to find the min cut
+    \begin{algorithmic}[1]
+        \Procedure{MinCut}{$\mathcal F$}
+            \State $f\gets$ Ford-Fulkerson($\mathcal F$)
+            \State compute residual graph $G_f$
+            \State $A\gets\{\text{all nodes that are reachable from $s$ in $G_f$}\}$
+            \State $B\gets V\setminus A$
+            \State \Return $(A,B)$
+        \EndProcedure
+    \end{algorithmic}
+\end{itemize}
+
+\subsection{Bipartite Matching}
+\begin{itemize}
+    \item $G=(V,E)$ is an undirected graph. A \bluebf{matching} $M$ in $G$ is a subset of edges of $G$ such that no two edges share the same node.
+    \item A \bluebf{maximal matching} is not a subset of another matching.
+    \item A \bluebf{maximum matching} is a maximal matching that contains the greatest number of nodes.
+\end{itemize}
+A \bluebf{bipartite graph} is an undirected graph such that $G=(V,E)$ such that $V$ is partitioned into $X$ and $Y,$ and every $e\in E$ connects a node in $X$ to a node in $Y.$ It is also sometimes written as $G=[(X,Y),E].$ Reminder: an undirected graph $G$ is bipartite $\iff G$ has no odd cycle. Can determine if $G$ is bipartite in $O(m+n)$ using BFS or DFS.
+\begin{itemize}
+    \item Our problem is given a bipartite graph $G=(V,E)$ output the maximum matching of $G.$
+    \item We can reduce this to the max-flow problem by turning $G=[(X,Y),E]$ into $\mathcal F=(G',s,t,c)$ by \begin{enumerate}
+        \item Directing all edges of $G$ from $X$ to $Y.$
+        \item Connect $s$ to each $x\in X$ and connect each $y\in Y$ to $t.$
+        \item Assign a capacity of $1$ to each edge.
+    \end{enumerate}
+    \begin{algorithmic}[1]
+        \Procedure{BipartiteMatching}{$G$}
+        \State construct flow network $\mathcal F$ from $G$
+        \State $f\gets\mathrm{MaxFlow}(\mathcal F)$
+        \State $M_f\gets\{(x,y)|x\in X,y\in Y, f(x,y)=1\}$
+        \State \Return $M$
+        \EndProcedure
+    \end{algorithmic}
+    \item By the integrality theorem, $f$ is $0$ or $1$ on each edge.
+    \item The running time of the algorithm is $O(mC).$ Here, $C=|X|=O(n),$ so it's $O(mn).$
+    \item Now, we will show that $M$ is a matching and it is optimal.
+    \item \textbf{Claim:} $\exists$ matching of size $k$ in $G\iff\exists$ integral flow of value $k$ in $\mathcal F.$
+    \item $[\implies]$ Given a matching $M$ of size $k,$ construct $f(s,x)=f(x,y)=f(y,t)=1$ if $x\in X$ is matched with $y\in Y.$ As each $x$ is only matched with at most one $y$ and vise versa, $f(s,x)\leq1$ and $f(y,t)\leq1.$ Hence, this flow satisfies a capacity constraint.
+    \item To show the flow conservation rules are satisfied, we can enumerate all six cases where it could fail and show they are impossible.
+    \item $[\impliedby]$ Given an integral flow $f$ in $\mathcal F$ of value $k,$ we can construct a matching $M_f$ in $G$ of size $k$ by \begin{itemize}
+        \item For each edge $(x,y)$ s.t. $f(x,y)=1,$ match $x$ with $y.$ 
+        \item If this is a matching, there is a flow of $k$ from $s,$ and by flow conservation $k$ edges from $X$ to $Y$ must have flow $1,$ so the size of the matching is $k.$ 
+        \item  By contradiction suppose this is not a matching. Then either $x_1,x_2\in X$ connects to $y\in Y$ then by flow conservation $f(y,t)\geq2$ which violates capacity constraint. Or, $x\in X$ connects to $y_1,y_2\in Y.$ Then $f(s,x)\geq2$ which also violate the capacity constraint.  
+    \end{itemize}
+    \item This shows that $M$ is an optimal matching because we found the max flow of $\mathcal F.$ 
+\end{itemize}
 
 
 \end{document}
