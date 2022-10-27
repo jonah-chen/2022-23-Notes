@@ -6,3 +6,5 @@
 *.pre
 *.log
 /.vscode
+*.synctex(busy)
+*.toc

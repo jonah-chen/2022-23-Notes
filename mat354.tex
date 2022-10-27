@@ -600,26 +600,26 @@ Green's theorem tells us that if $\partialderivative{P}{y},\partialderivative{Q}
         \end{align}
         for any $\varepsilon>0,$ so $\mu(R)=0.$
     \end{proof}
-    \begin{corollary}
-        If $f(z)$ is a holomorphic function in an open $\Omega\subset\C$ locally has a primitive, \textbf{which is also holomorphic}.
-        \begin{proof}
-            Consider the local primitive $F(z).$ Then, by definition $f(z)\dd z=\dd F.$ We know \begin{align}
-                \dd F=\partialderivative{F}{z}\dd z+\partialderivative{F}{\bar z}\dd\bar z. 
-            \end{align}
-            We know $\partialderivative{F}{\bar z}=0$ because $\dd z$ and $\dd\bar z$ are linearly independent, so $F$ is holomorphic.
-        \end{proof}
-    \end{corollary}
-    \begin{corollary}
-        In Cauchy's theorem, it is enough to assume that $f$ is continuous in $\Omega$ and holomorphic outside a line parallel to the real axis. \begin{proof}
-            Consider the following three cases: \begin{enumerate}
-                \item If the rectangle does not intersect the line, then $f$ is holomorphic in the rectangle.
-                \item If the boundary of the rectangle intersects the line, integrate over a slightly smaller rectangle that does not intersect the line. By continuity, the integral is the same as the difference between the rectangles approach zero.
-                \item If the line intersects the interior of the rectangle, then split the region into two and integrate over the boundary of each of the smaller rectangle.
-            \end{enumerate}
-            This corollary extends to a finite union of lines.
-        \end{proof}
-    \end{corollary}
 \end{theorem}
+\begin{corollary}
+    If $f(z)$ is a holomorphic function in an open $\Omega\subset\C$ locally has a primitive, \textbf{which is also holomorphic}.
+    \begin{proof}
+        Consider the local primitive $F(z).$ Then, by definition $f(z)\dd z=\dd F.$ We know \begin{align}
+            \dd F=\partialderivative{F}{z}\dd z+\partialderivative{F}{\bar z}\dd\bar z. 
+        \end{align}
+        We know $\partialderivative{F}{\bar z}=0$ because $\dd z$ and $\dd\bar z$ are linearly independent, so $F$ is holomorphic.
+    \end{proof}
+\end{corollary}
+\begin{corollary}
+    In Cauchy's theorem, it is enough to assume that $f$ is continuous in $\Omega$ and holomorphic outside a line parallel to the real axis. \begin{proof}
+        Consider the following three cases: \begin{enumerate}
+            \item If the rectangle does not intersect the line, then $f$ is holomorphic in the rectangle.
+            \item If the boundary of the rectangle intersects the line, integrate over a slightly smaller rectangle that does not intersect the line. By continuity, the integral is the same as the difference between the rectangles approach zero.
+            \item If the line intersects the interior of the rectangle, then split the region into two and integrate over the boundary of each of the smaller rectangle.
+        \end{enumerate}
+        This corollary extends to a finite union of lines.
+    \end{proof}
+\end{corollary}
 \begin{theorem}
     Closed differential form $\omega$ in a \textbf{simply-connected} open subset $\Omega$ of $\R^2$ has a global primitive.
 \end{theorem}
@@ -661,14 +661,117 @@ Let the real differential form $\int_\gamma\frac{x\dd y-y\dd x}{x^2+y^2}=2\pi n,
     \end{align}
     If $\gamma_1$ is constant, then $\gamma_0$ is \bluebf{homotopic to a point}.
 \end{definition}
+\begin{definition}[Simply Connected]
+    $\Omega$ is \bluebf{simply connected} if every closed curve in $\Omega$ is \bluebf{null homotopic} (homotopic to a point). There are the following equivalent definitions \begin{itemize}
+        \item Any two curves with the same endpoints are homotopic with fixed endpoints.
+    \end{itemize}
+\end{definition}
+
 \begin{theorem}
-    If $\omega$ is a differential form in $\Omega$ and $\gamma_0,\gamma_1:[0,1]\to\Omega$ are continuous curves which are homotopic (either with fixed endpoints or as closed curves), then $\int_{\gamma_0}\omega=\int_{\gamma_1}\omega.$
+    If $\omega$ is a closed differential form in $\Omega$ and $\gamma_0,\gamma_1:[0,1]\to\Omega$ are continuous curves which are homotopic (either with fixed endpoints or as closed curves), then $\int_{\gamma_0}\omega=\int_{\gamma_1}\omega.$
     \begin{proof}[Proof (Hint)]
         What we started today by showing that a differential form always has a primitive along a curve. A curve is a mapping from $[0,1]\to\Omega.$ There is nothing in the argument that required us to work on an interval. We can also work on a rectangle. What's true is that it always exists a primitive that exists from $[0,1]^2\to\Omega$ If we extend a proof to a square, this theorem is a very simple conclusion.
     \end{proof}
+
+    \begin{lemma}
+        Suppose $\omega$ is a closed form in $\Omega$ and $\gamma:[a,b]\times[c,d]\to\Omega$ is a continuous function. Then, there is a continuous function $f:[a,b]\times[c,d]\to\C$ s.t. for every point $(s_0,t_0)\in[a,b]\times[c,d]$ there is a local primitive $F$ of $\omega$ defined in a neighborhood of $\gamma(s_0,t_0)$ s.t. $f=F(\gamma(s,t))$ in a neighborhood of $(s_0,t_0).$ Moreover, $f$ is unique up to the addition of a constant.
+        \begin{proof}
+            Choose partitions $\{s_i\}$ of $[a,b]$ and $\{t_j\}$ of $[c,d]$ s.t. $\gamma$ maps every $[s_{i-1},s_i]\times[t_{j-1},t_j]$ into an open disk $U_{ij}$ where $\omega$ has a primitive $F_{ij}.$
+
+            For a fixed $j,$ there is a primitive $f_j$ along $\gamma|_{[a,b]\times[t_{j-1},t_j]}$ like before. ($F_{ij},F_{i+1,j}$ differ by a constant in $U_{ij}\cap U_{i+1,j}$ So, we can adjust these constants one at a time to make them equal in the intersection.)
+
+            Then we can define $f_j$ as $F_{ij}\circ\gamma$ in $[s_{i-1},s_i]\times[t_{j-1},t_j].$ For each $j,$ on $[a,b]\times\{t_j\}.$ On that line, both $f_j$ and $f_{j+1}$ are primitives along a curve, so they differ by a constant. So, we can again adjust these constants so $f_j=f_{j+1}$ on $[a,b]\times\{t_j\}.$
+
+            Then we can define $f$ as $f_j$ in $[a,b]\times[t_{j-1},t_j].$
+        \end{proof}
+    \end{lemma}
+    \begin{proof}[Proof (fixed endpoints)]
+        We have homotopy $\gamma:[0,1]\times[0,1]\to\Omega$ with fixed endpoints. Let $f$ be a primitive of $\omega$ along $\gamma.$ We know $f$ is constant on $t=0$ and $t=1$ because $\gamma$ is constant. So, $f(0,0)=f(1,0)$ and $f(0,1)=f(1,1).$ We know $f$ is a primitive of $\omega,$ so \begin{align}
+            \int_{\gamma_0}\omega&=f(0,1)-f(0,0)\\
+            \int_{\gamma_1}\omega&=f(1,1)-f(1,0),
+        \end{align}
+        thus they are equal.
+    \end{proof}
+    \begin{corollary}
+        In a simply connected open set, any closed form has a primitive.
+    \end{corollary}
 \end{theorem}
-
-
-
+\begin{definition}[Star-Shaped]
+    $\Omega$ is \bluebf{star-shaped} if $\exists a\in\Omega$ s.t. for every $x\in\Omega,$ the line segment $\{(1-t)a+tx|t\in[0,1]\}\subseteq\Omega.$
+\end{definition}
+We will present some examples:
+\begin{enumerate}
+    \item A star shaped open set $\Omega$ is simply connected. For any curve, $\gamma:[0,1]\to\Omega,$ choose $\gamma(s,t)=a+s(\gamma(t)-a)$ which is a homotopy between $\gamma$ and the point $a.$
+    \item Closed form $\omega=\dd z/z$ has a primitive in any simply connected open set $\Omega$ not containing $0.$ i.e. $\log z$ has a branch in any simply connected open set not containing $0.$ Hence, we can define \begin{align}
+        \log z=w_0+\int_{z_0}^z\frac{\dd z'}{z'}\qquad\text{where }e^{w_0}=z_0.
+    \end{align}
+    
+    \item $\C\setminus\{0\}$ is not simplify connected. $S^1$ is not homotopic to a point in $\C\setminus\{0\}$ because $\int_{S^1}\dd z/z=2\pi i\neq0.$
+\end{enumerate}
+\begin{definition}[Winding Number]
+    Let $\gamma:[0,1]\to\C$ be a closed curve and $a$ be a point not on $a.$ The \bluebf{winding number} of $\gamma$ w.r.t $a$ is \begin{align}
+        w(\gamma,a)=\frac{1}{2\pi i}\int_{\gamma}\frac{\dd z}{z-a}.
+    \end{align}
+\end{definition}
+Observe the following properties \begin{enumerate}
+    \item $w(\gamma,a)\in\Z.$
+    \item Fix $a,$ then $w(\gamma,a)$ is invariant under homotopy of $\gamma$ not passing through $a$ (by the previous theorem).
+    \item In particular, if $\gamma$ lies in a simply connected open set not containing $a,$ then $w(\gamma,a)=0.$
+    \item Fix $\gamma,$ then $w(\gamma,a)$ is constant on connected components of $\C\setminus\gamma([0,1]).$ It suffices to show that $w(\gamma,a)$ is locally constant. A small shift of $a$ is equivalent to the same shift of $\gamma$ in the opposite direction, which is a homotopy not passing through $a.$
+    \item If $\gamma$ is a circle described in \textbf{positive sense} (w.r.t to the center $c,w(\gamma,c)=1.$) Then, $w(\gamma,a)=0$ when $a$ is outside $\gamma$ and $w(\gamma,a)=1$ when $a$ is inside $\gamma.$
+\end{enumerate}
+\begin{theorem}[Cauchy's Integral Formula]
+    For an open set $\Omega\subseteq\C,$ a point $a\in\C$ a holomorphic function in $\Omega,$ $f(z)$ and a closed curve $\gamma:[0,1]\to\Omega$ not containing $a$ that is homotopic to a point in $\Omega.$ Then, \begin{align}
+        \frac{1}{2\pi i}\int_\gamma\frac{f(z)}{z-a}\dd z=w(\gamma,a)\cdot f(a).
+    \end{align}
+    \begin{proof}
+        Let \begin{align}
+            g(z)&=\begin{cases}
+                \frac{f(z)-f(a)}{z-a}&\text{if }z\neq a\\
+                f'(a)&\text{if }z=a
+            \end{cases}.
+        \end{align}
+        We know $g(z)$ is continuous, and holomorphic when $z\neq a.$ By Cauchy's theorem, $g(z)\dd z$ is closed. Thus, \begin{align}
+            0&=\int_\gamma g(z)\dd z=\int_\gamma\frac{f(z)-f(a)}{z-a}\dd z
+        \end{align}
+        i.e. \begin{align}
+            \int_\gamma\frac{f(z)}{z-a}\dd z&=f(a)\int_\gamma\frac{\dd z}{z-a}=f(a)\cdot 2\pi iw(\gamma,a).
+        \end{align}
+    \end{proof}
+\end{theorem}
+\begin{corollary}
+    If $f(z)$ is holomorphic in a neighborhood of a closed disk $D$ and $\gamma=\partial D$ then \begin{align}
+        \frac{1}{2\pi i}\int_\gamma\frac{f(z)}{z-a}=\begin{cases}
+            f(a)&\text{if }a\in D\\
+            0&\text{otherwise}
+        \end{cases}
+    \end{align}
+\end{corollary}
+\begin{corollary}
+    A holomorphic function $f(z)$ in an open set in $D$ is infinitely differentiable in $D.$ Fix some smaller disk containing $z$ with boundary $\gamma.$ By Cauchy's integral formula, \begin{align}
+        f(z)=\frac{1}{2\pi i}\int_\gamma\frac{f(\zeta)\dd\zeta}{\zeta-z}.
+    \end{align}
+    Then we can differentiate under the integral sign so \begin{align}
+        f(z)=\frac{1}{2\pi i}\int_\gamma\derivative{}{z}\frac{f(\zeta)\dd\zeta}{\zeta-z}=\frac{1}{2\pi i}\int_\gamma\frac{f(\zeta)\dd\zeta}{(\zeta-z)^2}.
+    \end{align}
+    In fact, \begin{align}
+        f^{(n)}(z)=\frac{n!}{2\pi i}\int_\gamma\frac{f(\zeta)\dd\zeta}{(\zeta-z)^{n+1}}.
+    \end{align}
+\end{corollary}
+\begin{theorem}[Morera]
+    If $f(z)\dd z$ is a closed form, then $f(z)$ is holomorphic.
+    \begin{proof}
+        If $f(z)\dd z$ is a closed form, then $f(z)$ locally has a primitive $g(z)$ which is holomorphic. Then, $f(z)=g'(z)$ is also holomorphic.
+    \end{proof}
+\end{theorem}
+\begin{corollary}
+    A continuous function which is holomorphic except on a finitely many line is holomorphic everywhere.
+\end{corollary}
+We can wrap up the previous theorem as follows. Consider $f(z)$ is a continuous function in $\Omega.$ Then, the following are equivalent \begin{enumerate}
+    \item $f(z)$ is holomorphic in $\Omega.$
+    \item $f(z)\dd z$ is closed.
+    \item $\displaystyle{f(z)=\frac{1}{2\pi i}\int_\gamma\frac{f(\xi)}{\xi-z}\dd\xi}$ when $z$ is in the interior of a closed disk $D$ in $\Omega,$ with oriented boundary $\gamma.$
+\end{enumerate}
+$(1)\implies(2)$ is cauchy's theorem, $(2)\implies(3)$ is cauchy's integral formula, $(3)\implies(2)$ is the corollary, and $(2)\implies(1)$ is Morera's theorem.
 
 \end{document}

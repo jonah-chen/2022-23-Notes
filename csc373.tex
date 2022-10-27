@@ -961,8 +961,56 @@ A \bluebf{bipartite graph} is an undirected graph such that $G=(V,E)$ such that 
         \item If this is a matching, there is a flow of $k$ from $s,$ and by flow conservation $k$ edges from $X$ to $Y$ must have flow $1,$ so the size of the matching is $k.$ 
         \item  By contradiction suppose this is not a matching. Then either $x_1,x_2\in X$ connects to $y\in Y$ then by flow conservation $f(y,t)\geq2$ which violates capacity constraint. Or, $x\in X$ connects to $y_1,y_2\in Y.$ Then $f(s,x)\geq2$ which also violate the capacity constraint.  
     \end{itemize}
-    \item This shows that $M$ is an optimal matching because we found the max flow of $\mathcal F.$ 
+    \item This shows that $M$ is an optimal matching because we found the max flow of $\mathcal F.$
 \end{itemize}
-
+\subsection{Min Vertex Cover}
+\begin{itemize}
+    \item Given an undirected graph $G=(V,E).$ A \bluebf{vertex cover} $V'\subseteq V$ is a subset s.t. every edge has at least one endpoint in $V'.$ A minimum vertex cover is a vertex cover of minimum size.
+    \item In a general graph, finding a min vertex cover is NP-Complete, but we can have a polynomial time algorithm for bipartite graphs.
+    \item \textbf{Claim:} for any matching $M$ in $G$ and any vertex cover $C$ of $G,$ then $|M|\leq|C|.$ The proofs follow from every edge in $M$ is covered by at least one node in $C$ and every node in $C$ is covered by at least one edge in $M.$
+    \item \textbf{Claim:} For any matching $M$ in $G$ and any vertex cover $C$ of $G,$ if $M$ is a maximum matching, then $C$ is a minimum vertex cover. This follows straight from the inequality of the previous claim.
+    \item \textbf{Claim:} If $G=[(X,Y),E]$ is a bipartite graph, then the size of the maximum matching is equal to the size of the minimum vertex cover. \redbf{This is not true for general graphs.} Consider a complete graph $K_3$ with three nodes $A,B,C.$ The maximum matching is size $1$ and the minimum vertex cover is size $2.$ \begin{itemize}
+        \item Given a bipartite graph $G$ construct a flow network $\mathcal F$ as before. Let $f$ be the integral max flow in $\mathcal F$ from the Ford-Fulkerson algorithm, and let $G_f$ be the residual graph.
+        \item Let $S$ be the nodes reachable from $s$ in $G_f,$ and $T=V\setminus S.$ $(S,T)$ is a min-cut with capacity of $cap(S,T)=v(f).$
+        \item Consider the type of edges in $F$ from $S$ to $T:$\begin{enumerate}
+            \item $s\to X\cap T,$ there are $|X\cap T|$ edges.
+            \item $Y\cap S\to t,$ there are $|Y\cap S|$ edges.
+            \item $\cancel{X\cap S\to Y\cap T},$ there are $0$ edges (we will show this later)
+        \end{enumerate}
+        \item $C=(X\cap T)\cup(Y\cap S)$ is a vertex cover of $G.$ We know $G$ has $4$ types of edges \begin{enumerate}
+            \item $X\cap S\to Y\cap S$ is covered by nodes in $Y\cap S.$
+            \item $X\cap T\to Y\cap T$ is covered by nodes in $X\cap T.$
+            \item $X\cap T\to Y\cap S$ is covered by nodes in $X\cap T$ (and $Y\cap S$).
+            \item $X\cap S\to Y\cap T$ contains no edges.
+        \end{enumerate}
+        \item Let $M$ be the matching corresponding to the flow $f$ \begin{align}
+            |C|=|X\cap T|+|Y\cap S|&=|X\cap T|+|Y\cap S|=cap(S,T)=v(f)=|M|
+        \end{align}
+        So $|C|=|M|$ for some matching $M$ of $G$ so $C$ is a min vertex cover.
+        \item Now we will show there are no edges from $X\cap S$ to $Y\cap T$. By contradiction let  $x\in X\cap S$ and $y\in Y\cap T$ where $G$ has edge from $x\to y$ In the residual graph, there is no edge from $x\to y.$ So, $f(x,y)=1.$
+        \item As $x\in S,$ there is a path from $s\to x$ in $G_f.$ If the path is simple, then $f(s,x)=0$ so flow conservation is violated.
+        \item With reverse edges in $G_f,$ a path $P:s\to x_1\to y_1\to\cdots\to x_k\to y_k\to x$ is possible where $y_1,\dots,y_k\in Y\cap S.$ Because $G_f$ has a reverse edge $y_k\to x,$ we know $f(x,y_k)=1.$ Also, $f(x,y)=1$ so the flow leaving $x$ is at least $2,$ which violates flow conservation.
+    \end{itemize}
+    \begin{algorithmic}[1]
+        \Procedure{BipartiteVC}{$G=[(X,Y),E]$}
+            \State construct flow network $\mathcal F$ from $G$
+            \State $f\gets\mathrm{MaxFlow}(\mathcal F)$
+            \State $S\gets\text{ nodes reachable from }s\text{ in }G_f$
+            \State $T\gets V\setminus S$
+            \State $VC\gets(X\cap T)\cup(Y\cap S)$
+            \State \Return $VC$
+        \EndProcedure
+    \end{algorithmic}
+    Running time is the same as max matching, $O(mn).$
+\end{itemize}
+\subsection{Hall's Theorem}
+\begin{itemize}
+    \item A \bluebf{perfect matching} in a bipartite graph $G=([X,Y],E)$ with $|X|=|Y|$ is a matching $M$ s.t. $M$ covers all nodes in $G.$
+    \item Hall's theorem states that a bipartite graph $G=([X,Y],E)$ has a perfect matching iff $\exists X'\subseteq X$ s.t. $|X'|>|N(X')|.$
+    \item $[\impliedby]$ is straightforward.
+    \item $[\implies]$ Assume no perfect matching for $G$ exists. So, any matching $M$ will have $|M|<n/2.$ Let $R$ be a min vertex cover of $G$ so $|R|<n/2.$ Let $X'=X\setminus R$ then $|X'|>n/2.$ Then, $|X'|>n/2>|R|>|Y\cap R|.$ There is no neighbor of $X'$ in $Y\setminus R$ otherwise we can match them. Thus, $|N(X')|\leq|Y\cap R|<|X'|.$
+    \item The contrapositive is also useful.
+\end{itemize}
+\subsection{Edge Disjoint Sets}
 
 \end{document}
