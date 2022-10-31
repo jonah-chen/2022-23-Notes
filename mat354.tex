@@ -774,4 +774,57 @@ We can wrap up the previous theorem as follows. Consider $f(z)$ is a continuous 
 \end{enumerate}
 $(1)\implies(2)$ is cauchy's theorem, $(2)\implies(3)$ is cauchy's integral formula, $(3)\implies(2)$ is the corollary, and $(2)\implies(1)$ is Morera's theorem.
 
+Applications of Cauchy's Integral Formula: Let $f(z)$ be holomorphic in the disk $|z|<R.$ Let $r$ be any number $0<r<R,$ then if $z<r$ then \begin{align}
+    f(z)=\frac{1}{2\pi i}\int_\gamma\frac{f(\zeta)}{\zeta-z}\dd\zeta\qquad f^{(n)}(z)=\frac{n!}{2\pi i}\int_\gamma\frac{f(\zeta)}{(\zeta-z)^{n+1}}\dd\zeta.
+\end{align}
+This allows us to write the power series expansion of $f$ at $0$ $f(z)=\sum a_nz^n.$ \begin{align}
+    a_n=\frac{f^{(n)}(0)}{n!}=\frac{1}{2\pi i}\int_\gamma\frac{f(\zeta)}{\zeta^{n+1}}\dd\zeta.
+\end{align}
+\begin{theorem}
+    $f(z)$ has a convergent power series expansion in $|z|<R.$
+    \begin{proof}
+        Note that \begin{align}
+            \frac{1}{\zeta-z}=\frac{1}{\zeta}\left(1-\frac{z}{\zeta}\right)^{-1}=\frac{1}{\zeta}\sum_{n=0}^\infty\frac{z^n}{\zeta^n},
+        \end{align}
+        this is a geometric series which converges for $|z|<|\zeta|=r.$ Then, we can substitute this expression \begin{align}
+            f(z)=\frac{1}{2\pi i}\int_\gamma\sum_{n=0}^\infty \frac{z^n f(\zeta)}{\zeta^{n+1}}\dd\zeta.
+        \end{align}
+        For fixed $z,$ and $|z|<r,$ this is uniformly convergent by comparison with geometric series. So, the integral and the sum commute.
+        \begin{align}
+            f(z)=\sum_{n=0}^\infty\frac{z^n}{2\pi i}\int_\gamma\frac{f(\zeta)}{\zeta^{n+1}}\dd\zeta.
+        \end{align}
+    \end{proof}
+\end{theorem}
+\begin{corollary}
+    Every holomorphic function is analytic.
+\end{corollary}
+We can write the power series expansion as a fourier series by using $z=re^{i\theta},$ then \begin{align}
+    f(z)=\sum_{m=0}^{\infty}a_mr^me^{im\theta}.
+\end{align}
+We can multiply both sides by $e^{in\theta}$ and integrate from $0$ to $2\pi,$ then \begin{align}
+    a_nr^n=\frac{1}{2\pi}\int_0^{2\pi}f(re^{i\theta})e^{in\theta}\dd\theta.
+\end{align}
+We can also see this by integration by substitution $\zeta=re^{i\theta},\dd\zeta=ire^{i\theta}\dd\theta.$ This integral formula gives an upper bound for the taylor coefficients. Let $M(r)=\sup_\theta|f(re^{i\theta})|.$ Then. $|a_nr^n|\leq|M(r)|$ so $|a_n|\leq|M(r)|/r^n.$ These are called \bluebf{Cauchy's Inequalities}.
+\begin{theorem}[Liouville]
+    A bounded holomorphic function in $\C$ is constant.
+    \begin{proof}
+        $M(r)\leq M$ for some $M$ since $f$ is bounded. So, $|a_n|\leq M/r^n$ for all $r>0,$ so if $n\geq1,$ then $a_n=0$ and $f(z)=a_0$ is constant. 
+    \end{proof}
+\end{theorem}
+\begin{corollary}
+    \textbf{Fundamental theorem of algebra.} Any non-constant polynomial on $\C$ has a root.
+    \begin{proof}
+        By contradiction suppose a polynomial $P(z)$ has no root. Then, $1/P(z)$ is a holomorphic function on $\C$ and its bounded. Therefore, it is constant so $P(z)$ is constant. 
+    \end{proof}
+\end{corollary}
+\begin{theorem}[Schwartz's reflection principle]
+    Let $\Omega\subseteq\C$ be a domain that is symmetric with respect to the real axis. Let $\Omega^+=\{z\in\Omega|\Im(z)\geq0\},\Omega^-=\{z\in\Omega|\Im(z)\leq0\}.$ Let $f(z)$ be continuous on $\Omega^+,$ real on $\Omega\cap\R$ and holomorphic in $\Omega^{+}\setminus\R,$ then $f(z)$ extends to a holomorphic function in $\Omega$ (and it is unique by the principle of analytic continuation).
+    \begin{proof}
+        Define $g(z)=\begin{cases}
+            f(z)& z\in\Omega^+\\
+            \overline{f(\bar z)} & z\in\Omega^-
+        \end{cases}.$ Then we know $g(z)$ is holomorphic in $\Omega\setminus\R.$ $g$ is continuous on $\Omega$ also therefore $g$ is holomorphic in $\Omega.$
+    \end{proof}
+    A more general form of this result can apply to any line (with the image on another line). Similarly to a circle.
+\end{theorem}
 \end{document}

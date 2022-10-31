@@ -699,5 +699,96 @@ The notation is awful, but idea is we can decompose $G$ into its Sylow $p$-subgr
     The subgroups $C_{p_i^{\beta_1^i}},\dots,C_{p_i^{\beta_{\alpha_i}^i}}$ or sometimes their orders are called the \bluebf{elementary divisors} of $G.$
 \end{definition}
 
+Semidirect product of $\R^2\rtimes SO(2).$ Translate first then rotate. e.g. $g=\left(\begin{pmatrix}
+    0\\1
+\end{pmatrix},\begin{pmatrix}
+    0 & 1\\-1&0
+\end{pmatrix}\right)$
+and $g'=\left(\begin{pmatrix}
+    -1\\0
+\end{pmatrix},\frac{1}{\sqrt2}\begin{pmatrix}
+    1&1\\-1&1
+\end{pmatrix}\right).$ These are the motions of the plane that preserves lengths and angles.
+
+\begin{theorem}
+    Let $G$ be a finite group and $G_0=G.$ then construct $G_1=[G_0,G_0],\dots G_i=[G_{i-1},G_{i-1}].$  This series will always terminate, and $G$ is solvable iff $\exists r$ s.t. $G_r=\{e\}.$ \begin{proof}
+        Messy, but not hard.
+    \end{proof}
+\end{theorem}
+\begin{definition}[Upper Central Series]
+    $Z_0=\{e\},Z_1(G)$ and $Z_1(G)=Z(G)$ then let $Z_2$ be a subgroup of $G$ s.t. $Z_2(G)/Z_1(G)=Z(G/Z_1(G)),$ $Z_i(G)/Z_{i-1}(G)=Z(G/Z_{i-1}(G)).$ This series will always terminate with \begin{align}
+        \{e\}=Z_0\triangleleft Z_1\triangleleft Z_2\triangleleft\cdots\triangleleft Z_r=G
+    \end{align}
+\end{definition}
+\begin{definition}[Nilpotent]
+    $G$ is \bluebf{nilpotent} if $G$ is solvable and $Z_r(G)=G.$
+\end{definition}
+\begin{definition}[Lower Central Series]
+    $G^{(0)}=G,G^{(1)}=[G,G],G^{(2)}=[G^{(0)},G^{(1)}],G^{(i)}=[G^{(0)},G^{(i-1)}].$   
+\end{definition}
+\begin{theorem}
+    $G$ is solvable iff $\exists r$ s.t. $G^{(r)}=\{e\}.$
+\end{theorem}
+
+We have developed the following understanding of groups in order of complexity: \begin{enumerate}
+    \item Trivial group $\{e\}$
+    \item Cyclic group of prime order $C_p$
+    \item Cyclic group $C_n$
+    \item Abelian group
+    \item $p$-group
+    \item Nilpotent group
+    \item Solvable group
+\end{enumerate}
+
+\begin{definition}[Characteristic]
+    A proper subgroup $H<G$ is a \bluebf{characteristic subgroup} if $\varphi(H)=H$ for all $\varphi\in\mathrm{Alt}(G).$ (Note normal subgroups are only required to satisfy this property for inner automorphisms).
+\end{definition}
+\begin{proposition}
+    If $H$ is normal in a characteristic subgroup of $G,$ then $H\trianglelefteq G.$ This is not true without the characteristic property.
+\end{proposition}
+
+\subsection{Nilpotent Groups}
+Easy: $p$-groups are nilpotent.
+
+(almost) easy: a product of nilpotent groups is nilpotent. (the pieces in the definition of nilpotence work ``component-wise'' in a product).
+
+In particular, product of $p$-groups are nilpotent.
+
+If $P$ is a $p$-group and $Q$ is a $q$-group, in $G=P\times Q,$ $P=P\times\{e\}\in\mathrm{Syl}_p(G)\triangleleft G$ and $Q=\{e\}\times Q\in\mathrm{Syl}_q(G)\triangleleft G.$ Analogously, $G=P_1\times P_2\times\cdots\times P_k$ is nilpotent iff $P_i$ is a $p_i$-group, then the $P_i$s are the Sylow $p_i$-subgroups of $G,$ and each is normal (so it is the only $p_i$ subgroup).
+
+\begin{theorem}
+    Suppose $G$ is finite, then the following are equivalent: \begin{enumerate}
+        \item $G$ is nilpotent.
+        \item If $H<G$ is a proper subgroup, then $H<N_G(H)$ is also a proper subgroup.
+        \item If $p\mid |G|$ and $P\in \mathrm{Syl}_p(G),$ then $P$ is normal. Hence, all Sylow $p$-subgroups are normal.
+        \item $G\cong P_1\times\cdots\times P_k$ where $P_i\in\mathrm{Syl}_{p_i}(G)$ and $p_1,\cdots,p_k$ are distinct primes. 
+    \end{enumerate}
+    \begin{proof}[Proof (hint $1\to 2$)]
+        If $G$ is abelian, then the proof is trivial. So, we can assume $G$ is not abelian. Otherwise, the proof of the theorem is trivial.
+    \end{proof}
+\end{theorem}
+Consider a finite field $\mathbb F$ and matrices over $\mathbb F$ with the form $\begin{pmatrix}
+    1&a&b\\0&1&c\\0&0&1
+\end{pmatrix}.$ Suppose two matrices of this form, \begin{align}
+    \underbrace{\begin{pmatrix}
+    1&a&b\\0&1&c\\0&0&1
+\end{pmatrix}}_g\underbrace{\begin{pmatrix}
+    1&x&y\\0&1&z\\0&0&1
+\end{pmatrix}}_h&=\begin{pmatrix}
+    1&a+x&b+az+y\\0&1&c+z\\0&0&1
+\end{pmatrix}\\
+hg&=\begin{pmatrix}
+    1&a+x&b+cx+y\\0&1&c+z\\0&0&1
+\end{pmatrix}\\
+[g,h]=g\inv h\inv gh&=\begin{pmatrix}
+    1&0&x\\0&1&0\\0&0&1
+\end{pmatrix}
+\end{align}
+If $G=\left\{\begin{pmatrix}
+    1&*&*\\0&1&*\\0&0&1
+\end{pmatrix}\right\},$ then $[G,G]=\left\{\begin{pmatrix}
+    1&0&*\\0&1&0\\0&0&1
+\end{pmatrix}\right\},$ and $[G,[G,G]]=\{e\}.$ This shows $G$ is solvable. If we extend $n$ to any number beyond $3,$ the same argument holds.
+
 \end{document}
 

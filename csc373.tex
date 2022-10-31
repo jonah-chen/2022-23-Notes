@@ -1013,4 +1013,90 @@ A \bluebf{bipartite graph} is an undirected graph such that $G=(V,E)$ such that 
 \end{itemize}
 \subsection{Edge Disjoint Sets}
 
+\section{Linear Programming}
+\begin{itemize}
+    \item Linear programming aims to minimize/maximize an objective function. The objective function is a linear combination of variables, subject to equality or inequality constraints (also linear combinations of variables).
+    \item Many optimization problems can be formulated as linear programs. The main idea for us is how to recognize and formulate problems as linear programming problems.
+\end{itemize}
+\subsection{Examples}
+Diet Problem:
+\begin{itemize}
+    \item We have $n$ types of food: $F_1,\dots,F_n,$ $m$ types of nutrients: $N_1,\dots,N_m,$ and each unit of food $F_j$ for $j\in\{1,\dots,n\}$ costs $c_j$ and provides $a_{ij}$ units of nutrient $N_i.$
+    \item We must obtain at least $b_i$ units of nutrient $N_i$ for $i\in\{1,\dots,m\}.$
+    \item Our goal is to minimize the cost of the food we buy.
+    \item To formulate this problem as a linear programming problem, we select our \begin{itemize}
+        \item \textbf{variables} as $x_1,\dots,x_n$ where $x_j$ is the amount of food $F_j$ in the diet. 
+        \item \textbf{objective function} as $c_1x_1+\cdots+c_nx_n$ to be minimized.
+        \item \textbf{constraints} as $a_{11}x_1+\cdots+a_{1n}x_n\geq b_1,$ $\cdots,$ $a_{m1}x_1+\cdots+a_{mn}x_n\geq b_m$ \redbf{and} $x_1,\dots,x_n\geq 0.$
+    \end{itemize}
+\end{itemize}
+Profit Maximization Problem:
+\begin{itemize}
+    \item We can produce $n$ types of products $P_1,\dots,P_n$ and $m$ types of resources $R_1,\dots,R_m$ where each unit of product $P_j$ requires $a_{ij}$ units of resource $R_i$ and produces $c_j$ profit.
+    \item You only have $b_i$ units of resource $R_i$ for $i\in\{1,\dots,m\}.$ We want to maximize the profit.
+    \item To formulate this problem as a linear programming problem, we select our \begin{itemize}
+        \item \textbf{variables} as $x_1,\dots,x_n$ where $x_j$ is the amount of product $P_j$ produced. 
+        \item \textbf{objective function} as $c_1x_1+\cdots+c_nx_n$ to be maximized.
+        \item \textbf{constraints} as $a_{11}x_1+\cdots+a_{1n}x_n\leq b_1,$ $\cdots,$ $a_{m1}x_1+\cdots+a_{mn}x_n\leq b_m$ and $x_1,\dots,x_n\geq 0.$
+    \end{itemize}
+\end{itemize}
+Transportation Problem:
+\begin{itemize}
+    \item We have factories $F_1,\dots,F_k$ that manufacture the same product, and outlets $O_1,\dots,O_l$ that sell the product. Each factory $F_i$ has a supply $s_i$ and each outlet $O_j$ has a demand at least $d_j.$ The cost of shipping one unit of product from factory $F_i$ to outlet $O_j$ is $c_{ij}.$
+    \item We want to minimize the total cost of shipping.
+    \item To formulate this problem as a linear programming problem, we select our \begin{itemize}
+        \item \textbf{variables} as $x_{ij}$ where $x_{ij}$ is the amount of product shipped from factory $F_i$ to outlet $O_j.$ 
+        \item \textbf{objective function} as $\sum_i\sum_jc_{ij}x_{ij}$ to be minimized.
+        \item \textbf{constraints} are $\sum_jx_{ij}=s_i$ for $i\in\{1,\dots,k\},$ $\sum_ix_{ij}=d_j$ for $j\in\{1,\dots,l\},$ and $x_{ij}\geq 0$ for all $i,j.$
+    \end{itemize}
+\end{itemize}
+\subsection{General Form}
+\begin{itemize}
+    \item \bluebf{Variables:} $x_1,\dots,x_n\in\R$ or $\mathbf x=\begin{pmatrix}
+    x_1\\
+    \vdots\\
+    x_n
+    \end{pmatrix}\in\R^n$
+    \item \bluebf{Objective Function:} $c_1x_1+\cdots+c_nx_n$ or $\mathbf c^T\mathbf x$ where $\mathbf c=\begin{pmatrix}
+    c_1&\cdots&c_n
+    \end{pmatrix}\in\R^n.$
+    \item \bluebf{Constraints:} $\sum_{j=1}^na_{ij}x_j\geq b_i$ or $\mathbf A\mathbf x\geq\mathbf b$ where $\mathbf a=\begin{pmatrix}
+    a_{11}&\cdots&a_{1n}\\
+    \vdots&\ddots&\vdots\\
+    a_{m1}&\cdots&a_{mn}
+    \end{pmatrix}\in\R^{m\times n}$ and $\mathbf b=\begin{pmatrix}
+    b_1\\
+    \vdots\\
+    b_m
+    \end{pmatrix}\in\R^m.$
+    where is elementwise.
+\end{itemize}
+To visualize this problem, we consider the following example. We have a very big field and we can plant two kinds of crops $C_1$ for human consumption and $C_2$ for animal feed. \begin{itemize}
+    \item $C_1$ requires $2$ hours of labor, $1$ kg of seed and $1$ bag of pesticide per hectare, and produces $3$ dollar per hectare.
+    \item $C_2$ requires $1$ hour of labor, $3$ kg of seed, and $0$ bags of pesticide per hectare, and produces $2$ dollar per hectare.
+    \item We have at most $40$ hours of labor, $100$ kg of seed, and $10$ bags of pesticide.
+\end{itemize}
+To formulate this as a linear programming problem, we have two variables $x_1,x_2$ and we our objective function is $\max{3x_1+2x_2}$ and our constraints $\begin{cases}
+    2x_1+x_2\leq 40\\
+    x_1+3x_2\leq 100\\
+    x_1\leq 10\\
+    x_1,x_2\geq 0
+    \end{cases}.$
+We can visualize this in an $x_1$-$x_2$ plane as shown below.
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}
+            \addplot[domain=0:20,smooth,red] {40-2*x};
+            \addplot[domain=0:40,smooth,green]{100/3-x/3};
+            \addplot[domain=9.9:10,smooth,blue] {400*(10-x)};
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+We will be raising $b$ for the line $x_2=-\frac{3}{2}x_1+b,$ until we reach the optimal profit. Note that it is a fact that the \bluebf{feasible region} of solution in a convex polygon. 
+
+It is also a fact that \textbf{if} an optimal solution to a linear programming problem exists, then at least one optimal solution is a \textbf{vertex} of the feasible region.
+
+Now consider if the farmer can plant three crops. Then, each constraint is a plane, and the feasible region will be a convex 3D polygon. For $n$ crops, there will be an exponential number of vertices. 
+
+The simplex method looks at a vertex and all its neighbors. Once we find a vertex that is a local optimum, it will be a global optimum. In the worst case, the simplex method is exponential in the number of variables, but in practice it is very fast. There are now algorithms that can solve linear programming problems in polynomial time (not easy).
 \end{document}
