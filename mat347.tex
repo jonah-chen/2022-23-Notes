@@ -790,5 +790,42 @@ If $G=\left\{\begin{pmatrix}
     1&0&*\\0&1&0\\0&0&1
 \end{pmatrix}\right\},$ and $[G,[G,G]]=\{e\}.$ This shows $G$ is solvable. If we extend $n$ to any number beyond $3,$ the same argument holds.
 
+\begin{theorem}[Very hard ones]
+    \begin{enumerate}
+        \item (Burnside) If $|G|=p^aq^b$ and $p,q$ are distinct primes, then $G$ is solvable.
+        \item (Philip Hall) Suppose that for each prime $p$ dividing $|G|,$ with $|G|=p^am$ so that $gcd(m,p)=1.$ Suppose $\exists H<G$ s.t. $|H|=m$ s.t. $G=PH$ where $P\in\mathrm{Syl}_p(G).$ If this holds for all $p,$ then $G$ is solvable.
+        \item (Feit--Thompson) If $|G|$ is odd, then $G$ is solvable.
+        \item (Thompson) Suppose that for any $x,y\in G,$ the subgroup they generate $\langle x,y\rangle$ is solvable. Then $G$ is solvable.
+    \end{enumerate}
+    \begin{proof}
+        The proofs of these theorems are hundreds of pages long.
+    \end{proof}
+\end{theorem}
+
+\section{Rings}
+Rings are a difficult topic because there are very few results that holds for all rings. To learn about rings, we need to show many things for specific cases. There are some important differences \begin{enumerate}
+    \item Rings need not have multiplicative inverses.
+    \item Rings need not be commutative.
+    \item Rings need not have multiplicative identities.
+\end{enumerate}
+\begin{definition}[Ring]
+    A ring $R$ is an abelian group under addition, with additive identity $0.$ A ring also have multiplication, and multiplication is associative. Also, the left and right distributive law holds: for $x,y,z\in R,$ $x(y+z)=xy+xz$ and $(x+y)z=xz+yz.$
+    The ring may not have a multiplicative identity. 
+\end{definition}
+Examples:\begin{itemize}
+    \item Any field is a ring.
+    \item $\Z$
+    \item The set of all matrices over a field.
+    \item Polynomials of $n$ variables over a field.
+    \item $\Z/n\Z$ is a finite ring. It is not a field if $n$ is not prime.
+    \item If $X$ is a set, then the set of functions on $X$ with values in a field $\mathbb F$ is a commutative ring. with \begin{align}
+        (f+g)(x)&=f(x)+g(x)\\
+        (f\cdot g)(x)&=f(x)g(x)
+    \end{align}
+    \item If $X$ is a topological space, then the set of continuous functions on $X$ is a ring.
+    \item $C_c(X)$ (continuous functions with compact support) is a ring.
+    \item  
+\end{itemize}
+
 \end{document}
 

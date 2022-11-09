@@ -1060,7 +1060,7 @@ Transportation Problem:
     \item \bluebf{Objective Function:} $c_1x_1+\cdots+c_nx_n$ or $\mathbf c^T\mathbf x$ where $\mathbf c=\begin{pmatrix}
     c_1&\cdots&c_n
     \end{pmatrix}\in\R^n.$
-    \item \bluebf{Constraints:} $\sum_{j=1}^na_{ij}x_j\geq b_i$ or $\mathbf A\mathbf x\geq\mathbf b$ where $\mathbf a=\begin{pmatrix}
+    \item \bluebf{Constraints:} $\sum_{j=1}^na_{ij}x_j\geq b_i$ or $\mathbf A\mathbf x\leq\mathbf b$ where $\mathbf A=\begin{pmatrix}
     a_{11}&\cdots&a_{1n}\\
     \vdots&\ddots&\vdots\\
     a_{m1}&\cdots&a_{mn}
@@ -1069,7 +1069,7 @@ Transportation Problem:
     \vdots\\
     b_m
     \end{pmatrix}\in\R^m.$
-    where is elementwise.
+    where is elementwise. And, also, $\mathbf x\geq0.$
 \end{itemize}
 To visualize this problem, we consider the following example. We have a very big field and we can plant two kinds of crops $C_1$ for human consumption and $C_2$ for animal feed. \begin{itemize}
     \item $C_1$ requires $2$ hours of labor, $1$ kg of seed and $1$ bag of pesticide per hectare, and produces $3$ dollar per hectare.
@@ -1098,5 +1098,83 @@ It is also a fact that \textbf{if} an optimal solution to a linear programming p
 
 Now consider if the farmer can plant three crops. Then, each constraint is a plane, and the feasible region will be a convex 3D polygon. For $n$ crops, there will be an exponential number of vertices. 
 
-The simplex method looks at a vertex and all its neighbors. Once we find a vertex that is a local optimum, it will be a global optimum. In the worst case, the simplex method is exponential in the number of variables, but in practice it is very fast. There are now algorithms that can solve linear programming problems in polynomial time (not easy).
+The simplex method looks at a vertex and all its neighbors. Once we find a vertex that is a local optimum, it will be a global optimum (because of convexity of the feasible region). In the worst case, the simplex method is exponential in the number of variables, but in practice it is very fast. There are now algorithms that can solve linear programming problems in polynomial time (not easy).
+
+\redbf{Optimal Solutions may not exist when:}\begin{enumerate}
+    \item The problem is overconstrained (feasible region is empty i.e. $x<0\land x>0$).
+    \item The problem is underconstrained (unbounded i.e. $x_1+x_2$ for $x_1,x_2\geq 0$).
+\end{enumerate}
+\subsection{Integer Linear Programming}
+\begin{itemize}
+    \item In \bluebf{integer linear programming}, the variables $x_1,\dots,x_n\in\Z.$
+    \item In \bluebf{$0$-$1$ LP}, the variables $x_1,\dots,x_n\in\{0,1\}.$ Note that two additional constraints on top of integer linear programming ($x_u\leq1\land x_u\geq0$) will gives us $0$-$1$ LP.
+    \item The decision variants of ILP and $0$-$1$ LP are NP-hard. They are much harder than ordinary LP.
+    \item Consider the Min Vertex Cover problem for $G=(V,E)$. It can be formulated as a $0$-$1$ LP problem with \begin{itemize}
+        \item Variables: $x_u\in\{0,1\},\forall u\in V$
+        \item Objective function: $\sum_{u\in V}x_u.$
+        \item Constraints: $x_u+x_v\geq 1$ for all $(u,v)\in E.$
+    \end{itemize}
+\end{itemize}
+\section{Complexity and NP-Completeness}
+\begin{itemize}
+    \item We consider an algorithm to be efficient if it runs in polynomial time in the size of the input.
+    \item What if you must solve a problems that there are no algorithms that can solve it in polynomial time?
+    \item There is a large set of well-known problems such that \begin{itemize}
+        \item Many people have tried to solve efficiently but failed.
+        \item If you can solve any one of these problems in polynomial time, you can solve all of them in polynomial time.
+    \end{itemize}
+    \item This set of problems is called \bluebf{NP Complete}. Our goal is to determine if a problem is NP complete, and to prove problems are NP complete.
+    \item The key tool for proving NP completeness is \bluebf{reduction}. A reduction is a way to transform one problem into another. If we can show that one problem is NP complete by reducing it to another problem, then we have shown that the other problem is NP complete.
+    \item This is useful because if you are able to prove that a problem is NP complete, you may stop trying to solve it efficiently and look for alternatives (like approximation algorithms).
+    \item To illustrate the key concepts, definition, and techniques we will use two \bluebf{decision problems}.
+\end{itemize}
+
+\begin{itemize}
+    \item Consider the \bluebf{clique} problem. Given a graph $G=(V,E)$, and an integer $k,$ is there a subset $S\subseteq V$ such that $S$ is a clique of size $k.$
+    \item The Brute force algorithm is to generate every subset $S\in\mathcal P(V)$ and check if it is a clique. This is exponential in the size of the input as there are $2^{|V|}$ subsets.
+\end{itemize}
+\begin{itemize}
+    \item The \bluebf{Conjunctive Normal Form} (CNF) is a boolean formula consisting of \begin{itemize}
+        \item Boolean variables $x_1,\dots,x_n$.
+        \item Their negations $\bar x_1,\dots,\bar x_n$.
+        \item A literal is a variable of its negation.
+        \item A clause $C=l_1\lor l_2\lor\dots\lor l_r$ is a disjunction of literals.
+        \item A CNF formula is a conjunction of clauses $\varphi = C_1\land C_2\land\dots\land C_m.$ 
+    \end{itemize}
+    \item A $k$-CNF formula is a CNF formula with exactly $k$ literals in each clause.
+    \item A CNF formula is satisfiable if there is a truth assignment (T/F) to each variable $x_i$ under which $\varphi$ evaluates to true. izz.e. under which each clause of $\varphi$ has at least one literal that evaluates to true.
+    \item The $3$SAT problem asks if an input $3$CNF formula $\varphi$ is satisfiable. 
+\end{itemize}
+
+\begin{itemize}
+    \item So SAT is polynomially reducible to clique if we can transform any given CNF formula $\varphi$ in polynomial time into a graph and an integer $(G,k)$ such that $\varphi$ is satisfiable \redbf{if and only if} $G$ has a clique of size $k.$
+    \item If we can show this, then that means if we can solve clique in polynomial time, then we can solve SAT in polynomial time.
+    \item The contrapositive is if we cannot solve SAT in polynomial time, then we cannot solve clique in polynomial time.
+    \item For the reduction, we can choose $k$ to be the number of clauses. Then, we can construct a graph with one node for every literal of every clause of $\varphi.$ With no edge between nodes in the same clause. An edge between two every pair of nodes representing literals that are compatible. We claim that $\varphi$ is satisfiable iff $G$ has a clique of size $k.$
+    \item Suppose $\varphi$ is satisfiable. Then, each clause has a literal that is true. Every pair must be compatible, meaning that they are not both true or both false. So, every pair of literal represents an edge in the graph, so that is a clique of size $k$ in $G$.
+    \item Suppose $G$ has a clique of size $k.$ Then, each of the $k$ nodes belong to different clauses. Set these $k$ nodes to be true, then at least one literal in each clause is true. So, $\varphi$ is satisfiable.
+    \item The hamiltonian cycle problem, partition problem are all decision problems.
+    \item An \bluebf{optimization problem} is stronger than a decision problem. However, it is usually not too much more difficult.\begin{itemize}
+        \item For clique, an optimization problem is to find a clique of maximum size.
+        \item A harder optimization problem is to find the clique of maximum size that is a subgraph of a given graph.
+        \item We claim that if we can solve the decision problem of clique in polynomial time, then we can solve the optimization problems of clique in polynomial time.
+    \end{itemize}
+\end{itemize}
+\subsection{Polynomial Time Reductions}
+\begin{definition}[(Karp)]
+    $A$ is \bluebf{polynomially reducible} to $B$ denoted $A\leq_pB$ if we can transform any instance of $x$ of $A$ into an instance of $y$ of $B$ in polynomial time such that $x$ is a yes instance of $A$ iff $y$ is a yes instance of $B.$
+\end{definition}
+\begin{definition}[(Cook)]
+    $A\leq_pB$ if, given an oracle for solving $B$ we can solve $A$ in polynomial time by using the oracle polynomially many times.
+\end{definition}
+\begin{theorem}
+    If $A\leq_pB$ and $B$ can be solved in polynomial time, then $A$ can be solved in polynomial time.\begin{proof}
+        To solve any instance $x$ of $A,$ we can transform $x$ to $y$ with the same answer than solve instance $y$ of $B$ and return the yes or no answer. The transformation takes polynomial time, and the solution of $B$ takes polynomial time, so the solution of $A$ takes polynomial time.
+    \end{proof}
+\end{theorem}
+
+
+
+
+
 \end{document}

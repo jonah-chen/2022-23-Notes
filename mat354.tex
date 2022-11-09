@@ -827,4 +827,126 @@ We can also see this by integration by substitution $\zeta=re^{i\theta},\dd\zeta
     \end{proof}
     A more general form of this result can apply to any line (with the image on another line). Similarly to a circle.
 \end{theorem}
+
+Consider $f(z)=\sum_{n=0}^\infty a_nz^n,$ for $r>0$ small enough, we know $a_nr^n=\frac{1}{2\pi}\int_0^{2\pi}f(re^{i\theta})e^{in\theta}\dd\theta.$ So, $f(0)=a_0=\frac{1}{2\pi}\int_0^{2\pi}f(re^{i\theta})\dd\theta,$ the mean value of $f(z)$ on $|z|=r.$ This is known as the \bluebf{mean value property}. If $f(z)$ is a holomorphic function in an open $\Omega\subset\C,$ then it has the mean value property. i.e. for any closed disk in $\Omega,$ with center $z_0,$ then $f(z_0)=$ the mean value on the boundary. Note that the real and imaginary parts of a function with the mean value property also has the mean value property. \begin{theorem}[Maximum modulus principle]
+    If $f$ is a continuous complex-valued function with the mean value property in an open $\Omega\subset\C,$ and $|f|$ has a local maximum at a point $a\in\Omega,$ then it is constant in a neighborhood of $a.$ (note that if $f$ is holomorphic and $\Omega$ is connected, then that implies $f$ is constant)
+    \begin{proof}
+        If $f(a)=0$ then the fact is trivial. So, we can assume $f(a)\neq0,$ then we can assume $f(a)$ is real and positive (as we can multiply $f$ by a constant).
+
+        For $r>0,$ small enough (so the local maximum is the maximum on the neighborhood), consider $M(r)=\sup_{\theta\in[0,2\pi)}|f(a+re^{i\theta})|\leq f(a)\leq M(r)$ as $f$ has a local maximum at $a$ but also satisfies the mean value property. So $f(a)=M(r)$
+        
+        Let \begin{align}
+            g(z)=\Re(f(a)-f(z))=f(a)-\Re(f(z))=\sup_{\theta\in[0,2\pi)}|f(a+re^{i\theta})|-\Re(f(z)).
+        \end{align}
+        This tells us that $g(z)\geq0$ on $|z-a|-r$ because the modulus is greater or equal to the real part. Also note that $g(z)=0$ iff $f(z)=f(a).$ Therefore, the mean value of $g(z)$ on $|z-a|=r$ is $0.$ Since $g(z)$ is continuous and $g(z)\geq0$ on $|z-a|=r,$ then $g=0$ on $|z-a|=r.$ Therefore, $f(z)=f(a)$ on $|z-a|=r.$ This holds for all small enough $r,$ so $f$ is constant on a neighborhood of $a.$
+    \end{proof}
+\end{theorem}
+\begin{corollary}
+    Suppose $\Omega$ is a bounded domain in $\C.$ Let $f(z)$ be a continuous complex-valued function on $\overline\Omega$ with the mean value property in $\Omega.$ Let $M=\sup_{z\in\overline\Omega\setminus\Omega}|f(z)|.$ (on the frontier) Then, $f(z)\leq M$ for $z\in\overline\Omega.$ And, $|f(z_0)|=M$ for $z_0\in\Omega,$ then $f$ is constant.
+    \begin{proof}
+        Let $M'=\max_{z\in\overline\Omega}|f(z)|.$ $M'$ exists because $\overline\Omega$ is compact, and $M'$ is attained in a point $a\in\overline\Omega.$ If $a\in$ frontier, we are done. If $a\in\Omega,$ by the maximum modulus principle $\{z\in\Omega:f(z)=f(a)\}$ is open. It is also closed, so it is all of $\Omega.$
+    \end{proof}
+\end{corollary}
+\begin{theorem}[Schwartz's Lemma]
+    $f(z)$ is a holomorphic function in $|z|<1$ with values $|f(z)|<1$ and $f(0)=0.$ Then, \begin{enumerate}
+        \item $|f(z)|\leq|z|$
+        \item If $|f(z_0)|=|z_0|$ for some $z_0\neq0,$ then $f(z)=\lambda z$ with $|\lambda|=1.$
+    \end{enumerate}
+    \begin{proof}
+        We know $f(z)$ has a convergent power series expansion and because $f(0)=0$ we know $a_0=0,$ and $f(z)/z$ is still holomorphic. As $|f(z)|<1,$ we know \begin{align}
+            \left|\frac{f(z)}{z}\right|<\frac{1}{r}\qquad\text{on }|z|=r
+        \end{align}
+        Therefore on $|z|\leq r$ by corollary, we know $|f(z)/z|<1/r$ for all $r,$ we know $|z|\leq r<1.$ Taking the limit as $r\to1$ we have $|f(z)|\leq|z|.$
+
+        If $|f(z_0)=|z_0|$ at some $z_0\neq 0$ then $f(z)/z$ attains its maximum modulus at an interior point, so it must be a constant $\lambda.$
+    \end{proof}
+\end{theorem}
+\begin{definition}[Laurent Expansion]
+    Given a holomorphic function $f(z)$ in an \textbf{annulus}, $0\leq R_2<|z|<R_1\leq\infty$ it has a convergent \bluebf{Laurent expansion} in the annulus \begin{align}
+        f(z)=\sum_{n=-\infty}^\infty a_nz^n=\underbrace{\sum_{n=1}^\infty\frac{a_{-n}}{z^n}}_{\text{converge if} |z|>R_2}+\underbrace{\sum_{n=0}^\infty a_nz^n}_{\text{converge if }z<R_1}.
+    \end{align}
+    If we let $\zeta=1/z,$ and we have a holomorphic function $f(\zeta)$ for $|\zeta|<1/R_2.$
+    \begin{proof}[Proof (Existance)]
+        Consider $R_2<r_2<r_1<R_1.$ Let $\gamma_1$ be the circle $|z|=r_1$ and $\gamma_2$ be the circle $|z|=r_2.$ By Cauchy's integral formula we can write \begin{align}
+            f(z)=\frac{1}{2\pi i}\int_{\gamma_1}\frac{f(\zeta)}{\zeta-z}\dd\zeta-\frac{1}{2\pi i}\int_{\gamma_2}\frac{f(\zeta)}{\zeta-z}\dd\zeta.
+        \end{align}
+        We know the first integral \begin{align}
+            \int_{\gamma_1}\frac{f(\zeta)}{\zeta-z}\dd\zeta=\sum_{n=0}^\infty a_nz^n\quad\text{where }a_n=\int_{\gamma_1}\frac{f(\zeta)}{\zeta}\dd\zeta.
+        \end{align}
+        Consider the second integral, but in this case $|z|>|\zeta|,$ and use the same technique used to get the power series for the first integral. We can write \begin{align}
+            \frac{1}{\zeta-z}=-\frac{1}{z}\frac{1}{1-\zeta/z}=-\sum_{n=0}^\infty\frac{\zeta^n}{z^{n+1}}=-\sum_{n<0}\frac{z^n}{\zeta^{n+1}}.
+        \end{align}
+        This is uniformly and absolutely convergent on $|\zeta|=r_2.$ Thus, we get \begin{align}
+            f(z)=\sum_{-\infty}^\infty a_nz^n\qquad\text{where }a_n=\begin{cases}
+                \frac{1}{2\pi i}\int_{\gamma_1}\frac{f(\zeta)}{\zeta^{n+1}}\dd\zeta &\text{if }n\geq0\\
+                \frac{1}{2\pi i}\int_{\gamma_2}\frac{f(\zeta)}{\zeta^{n+1}}\dd\zeta &\text{if }n<0
+            \end{cases}
+        \end{align}
+    \end{proof}
+\end{definition}
+A holomorphic functions $f(z)$ in a \bluebf{punctured disk} e.g. $0<|z|<r$ has an \bluebf{isolated singularity} and $z=0$ if it can't be extended to a holomorphic function in $|z|<r.$ In this situation, we know there is still a Laurent expansion of $f(z)$ in $0<|z|<r.$ This allows us to distinguish between the two things: \begin{definition}
+    \begin{itemize}
+        \item A \bluebf{pole} when there are finite number of $n<0$ where $a_n\neq0$ in the Laurent expansion.
+        \item An \bluebf{essential singularity} when there are infinitely many $n<0$ where $a_n\neq0$ in the Laurent expansion.
+    \end{itemize}
+\end{definition}
+In the case of a pole, we know $z^nf(z)$ extends to a holomorphic function $g(z)$ at $0$ for some $n,$ then $f(z)=g(z)/z^n$ thus $f$ is meromorphic.
+
+\begin{proposition}
+    A holomorphic function on a punctured disk can be extended to a holomorphic function in the disk iff $f$ is bounded in a neighborhood of $0.$
+    \begin{proof}
+        Consider $f(re^{i\theta}).$ Using the Laurent expansion, we know \begin{align}
+            f(re^{i\theta})=\sum_{n=-\infty}^\infty a_nre^{in\theta}.
+        \end{align}
+        with \begin{align}
+            a_nr^n=\frac{1}{2\pi}\int_0^{2\pi}e^{-in\theta}f(re^{i\theta})\dd\theta.
+        \end{align}
+        Let $M(r)=\sup_{|z|=r}|f(z)|.$ then $|a_n|r^n\leq M(r),$ i.e. $|a_n|\leq M(r)/r^n,\forall n\in\Z.$
+
+        If $f$ is bounded in a punctured neighborhood $\iff M(r)\leq M.$ If $n<0,$ then $|a_n|\leq Mr^{-n}$ so as $r\to0,r^{-n}\to 0$ so $|a_n|=0$ i.e. $f$ is holomorphic.
+    \end{proof}
+\end{proposition}
+
+If $0$ is a pole, then $\lim_{z\to 0}f(z)=\infty.$ A meromorphic function is a holomorphic function with values in the Riemann sphere $\C\cup\{\infty\}.$
+\begin{theorem}[Weierstrass]
+    If $z_0$ (WLOG $z_0=0$) is an essential singularity of $f,$ then for any $\varepsilon>0,$ then $f(0<|z|<\varepsilon)$ is dense in $\C.$
+    \begin{proof}
+        Otherwise, there is some $a\in\C,\delta>0$ s.t. $|f(z)-a|>\delta$ if $0<|z|<\varepsilon.$
+
+        Let $g(z)=\frac{1}{f(z)-a}.$ We know that $g$ is holomorphic in $0<|z|<\varepsilon$ and it is bounded by $1/\delta.$ Therefore, by proposition it is holomorphic in $|z|<\varepsilon.$
+
+        We know $f(z)=a+\frac{1}{g(z)},$ a quotient of holomorphic functions, so $0$ is a pole and this is a contradiction.
+    \end{proof}
+    In fact, \bluebf{Picard's big theorem} states that $f(0<|z|<\varepsilon)=\C$ or $\C\setminus\{b\}$ for one value $b\in\C.$
+\end{theorem}
+
+At infinity: Suppose $f$ is holomorphic in $|z|>r.$ \begin{itemize}
+    \item $f$ is holomorphic at $\infty$ if $f(1/z)$ is holomorphic in $z<1/R.$
+    \item $f$ has a pole at $\infty$ if $f(1/z)$ has a pole at $0.$
+    \item $f$ has an essential singularity at $\infty$ if $f(1/z)$ has an essential singularity at $0.$ 
+\end{itemize}
+Consider the laurent expansion in $f(z)=\sum_{n=-\infty}^\infty a_nz^n.$ If $f$ has a pole at $\infty,$ there are only finitely many nonzero $a_n$ when $n>0.$
+
+\textbf{Exercise:} Let $f(z)$ be a holomorphic function in $R_2<|z|<|R_1$ and let $\gamma$ be a closed curve in the annulus. Compute $\int_\gamma f(z)\dd z.$
+
+We know $f(z)$ has a laurent expansion, \begin{align}
+    f(z)&=\sum_{n=-\infty}^\infty a_nz^n=\frac{a_{-1}}{z}+\underbrace{\sum_{n\neq-1}a_nz^n}_{\text{has primitive}}\\
+    \int_\gamma f(z)\dd z&=\int_\gamma\frac{a_{-1}}{z}\dd z=2\pi i\cdot a_{-1}\cdot w(\gamma,0).
+\end{align}
+In particular, if $f$ is holomorphic in a punctured disk $0<|z|<\varepsilon$ and $\gamma$ be a circle around $0$ in the punctured disk, then \begin{align}
+    \frac{1}{2\pi i}\int_\gamma f(z)\dd z=a_{-1}.
+\end{align}
+\begin{definition}[Residue]
+    The \bluebf{residue} of the differential form $\omega$ at $a$ is defined as \begin{align}
+        \frac{1}{2\pi i}\int_\gamma\omega
+    \end{align}
+    where $\gamma$ is a positively oriented circle around $a.$
+\end{definition}
+\begin{itemize}
+    \item We shown that the residue $f(z)\dd z$ at $0$ is $a_{-1}.$
+    \item \redbf{Positively oriented w.r.t $\infty$ means in the negative sense}. At $\infty,$ let $z=1/z'$ so $f(z)\dd z=-\frac{1}{{z^2}'}{f(1/z')\dd z'}$ where $\gamma$ is a small circle \begin{align}
+        -\frac{1}{2\pi i}\int_\gamma\frac{1}{{z'}^2}f(1/z')\dd z'=-a_{-1}.
+    \end{align}
+\end{itemize}
+
 \end{document}
