@@ -1172,9 +1172,46 @@ The simplex method looks at a vertex and all its neighbors. Once we find a verte
         To solve any instance $x$ of $A,$ we can transform $x$ to $y$ with the same answer than solve instance $y$ of $B$ and return the yes or no answer. The transformation takes polynomial time, and the solution of $B$ takes polynomial time, so the solution of $A$ takes polynomial time.
     \end{proof}
 \end{theorem}
-
-
-
-
+\begin{itemize}
+    \item Intuitively: A decision problem has an efficient verifier if every yes instance $x$ of $P$ has a short ``justification'' that can be used to efficiently verify that $x$ is indeed a yes instance of $P.$
+    \item Consider the SAT problem. If someone claims that a given CNF formula $\varphi$ is satisfiable, then they provide a truth assignment to each variable. This can be verified in polynomial time.
+    \item Consider the clique problem with and someone claims that a given graph has a clique of size $k.$ Then, if they provide a set of $k$ nodes, then we can verify that this is a clique in polynomial time.
+\end{itemize}
+\begin{definition}[Efficient Verifier]
+     A decision problem $P$ has an \bluebf{efficient verifier} if there is a polynomial-time verifier algorithm $V(*,*)$ such that \begin{enumerate}
+        \item $\forall$ yes instances $x$ of $P,~\exists$ a justification $y$ of polynomial size in the size of $x,$ such that $V(x,y)$ returns yes.
+        \item $\forall$ no instances $x$ of $P,$ running the verifier $V(x,y)$ returns no $\forall y.$ 
+     \end{enumerate}
+     Note that justification is also called ``witness'', ``certificate'', or ``advice''.
+\end{definition}
+\begin{itemize}
+    \item Note that any decision problem that can be solved in polynomial time has an efficient verifier (the trivial verifier, that requires no justification).
+    \item For example $s$-$t$ connectivity of an undirected graph $G=(V,E).$ A polynomial time verifier discards the justification and runs BFS starting from $s.$ If the search reaching $t$ then we return yes, otherwise return no.
+    \item Note that some decision problems \redbf{may not} have an efficient verifier.
+    \begin{itemize}
+        \item Consider the complement of Clique (we call ``Clique-Freedom'') problem. Given a graph $G=(V,E)$ and an integer $k,$ does $G$ not have a clique of size $k$? It is non-trivial to design an efficient verifier. We actually don't know if one exists.
+        \item Consider the complement of SAT (UNSAT) i.e. given a CNF formula $\varphi,$ does $\varphi$ not have a truth assignment under which it evaluates to true? Or equivalently tautology (does all truth assignments satisfy $\varphi$). We don't know if an efficient verifier exists.
+    \end{itemize}
+\end{itemize}
+\begin{definition}[P,NP,NP-Complete]
+    We will use ``efficient/efficiently'' to describe polynomial in the input size.
+    \begin{itemize}
+        \item $\mathrm{P}$ is the set of decision problems that can be solved efficiently.
+        \item $\mathrm{NP}$ is the set of decision problems that have an efficient verifier. We know $\mathrm{P}\subseteq\mathrm{NP}.$
+        \item $\mathrm{NP-hard}$ is set of problems such that if a problem $P\in\mathrm{NP-hard}$ then $\forall P'\in\mathrm{NP},~P'\leq_pP.$ Intuitively, $P$ is at least as hard to solve as any problem in $\mathrm{NP}$ because if you can solve $P$ in polynomial time then you can solve \textbf{every} problem in NP in polynomial time.
+        \item $\mathrm{NP-Complete}$ is the intersection of $\mathrm{NP}$ and $\mathrm{NP-hard}.$ It is not obvious that $\mathrm{NP-Complete}$ is a non-empty.
+    \end{itemize}
+\end{definition}
+\begin{itemize}
+    \item The Cook-Levin Theorem states that SAT is $\mathrm{NP-Complete}.$ As a corollary, we know that if SAT$\notin\mathrm{P}$ then $\mathrm P\neq\mathrm{NP}.$ Otherwise, $\mathrm{P}=\mathrm{NP}.$
+    \item Since there are thousands of well-known NP-complete problems that no one has been able to solve in polynomial time, most people believe that SAT$\notin\mathrm{P}.$
+    \item As we show that SAT is reducible to clique, by Cook-Levin we know that $\forall P\in\mathrm{NP},~P\leq_p$SAT$\leq_p$Clique. We also show there is an efficient verifier for clique, so clique is NP-complete.
+    \item Note that we proved that clique is NP-hard by reducing a known NP-hard problem to it. This is much easier than proving it from scratch.
+    \item If you suspect a problem $P$ cannot be solved efficiently, then \begin{enumerate}
+        \item See if $P$ is one of the known NP-complete problems.
+        \item Try to prove $P$ is NP-hard by finding one of the known NP-complete problem $P'$ and show that $P'\leq_pP.$ 
+    \end{enumerate}
+    \item We will do many reductions to both expand our list of known NP-complete problems and help us gain experience with reductions.
+\end{itemize}
 
 \end{document}

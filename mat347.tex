@@ -824,7 +824,79 @@ Examples:\begin{itemize}
     \end{align}
     \item If $X$ is a topological space, then the set of continuous functions on $X$ is a ring.
     \item $C_c(X)$ (continuous functions with compact support) is a ring.
-    \item  
+\end{itemize}
+
+If $R$ is a ring, then \begin{enumerate}
+    \item $\forall r\in R,~~0\cdot r=r\cdot 0=0.$
+    \item $\forall a,b\in R,~~(-a)\cdot b=a\cdot (-b)=-(a\cdot b).$
+    \item $\forall a,b\in R,~~(-a)(-b)=ab$
+    \item If $R$ has a unit $1,$ then it is unique and $(-1)a=a(-1)=-a$ for all $a\in R.$
+\end{enumerate}
+Exercise: Find an example of a ``one-sided'' identity: $1_L\cdot a=a\forall a$ but $a\cdot 1_L\neq a$ for some $a.$
+
+\begin{definition}[Integral Domain]
+    An \bluebf{integral domain} is a commutative ring with unit, and no zero divisors. i.e. $\forall a,b\in R,~~ab=0\implies a=0\lor b=0.$
+\end{definition}
+\begin{proposition}
+    \bluebf{Cancellation law:} in an integral domain, if $ab=ac$ where $a\neq0,$ then $b=c.$
+    \begin{proof}
+        Suppose $ab=ac$ and $a\neq0$ then $a(b-c)=0$ as $a\neq 0,b-c=0$ so $b=c.$
+    \end{proof}
+\end{proposition}
+Note that if $R$ has zero divisors say $ab=0$ where $a,b\neq0$ we can write $ab=a0$ so if there were a cancellation law this will contradict the assumption that $b\neq0.$
+
+In $\Z/12\Z$ we have $3\cdot 4=3\cdot 8$ but $4\neq8.$
+
+\begin{theorem}
+    A finite integral domain must be a field.
+    \begin{proof}
+        The other axioms for a field is already satisfied. We only need to show that $R$ has multiplicative inverses.
+
+        For $a\neq0$ define a map $\Phi:R\to R$ where $\Phi(x)=ax.$ Note this is not a homomorphism. The cancellation law implies $\Phi$ is injective, since $R$ is finite $\Phi$ is also surjective. Hence, $\exists~x\in R$ s.t. $ax=1$ so $x=a\inv.$
+    \end{proof}
+\end{theorem}
+\begin{theorem}[Wedderburn]
+    A finite division ring is a field.
+    \begin{proof}
+        Homework
+    \end{proof}
+\end{theorem}
+\begin{definition}[Group Ring]
+    Suppose $G$ is a finite group and $\mathbb F$ is a field. The group ring $\mathbb F[G]$ ``group ring of $G$ over $\mathbb F$'' is \begin{align}
+        \mathbb F[G]&=\{\sum_{g\in G}a_g\cdot g~|~a_g\in\mathbb F\}
+    \end{align}
+    formal linear combination of elements of $G.$
+
+    Multiplication is defined by extending group multiplication. \begin{align}
+        \left(\sum_{g\in G}a_gg\right)\left(\sum_{h\in G}a_hh\right)=:\sum_{(g,h)\in G^2}a_gb_h\cdot gh.
+    \end{align}
+    An equivalent, but quite different way of looking at it is to define $a:G\to F$ and $b:G\to F$ and define \begin{align}
+        a\cdot b=\sum_{hk=g}a(h)b(k)=\sum_{h\in G}a_h\cdot b_{h\inv g}.
+    \end{align}
+    The set of all such possible functions from $G\to F$ is the same as the previous definition.
+
+    As an exercise, find a ring isomorphism between these two definitions.
+\end{definition}
+If $n=|G|$ take an $n$-dimensional vector space over $\mathbb F$ and pick a basis, and label the basis with elements of $G$ and then define multiplication by the first definition.
+
+We can also use a ring for the coefficient rather than a field. We can also have an infinite group (but only with finite linear combinations)
+
+\begin{example}
+    If $|G|=n<\infty$ consider $\mathbb F[G]$ and let $r=\sum_{g\in G}1\cdot g.$
+
+    If $h\in G,$ regard it as $1\cdot h\in\mathbb F[G].$ Then, $h\cdot r=\sum_{g\in G}h\cdot g=r.$
+\end{example}
+\begin{definition}[Subring]
+    If $R$ is a ring, a subset $S\subseteq R$ is a \bluebf{subring} if the restriction to $S$ of the ring operation from $R$ make $S$ into a ring. i.e.
+    \begin{itemize}
+        \item $0\in S$
+        \item $S$ must be closed under addition and multiplication.
+        \item If $a\in S,$ then $-a\in S.$
+    \end{itemize}
+\end{definition}
+\begin{itemize}
+    \item $\Z\subset\Q\subset\R\subset\C$ are subrings
+    \item $n\Z\subset\Z.$ Note that $n\Z$ does not have identity unless $n=1.$
 \end{itemize}
 
 \end{document}
