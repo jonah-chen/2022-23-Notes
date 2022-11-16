@@ -893,11 +893,42 @@ We can also use a ring for the coefficient rather than a field. We can also have
         \item $S$ must be closed under addition and multiplication.
         \item If $a\in S,$ then $-a\in S.$
     \end{itemize}
+    Another way to say this is that $S$ is an additive subgroup of $R$ that is closed under multiplication (the same multiplication as $R$).
 \end{definition}
 \begin{itemize}
     \item $\Z\subset\Q\subset\R\subset\C$ are subrings
-    \item $n\Z\subset\Z.$ Note that $n\Z$ does not have identity unless $n=1.$
+    \item $n\Z\subset\Z.$ Note that $n\Z$ does not have (multiplicative) identity unless $n=1.$
 \end{itemize}
+Recall the hamiltonian quaternion $\mathbb H=\{a+bi+cj+dk~|~a,b,c,d\in\R\},$ and an obvious subring is the quaternions with integer coefficients, called the ``naive quaternions''. The better subring called the Hurwitz quaternions is $\{a+bi+cj+dk+\frac{n}{2}(1+i+j+k)|a,b,c,d,n\in\Z\}.$ Observe that \begin{align}
+    \frac{1+i+j+k}{2}\cdot\frac{1-i-j-k}{2}=\frac{1}{4}\left(1-(-1)-(-1)-(-1)\right)=1.
+\end{align}
+If $D\in \Z$ is square-free, recall $\Q[\sqrt D]=\{a+b\sqrt{D}|a,b\in Q\}$ is a quadratic field. There is an obvious subring $\{a+b\sqrt D|a,b\in Z\},$ but it turns out that there is a better choice. 
+
+If $D\equiv 1\pmod 4$ let $\omega=(1+\sqrt D)/2$ otherwise $\omega=\sqrt D.$ In $Q[\sqrt D]$, the ``ring of integers'' is $\Z[\omega]=\{a+b\omega|a,b\in\Z\}.$ This is a ring \begin{align}
+    (a+b\omega)(c+d\omega)&=ac+(ad+bc)\omega+bd\omega^2\\
+    \omega^2&=\frac{1}{4}\left(1+2\sqrt D+D\right)\\
+    &=\frac{1}{4}\left(1+2\sqrt D+D\right)\\
+    &=\frac{1}{4}\left(1+2\sqrt D+1+4k\right)\\
+    &=\frac{1+\sqrt D}{2}+k=k+\omega\in\Z[\omega].
+\end{align}
+These rings are called ``ring of integers'' because in many respects they play the same role that $\Z$ does in $\Q.$ In $\Q[i],$ the $N(a+bi)=(a+bi)\overline{(a+bi)}=a^2+b^2=|a+bi|^2.$ In $\Q[\sqrt D]$ define the norm analogously $N(a+b\sqrt D)=(a+b\sqrt D)(a-b\sqrt D)=a^2-Db^2.$ We claim that $N(a+b\sqrt D)\neq0$ unless $a=b=0,$ as if it were then $a^2=Db^2,$ so $D=\frac{a^2}{b^2},$ which is impossible since $D$ is square-free.
+
+Easy: $N$ is ``multiplicative'':
+\begin{align}
+    N((a+b\sqrt D)(c+d\sqrt D))&=N(a+b\sqrt D)(c+d\sqrt D)
+\end{align}
+So $N$ is a group homomorphism from $\Q[\sqrt D]^\times\to\Q^\times.$ Note this is \textbf{not} a ring homomorphism as it does not respect addition.
+
+Easy: $N:\Z[\omega]\to\Z.$ Very easy if $D\not\equiv 1\pmod 4.$ If $D\equiv 1\pmod4,$ then \begin{align}
+    N(a+b\omega)&=\left(a+b\frac{1+\sqrt D}{2}\right)\left(a+b\frac{1-\sqrt D}{2}\right)\\
+    &=a^2+ab\left(\frac{1+\sqrt D}{2}+\frac{1-\sqrt D}{2}\right)+b^2\frac{1-D}{4}\\
+    &=a^2+ab+b^2\frac{1-D}{4}
+\end{align} 
+As $D\equiv 1\pmod 4,$ $1-D\equiv 0\pmod 4,$ so $N(a+b\omega)$ is an integer.
+
+\textbf{FACT:} $\Z[\omega]$ is the set of all elements of $\Q[\sqrt D]$ whose norms are in $\Z,$ i.e. $\Z[\omega]=N^{-1}(\Z).$ It is always true that $\Z[D]\subseteq N^{-1}(\Z),$ but they are not equal if $D\equiv1\pmod4.$ The proof is a \bluebf{challenge}.
+
+Note this fact is true for the Hurwitz quaternions.
 
 \end{document}
 

@@ -1177,6 +1177,7 @@ The simplex method looks at a vertex and all its neighbors. Once we find a verte
     \item Consider the SAT problem. If someone claims that a given CNF formula $\varphi$ is satisfiable, then they provide a truth assignment to each variable. This can be verified in polynomial time.
     \item Consider the clique problem with and someone claims that a given graph has a clique of size $k.$ Then, if they provide a set of $k$ nodes, then we can verify that this is a clique in polynomial time.
 \end{itemize}
+\subsection{Definitions}
 \begin{definition}[Efficient Verifier]
      A decision problem $P$ has an \bluebf{efficient verifier} if there is a polynomial-time verifier algorithm $V(*,*)$ such that \begin{enumerate}
         \item $\forall$ yes instances $x$ of $P,~\exists$ a justification $y$ of polynomial size in the size of $x,$ such that $V(x,y)$ returns yes.
@@ -1212,6 +1213,41 @@ The simplex method looks at a vertex and all its neighbors. Once we find a verte
         \item Try to prove $P$ is NP-hard by finding one of the known NP-complete problem $P'$ and show that $P'\leq_pP.$ 
     \end{enumerate}
     \item We will do many reductions to both expand our list of known NP-complete problems and help us gain experience with reductions.
+\end{itemize}
+\subsection{Independent Set}
+\begin{itemize}
+    \item Given an undirected graph $G=(V,E),$ a set of nodes is independent if there are no edges between them in $E.$ The independent set problem is to find if an independent set of size $k.$
+    \item We can easily reduce clique to independent set. Given a graph $G=(V,E),$ define its complement $\bar G=(V,\bar E)$ where $\bar E=\{(u,v)|(u,v)\notin E\}.$ Then, given $G$ and $k,$ then $G$ has a clique of size $k$ iff $\bar G$ has an independent set of size $k.$
+    \item Clearly it is in NP, because we can verify in polynomial time that a given set of nodes that is independent as justification.
+\end{itemize}
+\subsection{Vertex Cover}
+\begin{itemize}
+    \item Given an undirected graph $G=(V,E),$ a vertex cover is a set of nodes such that every edge in $E$ is incident to at least one node in the set. The vertex cover problem is to find if a vertex cover of size $k.$
+    \item We claim that if $S$ is a vertex cover of $G$ then $V\setminus S$ iff independent set of $G.$ Then, we can reduce independent set to vertex cover, since $G$ has an independent set $S$ of size $k$ iff $G$ has a vertex cover $V\setminus S$ of size $n-k.$
+\end{itemize}
+\subsection{Set Cover}
+\begin{itemize}
+    \item Given a universe of elements $U$ and a family of subsets $S\subseteq\mathcal P(U)$ and an integer $k$, is there a subset $S'\subseteq S$ such that $|S'|=k$ and $\bigcup_{T\in S'}T=U.$
+    \item We will try to reduce vertex cover to set cover. Given $G=(V,E)$ and $k,$ let $U=E$ and $S=\{S_v|v\in V\}$ where $S_v=\{\text{edges incident on }v\}.$ Clearly, $G$ has a vertex cover of size $k$ iff there are $k$ sets in $S$ such that there union is $E.$
+\end{itemize}
+\subsection{Integer Linear Programming Feasibility}
+\begin{itemize}
+    \item Given $b\in\Q^m$ and $A\in\Q^{m\times n},$ does there exists $x\in\{0,1\}^n$ such that $Ax\leq b.$
+    \item We can reduce 3SAT to ILP feasibility. Given a 3SAT formula $\varphi,$ with literals $x_1,\ldots,x_n$ and clauses $C_1,\ldots,C_m.$ For every boolean variable $x_i$ create an integer variable $0\leq y_i\leq 1.$ Represent boolean literals $x_i$ and $\bar x_i$ as $y_i$ and $1-y_i$ respectively. 
+    \item For each clause, we want at least one of the three literals to be true, so we require their sum to be at least $1.$ So this ILP system has a feasible solution iff $\varphi$ is satisfiable.
+\end{itemize}
+\subsection{Graph Coloring}
+\begin{itemize}
+    \item Given an undirected graph $G=(V,E)$ and an integer $k$ can we color each node of $G$ using $k$ colors such that no two adjacent nodes have the same color.
+    \item We will reduce 3SAT to graph coloring. 
+    \item Given a 3CNF formula $\varphi$ with $k$ variables, we can construct a graph $G$ such that $G$ is $(k+1)$-colorable iff $\varphi$ is satisfiable.
+    \item Let $V$ be the set of variables and an additional node $F$ (we will represent false). Connect every pair of nodes. Clearly, this graph is $k+1$-colorable and not $k$-colorable.
+    \item We will color the node $F$ with a ``dull'' color, and the other nodes with ``bright'' colors.
+    \item We will add additional nodes for $x_1,\bar x_1,\ldots,x_n,\bar x_n$ and connect $x_i,\bar x_i$ because we want to make sure that $x_i$ and $\bar x_i$ are not both true. We also connect $v_i$ to $v_j$ and $\bar v_j$ for $j\neq i.$ This way, either $x_i,\bar x_i$ must have one colored dull, and the other colored as the same color as $v_i.$
+    \item Any $(n+1)$ coloring of $G$ can be converted to a truth assignment of the $n$ literals. To represent these, create a new node $c_i$ for each clause $C_i.$
+    \item To be satisfiable, we need each clause to evaluate to true. So we connect each $c_i$ to $F.$ Then,  we connect $c_i$ to the negation of each literal in $C_i$ to prevent $c_i$ from being true from the false (in or).
+    \item By construction, $G$ is $n+1$-colorable iff $\varphi$ is satisfiable.
+    \item Note that $3$-coloring (when $k=3$) is also NP-complete, but $2$-coloring is not NP-complete.
 \end{itemize}
 
 \end{document}
