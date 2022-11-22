@@ -948,5 +948,64 @@ In particular, if $f$ is holomorphic in a punctured disk $0<|z|<\varepsilon$ and
         -\frac{1}{2\pi i}\int_\gamma\frac{1}{{z'}^2}f(1/z')\dd z'=-a_{-1}.
     \end{align}
 \end{itemize}
+\begin{theorem}[Residue]
+    Let $f$ be a meromorphic function in $\Omega$ and let $a$ be a point in $\Omega.$ Then
+\end{theorem}
+
+\begin{theorem}[Argument Principle]
+    $f(z)$ meromorphic function in a neighborhood of a point $a,$ how do we compute the residue of $f'/f$ at $a$?
+    
+    We don't know if $f(z)$ has a pole at $a$ or vanishes at $a,$ but because it is meromorphic we can always write $f(z)=(z-a)^kg(z)$ (if $k<0,f$ has a pole, if $k>0,f$ has a zero)
+
+    We can take the logarithmic derivative of $f$ then \begin{align}
+        \frac{f'}{f}=\frac{g'}{g}+\frac{k}{z-a}.
+    \end{align}
+    As $g(a)\neq0,$ so $g'/g$ is holomorphic at $a.$ Thus, the residue of $f'/f$ is $k.$
+    
+    The \bluebf{argument principle} states $f(z)$ is a non-constant meromorphic function in an open set $\Omega.$ Let $K\subset\Omega$ be a compact set with oriented boundary $\Gamma.$ Given $a,$ assume there are no zeros of $f(z)-a$ and no poles of $f(z)$ on $\Gamma.$ Then, \begin{align}
+        \frac{1}{2\pi i}\int_\Gamma \frac{f'(z)}{f(z)-a}\dd z=Z-P,
+    \end{align}
+    where $Z$ is the number of zeros of $f(z)-a$ and $P$ is the number of poles of $f(z)$ in $P,$ counted with multiplicity.
+    \begin{proof}
+        By residue theorem and example.
+    \end{proof}
+\end{theorem}
+\begin{theorem}
+    $f(z)$ non-constant holomorphic function in a neighborhood of $z=z_0$ where $z_0$ is a root of order $k$ of $f(z)-a,$ where $a\in\C.$
+
+    Then for every sufficiently small neighborhood $U$ of $z_0,$ and every $b$ sufficiently close to $a,$ $f(z)-b$ has $k$ simple roots in $U.$
+    \begin{proof}
+        Take $U$ small enough so $f(z)-a$ has no other zeros at $z_0$ in $\overline U$ and $f'(z)\neq0$ in $\overline U\setminus\{z_0\}.$ Let $\gamma$ be the positively oriented boundary of $U.$ Then consider \begin{align}
+            \frac{1}{2\pi i}\int_\gamma\frac{f'(z)}{f(z)-b}\dd z
+        \end{align}
+        Write $\zeta=f(z),$ and \begin{align}
+            \frac{1}{2\pi i}\int_{f\circ\gamma}\frac{\dd \zeta}{\zeta-b}=w(f\circ\gamma,b)
+        \end{align}
+        which is constant as a function of $b$ in a connected component of $f\circ\gamma,$ which is an open set. By the argument principle, \begin{align}
+            w(f\circ\gamma,a)=\frac{1}{2\pi i}\int_\gamma\frac{f'(z)}{f(z)-a}\dd z=k,
+        \end{align}
+        by the argument principle, $f(z)-b$ has $k$ roots inside $\gamma$ and they are all simple because $f'(z)\neq 0.$ Note $z_0$ cannot be a root of $f(z)-b$ because $b\neq a.$
+    \end{proof}
+\end{theorem}
+\begin{theorem}[Rouche's]
+    $f(z),g(z)$ are holomorphic functions in an open set $\Omega,$ let $K\subset\Omega$ be a compact set with an oriented boundary $\Gamma.$ If $|f(z)-g(z)|<|f(z)|$ on $\Gamma,$ then $f(z),g(z)$ have the same number of zeros in $K,$ counted with multiplicity.
+    \begin{proof}
+        If $|f(z)-g(z)|<|f(z),$ then \begin{align}
+            \left|1-\frac{g(z)}{f(z)}\right|<1\quad\text{on }\Gamma.
+        \end{align}
+        We are interested in the meromorphic function \begin{align}
+            F(z)=\frac{g(z)}{f(z)}
+        \end{align}
+        whose values on $\Gamma$ lie in the open disk $|z-1|<1.$ Then consider the integral and apply the argument principle \begin{align}
+            \frac{1}{2\pi i}\int_\Gamma\frac{F'(z)}{F(z)}\dd z=Z-P,
+        \end{align}
+        where $Z$ is the number of zeros of $F(z)$ (which is also the number of zeros of $g$) and $P$ is the number of poles of $F(z)$ (which is also the number of zeros in $f$) in $K.$
+
+        Note that $\Gamma=\bigcup\Gamma_i,$ and the integral is the sum of the winding numbers of the images of $F\circ\Gamma$ at $0,$ but all $\Gamma_i$s lie in the disk $|z-1|<1,$ so their winding numbers about $0$ is $0.$ Thus, $Z-P=0$ so $g$ and $f$ has the same number of zeros in $K.$
+    \end{proof}
+\end{theorem}
+
+Evaluation of definite integrals by residue calculus. (this is analogous to integration in first year calculus, with the difference that we will not be finding the primitives) We will instead compute these integrals as sums of residues of suitable holomorphic functions.
+
 
 \end{document}

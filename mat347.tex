@@ -861,8 +861,12 @@ In $\Z/12\Z$ we have $3\cdot 4=3\cdot 8$ but $4\neq8.$
         Homework
     \end{proof}
 \end{theorem}
+\begin{definition}[Unit]
+    A unit in a ring $R$ is an element $u$ s.t. it has an multiplicative inverse $v$ s.t. $uv=vu=1.$
+\end{definition}
+
 \begin{definition}[Group Ring]
-    Suppose $G$ is a finite group and $\mathbb F$ is a field. The group ring $\mathbb F[G]$ ``group ring of $G$ over $\mathbb F$'' is \begin{align}
+    Suppose $G$ is a finite group and $\mathbb F$ is a field. The group ring $\mathbb F[G]$ (our text writes $FG$) ``group ring of $G$ over $\mathbb F$'' is \begin{align}
         \mathbb F[G]&=\{\sum_{g\in G}a_g\cdot g~|~a_g\in\mathbb F\}
     \end{align}
     formal linear combination of elements of $G.$
@@ -929,6 +933,106 @@ As $D\equiv 1\pmod 4,$ $1-D\equiv 0\pmod 4,$ so $N(a+b\omega)$ is an integer.
 \textbf{FACT:} $\Z[\omega]$ is the set of all elements of $\Q[\sqrt D]$ whose norms are in $\Z,$ i.e. $\Z[\omega]=N^{-1}(\Z).$ It is always true that $\Z[D]\subseteq N^{-1}(\Z),$ but they are not equal if $D\equiv1\pmod4.$ The proof is a \bluebf{challenge}.
 
 Note this fact is true for the Hurwitz quaternions.
+
+If $x=a+b\omega$ is in the ring of integers, then so is $\bar x=:a-b\omega.$ We know $N(x)=x\bar x.$ If $N(x)=1=x\bar x,$ then $x$ is a unit as $x\inv=\bar x.$ Even if $N(x)=-1,$ then $x\inv=-\bar x.$
+
+The set of units in the ring of integers is $N^{-1}(\pm1)=\{x\in\Z[\omega]~|~N(x)=\pm1\}.$
+
+\begin{definition}[Polynomial]
+    Suppose $R$ is a commutative ring with identity. Define the polynomial ring \begin{align}
+        R[x]=\{a_0+a_1x+a_2x^2+\cdots+a_nx^n~|~a_i\in R\},
+    \end{align}
+    with addition and multiplication defined in the usual way.
+
+    If $R$ is also a field, then $R[x]$ is a vector space over $R.$
+
+    If $a_n\neq0,$ it is the ``leading coefficient'' and $\deg(a_0+a_1x+\cdots+a_nx^n)=n.$ Some people define $\deg(0)=-\infty.$ Then, for $f,g\in R[x],$ and $R$ has no zero divisors then $\deg(fg)=\deg(f)+\deg(g).$
+\end{definition}
+If $R$ is an integral domain, then so is $R[x].$ 
+
+If $G$ is a non-trivial finite group, and $R$ be any ring then $R[G]$ always has zero divisors.
+
+If $1\in R$ choose $e\neq g\in G$ and if $|g|=n,$ observe that $(e-g)(e+g+g^2+\cdots+g^{n-1})=0.$
+\begin{definition}[Ring Homomorphism]
+    A \bluebf{ring homomorphism} $\varphi:R\to S$ is a map that respects addition and multiplication. That is, if $a,b\in R$ then \begin{align}
+        \varphi(a+b)&=\varphi(a)+\varphi(b)\\
+        \varphi(ab)&=\varphi(a)\varphi(b).
+    \end{align}
+    Some books requires that $\varphi$ takes units to units, but we will not make this requirement.
+\end{definition}
+\begin{proposition}
+    If $\varphi:R\to S$ then $\ker(\varphi)\subseteq R$ is a subring of $R,$ and $\mathrm{im}(\varphi)\subseteq S$ is a subring of $S.$
+    \begin{proof}
+        trivial.
+    \end{proof}
+\end{proposition}
+The kernel of $\varphi$ has an interesting property. Let $K=\ker(\varphi).$ Then, if $k\in K,r\in R$ then $\varphi(rk)=\varphi(r)\varphi(k)=\varphi(r)0=0,$ and $\varphi(kr)=\varphi(k)\varphi(r)=0\varphi(r)=0.$
+
+Suppose $N\subseteq R.$ As additive groups $N\trianglelefteq R$ so we can construct $R/N.$ To turn this into a ring, we need to define multiplication, and we can do this by defining \begin{align}
+    (r+N)(r'+N)&=rr'+N
+\end{align}
+We need to ensure that this is well defined. Suppose $r=s+n,r'=s'+n'$ with $n,n'\in N.$ Then, \begin{align}
+    (s+N)(s'+N)&=ss'+N=(r-n+N)(r'-n'+N)=rr'-nr'-rn'+nn'+N
+\end{align}
+we require this to be equal to $rr'+N.$ Hence, we require $nr'-rn'\in N$ which is true if $nr'$ and $rn'$ are both in $N.$ So, the multiplication on $R/N$ is well defined if $RN\subseteq N$ and $NR\subseteq N$ \begin{definition}[Ideal]
+    A subring $N\subseteq R$ is an \bluebf{ideal} if $RN\subseteq N$ and $NR\subseteq N.$ In this case, $R/N$ is a ring with the multiplication defined above.
+\end{definition}
+\subsection{Ideals}
+For this section, we will always assume the ring has at least one unit.
+\begin{definition}[Ideal]a
+    In a ring $R,$ a subring $I$ is \begin{itemize}
+        \item a \bluebf{left ideal} if $\forall r\in R,~\forall i\in I,$ $ri\in I.$ 
+        \item a \bluebf{right ideal} if $\forall r\in R,~\forall i\in I,$ $ir\in I.$
+        \item a \bluebf{(two-sided) ideal} if it is both a left and right ideal.
+    \end{itemize}
+\end{definition}
+Recall the kernel of a ring homomorphism is a two-sided ideal. If $I$ is a two-sided ideal, then $R/I$ is a ring. If $I$ is a left ideal, then $R/I$ is a left module over $R/I.$ If $I$ is a right ideal, then $R/I$ is a right module over $R/I.$
+\begin{example}
+    If $R$ is the space of $\mathbb F$-valued functions on $X,$ the evaluation map at $x\in X$ is \begin{align}
+        \varphi_x(f)&=f(x)\in\mathbb F\\
+        \varphi_x&:R\to\mathbb F
+    \end{align}
+    $\ker(\varphi_x)=\{f\in R~|~f(x)=0\}$ is the ideal of all functions that vanish at $x.$ This also works for more restrictive functions (i.e. continuous, differentiable, etc.) 
+\end{example}
+\begin{theorem}[First Isomorphism]
+    If $\varphi:R\to S$ is a ring homomorphism, and $I=\ker(\varphi)$ then $R/I\cong\mathrm{im}(\varphi).$
+
+    If $I$ is a two-sided ideal in $R,$ then $\varphi:R\to R/I,r\mapsto r+I$ is a ring homomorphism with kernel $I.$
+\end{theorem}
+If $A\subseteq R,$ then we can define the \bluebf{ideal generated by $A$} denoted $(A).$ If $A$ is a singleton $\{a\},$ we denote $(a),$ and if $A$ is a finite set $\{a_1,\ldots,a_n\},$ we denote $(a_1,\ldots,a_n).$ \begin{align}
+    (A)=\bigcap_{\substack{A\subseteq I\subseteq R\\I\text{ is an ideal}}}I
+\end{align}
+The same definition can be used for left and right ideal.
+
+\begin{definition}[Maximal Ideal]
+    An ideal $M$ is a \bluebf{maximal ideal} if there is no \textbf{proper} ideal $I$ s.t. $M\subset I\subset R$ and $M\neq I.$
+\end{definition}
+It is easy to show that \begin{itemize}
+    \item An ideal $M$ is proper $i.e.$ $M\neq R$ iff $1\notin M.$
+    \item The left ideal generated by $a$ is $Ra=\{ra~|~r\in R\}.$
+    \item The right ideal generated by $a$ is $aR=\{ar~|~r\in R\}.$
+\end{itemize}
+Note that the two-sided ideal generated by $a$ is not always equal to $\{ras~|~r,s\in R\}.$ Certainly $(a)$ contains these, but this set is not always closed under addition. So, $(a)=RaR=\{\sum_{i=1}^n r_ias_i~|~\forall i,r_i,s_i\in R\}.$
+\begin{proposition}
+    If $1\in R$ then any proper ideal is contained in a maximal ideal.
+    \begin{proof}
+        Suppose $I$ is a proper ideal, and consider all proper ideals containing $I$ ordered by inclusion.
+
+        If $C$ is a chain of such ideals, let $M=\bigcup_{J\in C}J.$ If we can show $M$ is a proper ideal then it is an upper bound for $C$ and zorn's lemma implies $M$ is maximal.
+
+        Suppose $M$ is not a proper ideal, then $1\in M$ so $1\in J$ for some $J\in C$ which means $J$ is not proper. This is a contradiction so $M$ is a proper ideal.
+    \end{proof}
+\end{proposition}
+The second, third, and fourth isomorphism theorems all have ring analogues.
+\begin{proposition}
+    If $R$ is commutative, then an ideal $M$ is maximal iff $R/M$ is a field.
+    \begin{proof}
+        Use the fourth isomorphism theorem with the fact that fields have no proper ideals.
+    \end{proof}
+\end{proposition}
+\begin{example}
+    Evaluation map $\varphi:\mathcal{F}(X)\to\mathbb F,f\mapsto f(x)$ then $M/\ker(\varphi)\cong\mathbb F.$ Note that if $\mathbb F$ is an algebraically closed field, $\mathcal{F}(X)$ is a polynomial ring, then these are the only maximal ideals.
+\end{example}
 
 \end{document}
 

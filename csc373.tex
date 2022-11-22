@@ -1249,5 +1249,20 @@ The simplex method looks at a vertex and all its neighbors. Once we find a verte
     \item By construction, $G$ is $n+1$-colorable iff $\varphi$ is satisfiable.
     \item Note that $3$-coloring (when $k=3$) is also NP-complete, but $2$-coloring is not NP-complete.
 \end{itemize}
+\subsection{Exact Set Cover}
+\begin{itemize}
+    \item Given a universe of elements $U$ and a family of subsets $S\subseteq\mathcal P(U),$ are there disjoint sets in $S$ whose union is $U.$
+    \item Clearly, this problem is NP as if an alleged exact set cover is given we can verify in polynomial time that it is disjoint and their union is $U.$
+    \item To prove that it is NP-hard, we will reduce graph coloring to exact set cover.
+    \item Given an instance $G=(V,E)$ and $k$ of the coloring problem, we need to construct an instance $U,S$ of the exact set cover problem such that $G$ can be colored with $k$ colors iff $\exists$ disjoint sets in $S$ whose union is $U.$
+    \item The basic idea is to transform a color conflict over an edge into a set intersection.
+    \item Let $C=\{n\in\Z~|~1\leq n\leq k\}$ be the set of colors, and $U=V\cup (E\times C).$
+    \item Let $S_{vi}$ denote the set corresponding to coloring vertex $v$ with color $i.$ Then, $S_{vi}=:\{v\}\cup\{(e,i)\in E\times C~|~e \text{ is an edge incident on }v\}.$
+    \item Because each edge is colored with at most $2$ colors, but we need to cover every color so we can introduce singletons $T_{ei}=\{(e,i)\}$ for us to cover every color.
+    \item It suffices to show that $V$ is covered by non-intersecting sets, as then we can choose singletons $T_{ei}$ to cover $U.$
+    \item Suppose $G$ is $k$-colorable. Then, there is a $k$-coloring $c:V\to C.$ Then, we can select sets $S_{vc(v)}$ for each vertex, so $S'=\bigcup_{v\in V}S_{vc(v)}\supset V$. These sets do not intersect, since each vertex only has one color and adjacent vertices have different colors. We can then choose all singletons $T_{ei}$ where $T_{ei}\cap S'=\emptyset,$ and let $T'=\bigcup_{e\in E,i\in C,T_{ei}\cap S'=\emptyset}T_{ei}.$ Then, $S'\cup T'$ is a set cover of $U,$ and by construction they don't intersect. Hence, $U$ has an exact cover.
+    \item Suppose $U,S$ has an exact cover $S'\cup T'$ that covers $U,$ where $S'$ are composed of sets $S_{vi}$ and $T'$ are composed of singletons $T_{ei}.$ Since $S'\cup T'$ is an exact cover of $U,$ then for each $v\in V,\exists!S_{vi}\in S'.$ Then for that vertex let $c(v)=i.$
+    \item Clearly, there are at most $k$ colors. Suppose for contradiction that there are two vertices $u,v$ where $e=(u,v)\in E$ and $c(u)=c(v):=i.$ By construction $S_{ui},S_{vi}\in S'.$ However, $(e,i)\in S_{ui}\cap S_{vi}.$ This is a contradiction, so $c$ is a valid $k$-coloring.
+\end{itemize}
 
 \end{document}
