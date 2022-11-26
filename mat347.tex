@@ -1033,6 +1033,65 @@ The second, third, and fourth isomorphism theorems all have ring analogues.
 \begin{example}
     Evaluation map $\varphi:\mathcal{F}(X)\to\mathbb F,f\mapsto f(x)$ then $M/\ker(\varphi)\cong\mathbb F.$ Note that if $\mathbb F$ is an algebraically closed field, $\mathcal{F}(X)$ is a polynomial ring, then these are the only maximal ideals.
 \end{example}
+Assume $R$ is a commutative ring with $1.$ In $\Z,$ if $a/b=c/d\iff ad=bc.$ We want to mimic this in $R,$ the problem is if $b$ is a zero divisor, then $a/b\cdot c/d=ac/bd.$
+
+Start by specifying a set of potential denominators. Suppose $D\subseteq R$ s.t. \begin{itemize}
+    \item $0\notin D$
+    \item $D$ contains no zero divisors
+    \item $D$ is closed under multiplication
+\end{itemize}
+Note we do not assume $D$ is closed under addition.
+
+In the traditional construction of $\Q$ from $\Z,$ we let $D=\Z\setminus\{0\}.$ 
+
+If $d\neq0,$ we can let $D=\{d,d^2,d^3,\ldots\}.$ or $D=\{1,d,d^2,d^3,\ldots\}.$
+
+We consider pairs $(r,d)\in R\times D$ (which corresponds to $r/d$) and we can define addition and multiplication as follows \begin{align}
+    (r,d)+(r',d')&=(rd'+dr',dd')\\
+    (r,d)(r',d')&=(rr',dd')
+\end{align}
+We must also define an equivalence relation as follows \begin{align}
+    (r,d)\sim(r',d')\iff rd'=dr'
+\end{align}
+To confirm it is an equivalence relation, we must verify it is symmetric and transitive. \begin{align}
+    (r,d)\sim(r',d')\iff rd'=dr'\iff r'd=d'r\iff (r',d')\sim(r,d)
+\end{align}
+Suppose $(a,b)\sim(c,d)\land (c,d)\sim(r,s)$ then $ad-bc=0$ and $cs-dr=0.$ Consider \begin{align}
+    d(as-br)&=ads-brs\\
+    &=ads-bcs+bcs-bdr\\
+    &=(ad-bc)s+b(cs-dr)=0
+\end{align}
+because $d$ is not a zero divisor, then $as-br=0$ so $(a,b)\sim(r,s).$
+
+The definitions of addition and multiplication respect the equivalence relation (tedious to check), so they are well defined. Therefore, we can regard the set of equivalence classes $Q=(R\times D)/\sim$ as a ring.
+
+The set $\{(dr,d)~|~d\in D,r\in R\}\cong R.$ Also, $Q$ contains $(1,d)\,\forall d\in D.$
+
+$Q$ contains (a copy of) $R$ and in $Q,$ every $d\in D$ is invertible. So $Q$ is called the ring of fractions relative to $D.$
+
+If $D=R\setminus\{0\}$ (which requires $D$ to have no zero divisors) then $Q$ is a field, called the ``quotient field of $R$''. If $R=\Z,$ then $Q=\Q.$
+
+\begin{example}
+    Suppose $R=\Z,$ and $D=2\Z\setminus\{0\}.$ Then $Q=\Q$ because $r/s=2r/2s.$
+\end{example}
+In general, $Q\ni d/d=1,$ and is the smallest ring with these properties in the following sense:
+
+If $\varphi:R\to S$ is an injective ring homomorphism into a ring $S$ with the required properties, then $\varphi$ extends to $Q.$
+
+Fix $d\in\Z,d\neq0$ let $D=\{d,d^2,d^3,\ldots\}.$ Then $Q=\Z/D.$ Construct $Q=\{r/d^k~|~r\in\Z,k\geq 0\}.$ (it does not matter if we include $1$ or not because $dr/d=r/1.$) These two examples show that we can choose different sets of $D$ and get the same $Q.$
+
+\begin{theorem}[Chinese Remainder]
+    Inspiration: Note that $105=3\cdot 5\cdot 7.$ If you have an unspecified number of soldiers, you can line them up in $3$s but you may have some left over. You can also line them up in $5$s but you may have some left over. You can also line them up in $7$s but you may have some left over. If you know how many are left over, can you determine how many soldiers you have left over if you line them up in $105$s? We can use the Chinese Remainder Theorem to answer this question.\\
+
+    \textbf{Chinese Remainder Theorem:} In a commutative ring $R,$ with identity; two ideals $A,B$ are called co-maximal if $A+B=R.$ If $A_1,\ldots,A_m$ are ideals in $R$ and \begin{align}
+        \varphi:R&\to R/A_1\times\cdots\times R/A_m\\
+        r&\mapsto (r+A_1,\ldots,r+A_m)
+    \end{align}
+    Then $\ker\varphi=\bigcap_{i=1}^m A_i$ and \begin{align}
+        \bar\varphi:R/\ker\varphi\to R/A_1\times\cdots\times R/A_m
+    \end{align}
+    is a ring homomorphism. If the $A_i$s are pairwise co-maximal, then $\bar\varphi$ is an isomorphism and $\bigcap A_i=A_1\cdot A_2\cdot\cdots\cdot A_m$ where $\cdot$ is the ring product.
+\end{theorem}
+
 
 \end{document}
-

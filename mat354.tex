@@ -1007,5 +1007,156 @@ In particular, if $f$ is holomorphic in a punctured disk $0<|z|<\varepsilon$ and
 
 Evaluation of definite integrals by residue calculus. (this is analogous to integration in first year calculus, with the difference that we will not be finding the primitives) We will instead compute these integrals as sums of residues of suitable holomorphic functions.
 
+\subsubsection{Case 1}
+Rational functions of cosine and sine, with no poles on the unit circle. \begin{align}
+    \int_0^{2\pi}R(\cos\theta,\sin\theta)\dd\theta
+\end{align}
+We can define $z=:e^{i\theta},$ then \begin{align}
+    \cos\theta&=\frac{1}{2}\left(z+\frac{1}{z}\right)\\
+    \sin\theta&=\frac{1}{2i}\left(z-\frac{1}{z}\right)\\
+    \dd\theta &=-i\frac{\dd z}{z}.
+\end{align}
+Then, \begin{align}
+    \int_0^{2\pi}R(\cos\theta,\sin\theta)\dd\theta&=-i\int_{|z|=1}R\left(\frac{1}{2}\left(z+\frac{1}{z}\right),\frac{1}{2i}\left(z-\frac{1}{z}\right)\right)\frac{1}{z}\dd z\\
+    &=2\pi\sum_{|z|<1}\mathrm{Res}(\Uparrow)
+\end{align}
+\begin{example}
+    For $a>1,$ \begin{align}
+        \int_0^\pi\frac{\dd\theta}{a+\cos\theta}&=\frac{1}{2}\int_0^{2\pi}\frac{\dd\theta}{a+\cos\theta}\\
+        &=\frac{1}{2}\int_{|z|=1}\frac{-i\dd z/z}{a+\frac{1}{2}\left(z+\frac{1}{z}\right)}\\
+        &=\frac{-i}{2}\int_{|z|=1}\frac{\dd z}{z^2+2az+1}
+    \end{align}
+    The integrand has two poles when $z^2+2az+1=0,$ so at $\alpha=-a\pm\sqrt{a^2-1}.$ However, as $a>1,$ we know $|-a-\sqrt{a^2-1}|>1,$ so only one pole in the unit circle. The residue of that pole is \begin{align}
+        \frac{1}{2(z+a)}\Big|_{z=-a+\sqrt{a^2-1}}=\frac{1}{2\sqrt{a^2-1}}.
+    \end{align}
+    Then, \begin{align}
+        \int_{0}^\pi\frac{\dd\theta}{a+\cos\theta}=\frac{\pi}{\sqrt{a^2-1}}.
+    \end{align}
+\end{example}
+\subsubsection{Case 2}
+Rational functions with no real poles on the infinite interval \begin{align}
+    \int_{-\infty}^\infty R(x)\dd x
+\end{align}
+when $\lim_{x\to\pm\infty}xR(x)=0.$ We will choose a circle large enough that covers all the poles of in the upper half plane. \begin{align}
+    \int_{-r}^rR(x)\dd x&=\int_{\text{half circle}}R(z)\dd z=2\pi i\sum_{y>0}\mathrm{Res}R(z).
+\end{align}
+We want $\int_{\text{half circle}}R(z)\dd z=0,$ so we require $(\sup_{|z|=r\land y>0}R(z))\cdot\pi r\to 0$ as $r\to\infty,$ but by our assumption it does. Hence, \begin{align}
+    \int_{-\infty}^\infty R(x)\dd x=2\pi i\sum_{y>0}\mathrm{Res}R(z).
+\end{align}
+If it is easier, we can also use a circle in the lower half plane, and then \begin{align}
+    \int_{-\infty}^\infty R(x)\dd x=-2\pi i\sum_{y<0}\mathrm{Res}R(z).
+\end{align}
+Although if $R$ has real coefficients, there will the the same number of poles in the upper and lower half planes.
+\begin{example}
+    \begin{align}
+        \int_{0}^\infty\frac{\dd x}{1+x^6}
+    \end{align}
+    Note that $\frac{1}{1+z^6}$ has six poles on the unit circles. In the upper half plane, we have $e^{\pi i/6},e^{\pi i/2},e^{5\pi i/6}$ and at each pole $\alpha$ the residue is $\frac{1}{6\alpha^5}=-\alpha/6.$ Then, \begin{align}
+        \int_{0}^\infty\frac{\dd x}{1+x^6}&=\frac{1}{2}\int_{-\infty}^\infty\frac{\dd x}{1+x^6}\\
+        &=-\frac{\pi i}{6}\left(e^{\pi i/6}+e^{\pi i/2}+e^{5\pi i/6}\right)\\
+        &=\frac{\pi}{6}\left(2\sin(\pi/6)+1\right)
+    \end{align}
+\end{example}
+\subsubsection{Case 3}
+Product of rational functions and trigonometric functions. \begin{align}
+    \int_{-\infty}^\infty R(x)e^{ix}\dd x
+\end{align}
+If $R(z)$ has a zero of order $\geq2$ at $\infty,$ then we have the same thing as before \begin{align}
+    \int_{-\infty}^\infty R(x)e^{ix}\dd x=2\pi i\sum_{y>0}\mathrm{Res}(R(z)e^{iz})\label{eq:case3}
+\end{align}
+because $|e^{iz}|=e^{-y}$ which is bounded for $y>0.$ This fact makes it sufficient for $R(z)$ to have a zero of order $\geq 1$ at $\infty.$ To prove this, we will integrate over a rectangle $[-r_1,r_2]\times[0,s]$ instead of a circle in the upper half plane. We know that $|zR(z)|$ is bounded for large $z.$ We can write $|R(z)|\leq M/|z|,$ so the modulus of integral over the vertical sections are a constant multiple of $1/r_1$ and $1/r_2.$ The vertical section is a constant multiple of $(r_1+r_2)e^{-s}/s,$ which we can fix $r_1$ and $r_2$ and let $s\to\infty.$
 
+Then, we can conclude \eqref{eq:case3} with this weaker requirement on $R(z).$ Note that for \begin{align}
+    \int_{-\infty}^\infty R(x)e^{-ix}\dd x,
+\end{align}
+we should instead integrate in the lower half plane. Likewise, for integrals involving $e^{imx},$ $\cos(mx),\sin(mx),\cos^m(x),\sin^m(x)$
+\begin{example}
+    \begin{align}
+        \int_{0}^\infty\frac{\cos(mx)}{x^2+1}\dd x
+    \end{align}
+    We can write this as half the real part of \begin{align}
+        \int_{-\infty}^\infty\frac{e^{imx}}{x^2+1}\dd x&=\frac{2\pi i}{m}\sum_{y>0}\mathrm{Res}\left(\frac{e^{iz}}{\frac{z^2}{m^2}+1}\right)\\
+        &=\frac{2\pi i}{m}\sum_{y>0}\Res(\frac{m^2e^{iz}}{z^2+m^2})\\
+        &=2\pi i\cdot\frac{m^2e^{-m}}{2im}\\
+        &=\pi e^{-m}
+    \end{align}
+    Hence the original integral is $\pi\cos(m).$
+\end{example}
+\subsubsection{Case 4}
+All the previous examples are functions that has no poles on the real line. What if $R(z)$ does have poles on the real line? If they are simple poles, we can choose a contour to bypass or enclose them.
+
+Suppose $0$ is a simple pole of $f(z),$ and $\varepsilon>0$ and $\gamma(\epsilon)$ be a positively oriented semicircle then \begin{align}
+    \lim_{\varepsilon\to 0}\int_{\gamma(\varepsilon)}f(z)\dd z=\pi i\mathrm{Res}(f,0)
+\end{align}
+Why? Because we know that $f(z)$ has a simple pole at $0$ so $f(z)=a/z+g(z)$ for a holomorphic function $g(z).$ Then, \begin{align}
+    \int_{\gamma(\varepsilon)}f(z)\dd z=\underbrace{\int_{\gamma(\varepsilon)}\frac{a}{z}\dd z}_{\pi ia}+\underbrace{\int_{\gamma(\varepsilon)}g(z)\dd z}_{0\text{ as $\varepsilon\to 0$}}
+\end{align}
+Hence, the integral will be \begin{align}
+    2\pi i\sum_{y>0}\mathrm{Res}(f,z)+\pi i\sum_{y=0}\mathrm{Res}(f,z)
+\end{align}
+\begin{example}
+    \begin{align}
+        \int_{0}^\infty\frac{\sin x}{x}\dd x&=\frac{1}{2}\int_{-\infty}^\infty\frac{\sin x}{x}\dd x\\
+        &=\frac{1}{2}\Im\left(\lim_{\varepsilon\to0}\int_{-\infty}^{-\varepsilon}\frac{e^{ix}}{x}\dd x+\int_{\varepsilon}^\infty \frac{e^{ix}}{x}\dd x\right)\\
+        &=\frac{1}{2}\Im\left(\lim_{\varepsilon\to0}\int_{\gamma(\varepsilon)}\frac{e^{ix}}{x}\dd x\right)\\
+        &=\frac{1}{2}\Im\left(\mathrm{Res}\left(\frac{e^{iz}}{z},0\right)\right)\\
+        &=\frac{\pi}{2}
+    \end{align}
+\end{example}
+\subsubsection{Case 5}
+\begin{align}
+    \int_{-\infty}^\infty\frac{R(x)}{x^\alpha}\dd x
+\end{align}
+Note that $x^\alpha$ is a multi-valued function. WLOG, we can let $0<\alpha<1.$ Then, the improper at $0$; but converges at $\infty$ iff $R(x)$ has a zero of order $\geq 1$ at $\infty$ i.e. $xR(x)$ is bounded.
+
+We will integrate this over a contour on the boundary of $\C\setminus[0,\infty),$ exploiting the fact the function is multi-valued. More specifically, let $\Gamma(\varepsilon, r).$ We will take the branch of $z^\alpha$ where $\arg z\in(0,2\pi).$ This branch is defined on $\C\setminus[0,\infty).$ Consider \begin{align}
+    \int_{\Gamma(\varepsilon,r)}\frac{R(z)}{z^\alpha}\dd z=2\pi i\sum_{\C\setminus[0,\infty)}\mathrm{Res}\left(\frac{R(z)}{z^\alpha}\right)
+\end{align}
+if $r$ is large enough and $\varepsilon$ is small enough. When $\arg z=2\pi,$ then $z^\alpha=e^{2\pi i\alpha}|z|^\alpha.$ Then, \begin{align}
+    \text{LHS}=\int_{\gamma(r)}\frac{R(z)}{z^\alpha}\dd z+\int_{\gamma(\varepsilon)}\frac{R(z)}{z^\alpha}\dd z+(1-e^{-2\pi i\alpha})\int_\varepsilon^r\frac{R(x)}{x^\alpha}\dd x.
+\end{align}
+The first two integrals approach $0$ because $zR(z)/z^{\alpha}\to 0$ as $z\to 0$ or $z\to\infty.$ Hence, \begin{align}
+    \int_0^\infty=\frac{2\pi i}{1-e^{-2\pi i\alpha}}\sum_{\C\setminus[0,\infty)}\mathrm{Res}\left(\frac{R(z)}{z^\alpha}\right)
+\end{align}
+\begin{example}
+    \begin{align}
+        \int_0^\infty\frac{\dd x}{x^\alpha(1+x)}\qquad 0<\alpha<1
+    \end{align}
+    We have one pole at $z=-1,$ with residue $1/(-1)^\alpha=e^{-\pi i\alpha}.$ Therefore, \begin{align}
+        \int_0^\infty\frac{\dd x}{x^\alpha(1+x)}=\frac{2\pi i}{1-e^{-2\pi i\alpha}}\cdot e^{-\pi i\alpha}=\frac{\pi}{\sin(\pi\alpha)}
+    \end{align}
+\end{example}
+\subsubsection{Case 6}
+\begin{align}
+    \int_0^\infty R(x)\log x\,\dd x,
+\end{align}
+where $R(x)$ is a rational function with no poles on $[0,\infty).$ We also require $\lim_{x\to\infty}xR(x)=0$ for the integral to converge. We will integrate over the same contour as in the previous case, and choose the branch with $\arg z\in(0,2\pi).$ However, we must choose $R(z)(\log z)^2$ as branches of $\log z$ differ by a constant $2\pi i.$  
+
+Now, when $\arg z=2\pi$ we have $\log z=\log |z|+2\pi i$ so \begin{align}
+    (\log z)^2=(\log |z|)^2+4\pi i\log |z|+(2\pi i)^2.
+\end{align} 
+Using the same estimate as the previous case, \begin{align}
+    \int_0^\infty R(x)(\log x)^2\dd x-\int_0^\infty R(x)(\log x+2\pi i)^2\dd x&=2\pi i\sum_{\C\setminus[0,\infty)}\mathrm{Res}\left(R(z)(\log z)^2\right)\\
+    -2\int_{0}^\infty R(x)\log x\,\dd x-2\pi i\int_0^\infty R(x)\dd x&=\sum_{\C\setminus[0,\infty)}\mathrm{Res}\left(R(z)\log(z)^2\right)
+\end{align}
+Note that the second integral is imaginary. Hence, if $R(x)$ is real, then we know \begin{align}
+    \int_0^\infty R(x)\log x\,\dd x&=\frac{1}{2}\Re\left(\sum_{\C\setminus[0,\infty)}\mathrm{Res}\left(R(z)\log(z)^2\right)\right)\\
+    \int_0^\infty R(x)\log x\,\dd x&=\frac{1}{2\pi}\Im\left(\sum_{[0,\infty)}\mathrm{Res}\left(R(z)\log(z)^2\right)\right)
+\end{align}
+\begin{example}
+    \begin{align}
+        \int_0^\infty\frac{\log x}{(1+x)^3}\dd x
+    \end{align}
+    We want to find the residue of $\frac{(\log z)^2}{(1+z)^3}$ at $z=-1.$ Let $z=-1+\zeta.$ It is more convenient to write \begin{align}
+        \log(-1+\zeta)&=\log(-1)+\log(1-\zeta)=\pi i+\log(1-\zeta)
+    \end{align}
+    We want the coefficient of $1/(-1+\zeta),$ so we only need terms up to order $2.$ Thus \begin{align}
+        \log(z)^2&=\left(\pi i+\left(-\zeta-\frac{\zeta^2}{2}+\cdots\right)\right)^2\\
+        &=(1-\pi i)\zeta^2+O(\zeta^3)\\
+        \frac{(\log z)^2}{(1+z)^3}&=\frac{1-\pi i}{1+\zeta}+O(1)
+    \end{align}
+    so the residue is $1-\pi i,$ so \begin{align}
+        \int_0^\infty\frac{\log x}{(1+x)^3}\dd x=-\frac{1}{2}
+    \end{align}
+\end{example}
 \end{document}
