@@ -1091,7 +1091,50 @@ Fix $d\in\Z,d\neq0$ let $D=\{d,d^2,d^3,\ldots\}.$ Then $Q=\Z/D.$ Construct $Q=\{
         \bar\varphi:R/\ker\varphi\to R/A_1\times\cdots\times R/A_m
     \end{align}
     is a ring homomorphism. If the $A_i$s are pairwise co-maximal, then $\bar\varphi$ is an isomorphism and $\bigcap A_i=A_1\cdot A_2\cdot\cdots\cdot A_m$ where $\cdot$ is the ring product.
+    \begin{proof}
+        For surjectivity, we will prove by induction. First, consider $m=2.$ We assumed that the ideals are co-maximal so $A_1+A_2=R$ so $a+b=1$ for some $a\in A_1,b\in A_2.$ 
+
+        Given $(s+A_1,t+A_2)\in R/A_1\times R/A_2,$ Note that \begin{align}
+            ta+sb+A_1&=sb+A_1=sa+sb+A_1=s+A_1\\
+            ta+sb+A_2&=ta+A_2=ta+tb+A_2=t+A_2
+        \end{align}
+        so $\varphi(ta+sb)=(s+A_1,t+A_2)$
+
+        For the inductive case, suppose $m\geq 3$ and assume the statement is true for $m-1.$
+
+        Finally, we want to show $\cap A_i=\prod A_i$
+    \end{proof}
 \end{theorem}
 
+Consider the chinese remainder theorem in $R=\mathbb F[x],$ where $\mathbb F$ is a field. Suppose $P_i(x)\in\mathbb F[x]$ for $i=1,\ldots,k$ are pairwise relatively prime i.e. $P_i,P_j$ have no roots in common, even in the algebraic closure of $\mathbb F.$ This means that the ideals $(P_i(x))$ are pairwise co-maximal. Suppose $A_i(x)\in R$ so that $\deg(A_i)<\deg(P_i)$ for $i=1,\ldots,k$ then CRT$\implies$ if $P(x)=\prod P_i(x)$ then $\exists Q(x)\in R$ s.t. $Q(x)=A_i(x)\mod P_i,\forall i.$
+
+There is a unique such $Q$ satisfying the congruences where $\deg Q<\deg P.$
+
+In this context, we can find $Q$ explicitly. Let \begin{align}
+    Q_i=\frac{P(x)}{P_i(x)}=\prod_{j\neq i}P_j(x)
+\end{align}
+What is the partial fraction decomposition of \begin{align}
+    \frac{1}{P(x)}=\frac{1}{\prod P_i(x)}=\sum_i\frac{S_i(x)}{P_i(x)}
+\end{align}
+where $\deg(S_i)<\deg(P_i).$ So \begin{align}
+\frac{1}{P(x)}&=\sum\frac{S_i(x)}{P_i(x)}=\sum\frac{S_i(x)Q_i(x)}{P(x)}\\
+1&=\sum S_i(x)Q_i(x)
+\end{align}
+This is like a partition of unity. Consider the sum \begin{align}
+    \sum_iA_i(x)S_i(x)Q_i(x)=A_j(x)+\sum_{i\neq j}(A_i(x)-A_j(x))S_i(x)Q_i(x)
+\end{align}
+
+Lagrange Interpolation: Given distinct $x_1,\cdots,x_k\in\mathbb F,$ and $a_1,\ldots,a_k\in\mathbb F$ we can find a $Q(x)\in \mathbb F[x]$ s.t. $Q(x_i)=a_i,\forall i$ we can find a unique such $Q$ with $\deg(Q)<k.$
+
+Let $P_i(x)=(x-a_i),$ and $P=\prod P_i$ and $Q_i=P/P_i$ Then, \begin{align}
+    \frac{1}{P(x)}=\frac{1}{\prod(x-x_i)}=\sum\frac{1}{(x-x_i)Q_i(x_i)}=\frac{1}{P(x)}\sum\frac{Q_i(x)}{Q_i(x_i)}
+\end{align}
+So, \begin{align}
+    1=\sum\frac{Q_i(x)}{Q_i(x_i)}
+\end{align}
+and \begin{align}
+    Q(x)=\sum_{i=1}^k\frac{a_iQ_i(x)}{Q_i(x_i)}
+\end{align}
+This work because for $x_i,$ the $i$ term goes to $a_i$ and the $j\neq i$ term is $0.$
 
 \end{document}

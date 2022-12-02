@@ -1159,4 +1159,52 @@ Note that the second integral is imaginary. Hence, if $R(x)$ is real, then we kn
         \int_0^\infty\frac{\log x}{(1+x)^3}\dd x=-\frac{1}{2}
     \end{align}
 \end{example}
+\section{Harmonic Functions}
+Dirichlet problem for a disk. Given a continuous function $f(\theta)$ that is periodic with period $2\pi.$ Find a function $F(z)$ which is continuous on the closed disk of radius $r,$ and harmonic in the open disk s.t. its boundary values $F(re^{i\theta})=f(\theta).$
+
+The solution is for $|z|<r,$ let \begin{align}
+    F(z)=\frac{1}{2\pi}\int_0^{2\pi}f(\theta)\frac{r^2-|z|^2}{|re^{i\theta}-z|^2}\dd\theta.
+\end{align}
+$F(z)$ is harmonic on $|z|<r$ because it is the real part of a holomorphic function. So, it is sufficient to show that $\displaystyle{\lim_{z\to re^{i\theta_0}}}=f(\theta_0)$
+\begin{lemma}
+    If $\eta>0$ then \begin{align}
+        \frac{1}{2\pi}\int_{|\theta-\theta_0|>\eta}\frac{r^2-|z|^2}{|re^{i\theta}-z|^2}\dd\theta\to0\text{ as }z\to re^{i\theta_0}
+    \end{align}
+\end{lemma}
+We are interested in the difference between $F(z)$ and $f(\theta_0),$ \begin{align}
+    F(z)-f(\theta_0)&=\frac{1}{2\pi}\int_0^{2\pi}(f(\theta)-f(\theta_0))\frac{r^2-|z|^2}{|re^{i\theta}-z|^2}\dd\theta\\
+    &=\frac{1}{2\pi}\int_{|\theta-\theta_0|<\eta}(f(\theta)-f(\theta_0))\frac{r^2-|z|^2}{|re^{i\theta}-z|^2}\dd\theta\\
+    &=+\frac{1}{2\pi}\int_{|\theta-\theta_0|>\eta}(f(\theta)-f(\theta_0))\frac{r^2-|z|^2}{|re^{i\theta}-z|^2}\dd\theta
+\end{align}
+Let $\varepsilon>0,$ we will choose $\eta$ so that these integrals are less than $\varepsilon.$ The first integral is bounded by $\sup_{|\theta-\theta_0|\leq\eta}|f(\theta)-f(\theta_0)|.$ As $f$ is continuous, choose $\eta$ small enough so this is less than $\varepsilon.$
+
+For the second integral, \begin{align}
+    \sup_{|f(\theta)-f(\theta_0)|}\frac{1}{2\pi}
+\end{align}
+
+We want to ask if a holomorphic function can be approximated uniformly by polynomials on a given compact set. 
+\begin{itemize}
+    \item A holomorphic function on an open disk has a convergent power series expansion, so it is equal to its uniform limit of its partial sums on any compact subset.
+    \item $1/z$ cannot be uniformly approximated by polynomial on the unit circle, because $\int_{S^1}\dd z/z=2\pi i,$ but for any polynomial approximation this integral is zero.
+\end{itemize}
+We find it to be necessary that $\C\setminus K$ be connected. Otherwise, $\C\setminus K$ has a bounded component. Let $z_0$ be a point in this component, and suppose for contradiction that $1/(z-z_0)$ can be uniformly approximated by polynomials on $K.$
+
+Then, choose a polynomial $p(z)$ s.t. $|1/(z-z_0)-p(z)|<1/C$ where $|z-z_0|<C$ on $K$ i.e. $|(z-z_0)p(z)-1|<1$ on $K.$ Then, we also know $|(z-z_0)p(z)-1|<1$ in the boundary of the bounded component containing $z_0$ by the maximum modulus principle, which is a contradiction because when $z-z_0,$ this is false.
+\begin{theorem}[Runge's Approximation]
+    Let $K$ be a compact subset of $\Omega\subseteq\C$ and $f$ be a holomorphic function on $\Omega.$ Then, \begin{enumerate}
+        \item $f$ can be approximated on $K$ uniformly by rational functions with poles in $\C\setminus K.$
+        \item If $\C\setminus K$ is connected, then $f$ can be approximated uniformly on $K$ by polynomials.
+    \end{enumerate}
+    \begin{proof}
+        Cover $K$ by a grid of squares with side length \begin{align}
+            d<\frac{1}{\sqrt 2}d(K,\C\setminus\Omega)
+        \end{align}
+        so any square that intersects $K$ will lie inside $\Omega.$
+    \end{proof}
+    Let $\mathcal Q=\{Q_1,\dots,Q_m\}$ be the squares that intersect $K,$ with positively oriented boundaries. Let $\gamma_1,\ldots,\gamma_n$ be the boundary segments of the $Q_j$ that don't belong to $2$ adjacent squares in $\mathcal Q.$ Each $\gamma_i\subset\Omega,$ but they don't intersect $K.$ If $z\in K,$ then \begin{align}
+        f(z)=\sum_{l=1}^n\frac{1}{2\pi i}\int_{\gamma_l}\frac{f(\zeta)}{\zeta-z}\dd\zeta,
+    \end{align}
+    by Cauchy's theorem?
+\end{theorem}
+
 \end{document}

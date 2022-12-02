@@ -1291,5 +1291,84 @@ The simplex method looks at a vertex and all its neighbors. Once we find a verte
     \item \textbf{Lemma:} Let $TSP$ be an optimal tour of $G,$ and let $MST$ be a minimum spanning tree of $G,$ then $c(MST)\leq c(TSP).$ Proof is trivial, consider any any $TSP$ then remove any edge from $TSP$ which is clearly a spanning tree, so $c(MST)\leq c(TSP).$
     \item For the approximation algorithm, we first find the $MST$ of $G$ in polynomial time. Then, start from any node and do a full walk of the MST. This gives a cycle $C$ of $G$ that uses each edge exactly twice. Then, we can bypass repeated nodes by adding the direct edge $C',$ and by the triangle inequality $c(C')\leq c(C)\leq 2\cdot c(MST)\leq 2\cdot c(TSP).$
 \end{itemize}
+\subsection{Min Vertex Cover}
+\begin{itemize}
+    \item Recall that any matching $M$ and any vertex cover $S$ of $G,$ we have $|M|\leq |S|.$
+    \item We know vertex cover is NP-complete. We can devise a greedy approximation algorithm as follows 
+    \item \begin{algorithmic}[1]
+        \Procedure{GreedyVertexCover}{$G$}
+        \State $S\gets\emptyset$
+        \State $E'\gets E$
+        \State $M\gets\emptyset$\Comment{Matching (only for purposes of proof)}
+        \While{$E'\neq\emptyset$}
+            \State let $(u,v)$ be any edge in $E'$
+            \State $S\gets S\cup\{u,v\}$
+            \State $M\gets M\cup\{(u,v)\}$
+            \State delete from $E'$ every edge incident to $u$ or $v$
+        \EndWhile
+        \State \Return $S$
+        \EndProcedure
+    \end{algorithmic}
+    \item We claim this is a $2$-approximation algorithm. Clearly, $S$ is a vertex cover of $G$ and $M$ is a matching of $G,$ and $|S|=2|M|.$ We know that for the min vertex cover $S^*$ $|S^*|\leq|M|$ hence $|S|\leq 2|S^*|.$
+    \item Note that this also means we can find the matching $|M|\geq \frac{1}{2}|M^*|.$
+    \item It has also been shown that unless $P=NP,$ there is no polynomial time $\rho$-approximation algorithm for vertex cover for $\rho\leq 1.36.$
+\end{itemize}
+\subsection{Weighted Vertex Cover and ILP relaxation}
+\begin{itemize}
+    \item Given an undirected graph $G=(V,E)$ and weights $w:V\to\R_+$ find a vertex cover $S$ of minimum total weight.
+    \item The greedy algorithm does not work. We will use a common approximation scheme called \bluebf{ILP Relaxation}.
+    \item Recall the ILP formulation of vertex cover. Let $x_v\in\{0,1\}$ be binary variables. Then, computing the min vertex cover is equivalent to solving \begin{align}
+        \min\sum_vw_v\cdot x_v\text{ subject to }x_u+x_v\geq 1\,\forall(u,v)\in E.
+    \end{align}
+    \item We can use the same linear programming problem, but have $x_v\in[0,1]$ which can be solved in polynomial time. Clearly, the optimal objective value is $\leq$ the optimal objective value of the ILP. However, the solution is not integral, so cannot be directly converted to a vertex cover.
+    \item Consider the optimal solution $x^*_v,$ we can round to our approximate solution \begin{align}
+        \hat x_v=\begin{cases}
+            0 & \text{if }x^*_v<\frac{1}{2}\\
+            1 & \text{if }x^*_v\geq\frac{1}{2}
+        \end{cases}
+    \end{align}
+    This is a valid solution because $\forall(u,v)\in E,$ \begin{align}
+        x^*_u+x^*_v\geq 1&\implies x^*_u\geq\frac{1}{2}\lor x^*_v\geq\frac{1}{2}\implies\hat x_u=1\lor\hat x_v=1\implies\hat x_u+\hat x_v\geq 1.
+    \end{align}
+    Because the weights are positive, \begin{align}
+        \sum_vw_v\hat x_v\leq2\sum_vw_v\cdot x_v^*=2\cdot\text{LP optimal value}\leq 2\cdot\text{ILP optimal value}.
+    \end{align}
+    Hence, we have a $2$-approximation algorithm for weighted vertex cover.
+    \item This technique can be used to formulate approximation algorithms for other problems that can be formulated as ILP. The key challenge is to determine how to round the solution to an integral solution such that \begin{enumerate}
+        \item The rounded solution always satisfies the \textbf{original} constraints.
+        \item The value of the objective function must be bounded by $O(1)$ times the original LP solution.
+    \end{enumerate}
+\end{itemize}
+\subsection{Makespan}
+\begin{itemize}
+    \item The makespan problem is to schedule $n$ jobs, with job $j$ of processing time $t_j$ and to assign the jobs to $m$ machines. Let $L_i$ be the load of machine $i,$ where $L_i=\sum_{j\in S_i}t_j$ with $S_i$ being the set of jobs assigned to machine $i.$ The makespan is the maximum load of any machine, i.e. $\max_iL_i,$ which we want to minimize. 
+    \item With $m\geq 2$ machines, makespan is NP-hard. We can reduce partition to makespan (with $m=2$).
+    \item We can try a greedy approximation algorithm. We will show that it is a $2$-approximation independent of order.
+    \item Let $L$ be the makespan found by the greedy algorithm, and $L^*$ be the optimal makespan. We will show that $L\leq 2L^*.$
+    \item It is trivial that $L^*\geq \max_jt_j,$ and $L^*\geq\left(\sum_jt_j\right)/m.$
+    \item Consider the machine $i$ with the largest load assigned by the greedy algorithm, so $L=L_i.$ Consider the last job assigned to machine $i,$ and let $j$ be the last job assigned to machine $i.$ Clearly, $t_j\leq L^*.$ Now consider the greedy algorithm when job $j$ is assigned. Because the algorithm decided to assign job $j$ to machine $i,$ machine $i$ has the smallest load of all machines at that time thus $L_i-t_j\leq L_k$ for all $k.$ Hence, $L_i-t_j\leq(\sum_{k}L_k)/m=(\sum_{l}t_l)/m\leq L^*,$ and $L_i\leq (L_i-t_j)+t_j\leq L^*+L^*=2L^*.$
+    \item With more careful analysis, the greedy algorithm gives a $\left(2-\frac{1}{m}\right)$-approximation, which has a worst-case example.
+    \item The adversarial example is to have $m(m-1)+1$ jobs with the first $m(m-1)$ jobs with processing time $1$ and the last job with processing time $m.$ The optimal makespan is $m,$ and the greedy algorithm gives a makespan of $2m-1.$
+    \item As we did not sort the jobs, this is an \bluebf{online algorithm}.
+    \item If we sort by longest processing time first, we get a $1.5$-approximation. To prove this, we must first show some more properties about the optimal solution $L^*.$
+    \item It i trivial that if the bottleneck machine has only one job, then the solution is optimal.
+    \item If there are less than $m$ jobs, then the trivial solution is optimal.
+    \item If there are more than $m$ jobs, and suppose $t_1\geq t_2\geq\cdots\geq t_n$ with $m>n$ then $L^*\geq 2\cdot t_{m+1}.$ Consider the first $m+1$ jobs, with length $t_i\geq t_{m+1}.$ But, there are only $m$ machine so at least one machine must include two of these jobs, so any solution have $L\geq 2t_{m+1}.$
+    \item Consider the bottleneck machine $i,$ let $j^*$ be the last job assigned to machine $i.$ If the bottleneck machine has one job, then the solution is optimal. 
+    \item Suppose machine $i$ has at least $2$ jobs, then $j^*>m$ so $t_{j^*}\leq t_{m+1}.$ Then, as before we have $L_i\leq t_{j^*}+(\sum_lt_l)/m\leq \frac{1}{2}L^*+L^*=1.5L^*.$
+    \item Actually, Graham showed that the algorithm is a $\left(\frac{4}{3}-\frac{1}{3m}\right)$-approximation. This approximation is tight.
+    \item The adversarial example is $2$ jobs of length $m,m+1,\ldots,2m-1,$ and one more job of length $m.$ The greedy makespan is $4m-1$ and the optimal makespan is $3m.$
+\end{itemize}
+\subsection{Local Search}
+\begin{itemize}
+    \item The general idea is to start with some solution $S$ and make small tweaks to it (in the local neighborhood) to try to improve it.
+    \item We need to define what improvement is (objective) and what local neighborhood is (topology?)
+    \item Sometimes local search gives an optimal solution like in network flow. In general, there are local optima, flat regions, etc.
+    \item The max cut problem is an example where local search does well. Given an undirected graph $G=(V,E)$ find a cut $(A,B)$ that maximizes $|E'|$ where $E'=\{(u,v)\in E~|~u\in A,v\in B\}.$ This problem is NP-hard.
+    \item The local search algorithm is to initialize $(A,B)$ arbitrary. While there is a vertex $u$ such that moving $u$ to the other side of the cut increases the number of edges, move $u$ to the other side of the cut. This must terminate because $G$ has a finite number of edges.
+    \item We claim that at the end of the algorithm, at least half of all edges go across the cut.
+    \item Let $(A,B)$ be the cut found by the algorithm, with $E'.$ We want to show that $|E'|\geq|E|/2.$
+    \item For each node $v,$ let $E_v$ be the edges incident to $v.$ Then, $E_v=E_v^c\sqcup E_v^i$ where $E_v^c$ are the edges that cross the cut and $E_v^i$ are the edges that do not cross the cut. As the algorithm terminated, $|E_v^c|\geq|E_v^i|,$ so $\sum_{v\in V}|E_v|\leq 2\cdot\sum_{v\in V}|E_v^c|$ then $2|E|\leq 4|E'|.$ 
+\end{itemize}
 
 \end{document}
